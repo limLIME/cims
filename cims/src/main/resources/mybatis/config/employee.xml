@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employee">
+	<select id="login" resultType="employeeVO" parameterType="employeeVO">
+		SELECT emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign
+		FROM employee
+		where emp_no=#{emp_no} and password=#{password}
+	</select>
+</mapper>
+
+
+
+
+
+
