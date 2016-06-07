@@ -4,12 +4,27 @@
 		border: 1px solid black;
 		margin-left: auto;
 		margin-right: auto;/*  좌우 여백 동일하게 해서 중앙정렬 */
+		background-image: url("home_back.png");
+		
 	}
-	#header{
+	#header {
 		padding: 5px;
-		height: 70px;
-		border-bottom: 1px solid black;
+		height: 40px;
+		border-bottom: 1px #FFFFFF;
+		text-align: right;
 	}
+	/* #header a:link{
+		color: blue;
+	}
+	#header a:hover{
+		color:orange;
+	}
+	#header a:visited{
+		color:white;
+	}
+	#header a:active {
+		color:orange;
+	} */
 	#left{
 		padding: 5px;
 		height:500px;
@@ -25,7 +40,7 @@
 	}
 	#footer{
 		padding: 5px;
-		height: 70px;
+		height: 30px;
 		border-top: 1px solid black;
 		clear:both; /* float 속성 요소 아래에 배치하기 위해 float 속성 초기화(clear)   */
 	}

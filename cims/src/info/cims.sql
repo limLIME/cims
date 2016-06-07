@@ -11,18 +11,28 @@ emp_sign varchar2(100) not null,
 constraint fk_emp_dept_no foreign key(dept_no) references department,
 constraint fk_emp_posi_no foreign key(position_no) references position
 )
+SELECT emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign 
+FROM employee
+where emp_no='0581' and password='1234'
+
+insert into 
+employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
+values('0581',1,1,'1234','임흥택','010-5114-0581','ok')
+
 
 --직책
 CREATE TABLE position(
 position_no number PRIMARY KEY,
 position_name varchar2(100) not null
 )
+insert into position(position_no,position_name) values(1,'사원')
 
 --부서
 CREATE TABLE department(
 dept_no number PRIMARY KEY,
 dept_name varchar2(100) not null
 )
+insert into department(dept_no,dept_name) values(1,'인사과')
 
 --결재 
 drop table document

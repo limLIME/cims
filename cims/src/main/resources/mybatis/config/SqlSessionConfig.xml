@@ -9,11 +9,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>	
 	<!-- 사용할 클래스에 대한 별칭을 명시한다.  -->
 	<typeAliases>	
-	<typeAlias type="org.kosta.cims.model.MemberVO" alias="memberVO"/>	
+	<typeAlias type="org.kosta.cims.model.MemberVO" alias="memberVO"/>
+	<typeAlias type="org.kosta.cims.model.EmployeeVO" alias="employeeVO"/>		
 	</typeAliases>	
 	<!-- mapper.xml 을 명시한다  -->
 	<mappers>	
 	<mapper resource="mybatis/config/member.xml"/>	
+	<mapper resource="mybatis/config/employee.xml"/>
 	</mappers>
 </configuration>
 
