@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+
+   <resultMap type="scheduleVO" id="scheduleMap">
+      <id property="schNo" column="sch_no" />
+      <result property="empNo" column="emp_no" />
+      <result property="schContent" column="sch_content" />
+      <result property="schDay" column="sch_day" /> 	 
+   </resultMap>
+
+   <select id="getTodaySchedule" resultMap="scheduleMap" parameterType="employeeVO">
+      select sch_no,emp_no,sch_content,sch_day
+      from schedule 
+      where to_char(sch_day, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD') and emp_no=#{empNo}
+   </select>
+   
+   <update id="updateTodaySchedule"  parameterType="scheduleVO">
+ 		update schedule set sch_content=#{schContent} where sch_no=#{schNo} and emp_no=#{empNo}  
+   </update>
+   
+   <select id="getSelectTodaySchedule" parameterType="scheduleVO" resultMap="scheduleMap">
+   		select sch_no,emp_no,sch_content,sch_day
+   		from schedule 
+   		where to_char(sch_day, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD') 
+   		and emp_no=#{empNo} and sch_no=#{schNo}
+   </select>
+   
+   <select id="getWeekSchedule" resultMap="scheduleMap" parameterType="scheduleVO">
+   		select s.sch_no,s.emp_no,s.sch_content,s.sch_day,to_char(s.sch_day, 'DAY') DAY 
+		from SCHEDULE s , 
+		(SELECT TO_char( TRUNC(SYSDATE, 'IW') + ( LEVEL - 1 ), 'YYYY-MM-DD' ) day 
+		FROM	DUAL 
+		<![CDATA[ CONNECT BY LEVEL <7) ]]>  d
+		where d.day=to_char(s.sch_day, 'YYYY-MM-DD') and s.emp_no=#{empNo}
+   </select>
+
+	<delete id="todayDelete" parameterType="scheduleVO">
+		delete schedule where sch_no=#{schNo} and emp_no=#{empNo}
+	</delete>   
+</mapper>
+
+
+
+

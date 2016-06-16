@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="good">
+	<resultMap type="goodVO" id="goodRM">
+		<result column="board_no" property="boardNo" />
+		<result column="emp_no" property="empNo" />
+	</resultMap>
+		<insert id="like" parameterType="goodVO">
+		insert into good(board_no,emp_no) values(#{boardNo},#{empNo})
+	</insert>
+	<select id="checkLike" parameterType="goodVO" resultType="int">
+		select count(*) from good g, board b, employee e where g.board_no = b.board_no and g.emp_no=e.emp_no and g.board_no=#{boardNo} and g.emp_no=#{empNo}
+	</select>
+
+</mapper>
+
+
+
+
+
+

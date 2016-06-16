@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commentRec">
+	<resultMap type="recCommentVO" id="commentRM">
+		<result column="rec_no" property="recNo" />
+		<result column="comment_no" property="commentNo" />
+		<result column="comment_content" property="commentContent" />
+		<result column="comment_date" property="commentDate" />
+		<result column="emp_no" property="employeeVO.empNo" />
+		<result column="emp_name" property="employeeVO.empName"/>
+	</resultMap>
+	
+	<select id="recCommentList" resultMap="commentRM" parameterType="int">
+		select c.comment_no,b.rec_no,e.emp_no,c.comment_content,c.comment_date,e.emp_name
+			from comment_rec c, employee e, recommend b
+			where c.rec_no=b.rec_no and c.emp_no=e.emp_no and c.rec_no = ${value}
+	</select>
+
+	<insert id="recCommentRegister" parameterType="recCommentVO">
+		<selectKey keyProperty="commentNo" order="BEFORE" resultType="int">
+			select comment_rec_seq.nextval from dual
+		</selectKey>
+		insert into COMMENT_REC(comment_no,rec_no,emp_no,comment_content,comment_date) 
+		values(#{commentNo},#{recNo},#{employeeVO.empNo},#{commentContent},sysdate)
+	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete COMMENT_BOARD where comment_no=#{value}
+	</delete>
+	
+	<update id="updateComment" parameterType="int">
+		update comment_board set comment_title=#{ where condition
+	</update>
+	
+		<delete id="deleteRecComment" parameterType="int">
+		delete COMMENT_rec where comment_no=#{value}
+	</delete>
+</mapper>
+
+
+
+
+
+

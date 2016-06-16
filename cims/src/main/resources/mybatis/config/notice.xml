@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+	<resultMap type="noticeVO" id="noticeRM">
+		<result property="noticeDate" column="notice_date" />
+		<result property="noticeNo" column="notice_no" />
+		<result property="noticeTitle" column="notice_title" />
+		<result property="noticeContent" column="notice_content" />
+		<result property="noticePath" column="notice_path" />
+		<result property="employeeVO.empNo" column="emp_no" />
+		<result property="employeeVO.empName" column="emp_name" />
+	</resultMap>
+	<select id="getNoticeList" resultMap="noticeRM">
+		select pageNo,notice_no,notice_title,notice_date,emp_name from(
+		select notice_no,notice_title,notice_date,ceil(rownum/5) as pageNo, emp_name
+		from(
+		select n.notice_no,n.notice_title,to_char(n.notice_date,'YYYY.MM.DD') as
+		notice_date, e.emp_name
+		from notice n, employee e where n.emp_no=e.emp_no order by notice_no desc)
+		) where pageNo=#{pageNo}
+	</select>
+	
+	<select id="totalContent" resultType="int">
+		select count(*) from notice
+	</select>
+	
+	<select id="showContent" resultMap="noticeRM">
+      select
+      n.notice_no,n.notice_title,n.notice_path,n.notice_content,e.emp_no,e.emp_name,to_char(n.notice_date,'yyyy.mm.dd')
+      as notice_date
+      from notice n,employee e
+      where n.emp_no=e.emp_no and n.notice_no =
+      #{noticeNo}
+	</select>
+	
+	
+	<insert id="writeContent">
+	 <selectKey keyProperty="noticeNo" order="BEFORE" resultType="int">
+         select notice_seq.nextval from dual
+      </selectKey>
+		insert into notice(notice_no,emp_no,notice_path,notice_date,notice_title,notice_content)
+		values(#{noticeNo},#{employeeVO.empNo},#{noticePath},sysdate,#{noticeTitle},#{noticeContent})
+	</insert>
+	
+	<delete id="deleteContent">
+		delete notice where notice_no=#{value}
+	</delete>
+	
+	<update id="updateContent">
+		update notice set notice_date=sysdate, notice_title=#{noticeTitle},notice_content=#{noticeContent} where notice_no=#{noticeNo}
+	</update>
+</mapper>
+
+
+
+
+
+

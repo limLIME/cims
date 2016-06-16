@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rec">
+	<resultMap type="recommendVO" id="recommendRM">
+		<result column="rec_no" property="recNo" />
+		<result column="emp_no" property="employeeVO.empNo" />
+		<result column="rec_title" property="recTitle" />
+		<result column="rec_content" property="recContent" />
+		<result column="rec_date" property="recDate" />
+		<result column="rec_path" property="recPath" />
+		<result column="emp_name" property="employeeVO.empName" />	
+	</resultMap>
+	
+	<select id="getPostingList" resultMap="recommendRM">
+		select pageNo,rec_no,rec_title,rec_date,emp_name from(
+		select rec_no,rec_title,rec_date,ceil(rownum/5) as pageNo, emp_name
+		from(
+		select b.rec_no,b.rec_title,to_char(b.rec_date,'YYYY.MM.DD') as
+		rec_date, e.emp_name
+		from recommend b, employee e where b.emp_no=e.emp_no order by rec_no desc)
+		) where pageNo=#{value}
+	</select>
+
+		<select id="recTotalCount" resultType="int">
+		select count(*) from recommend
+	</select>
+	
+	<select id="recShowContent" resultMap="recommendRM" parameterType="int">
+		select
+		b.rec_no,b.rec_title,b.rec_content,rec_path,e.emp_no,e.emp_name,to_char(b.rec_date,'yyyy.mm.dd')
+		as rec_date
+		from recommend b,employee e
+		where b.emp_no=e.emp_no and b.rec_no =
+		#{value}
+	</select>
+	
+		<delete id="recDelete" parameterType="int">
+		delete from recommend where rec_no = #{value}
+	</delete>
+	
+		<update id="recUpdate" parameterType="recommendVO">
+		update recommend set rec_title = #{recTitle}, rec_content =
+		#{recContent} where rec_no = #{recNo}
+	</update>
+	
+		<insert id="recWriter" parameterType="recommendVO">
+		<selectKey keyProperty="recNo" order="BEFORE" resultType="int">
+			select recommend_seq.nextval from dual
+		</selectKey>
+		insert into recommend(rec_no,emp_no, rec_title, rec_content,rec_date,rec_path) values
+		(#{recNo}, #{employeeVO.empNo},#{recTitle}, #{recContent}, sysdate,#{recPath})
+	</insert>
+</mapper> 		
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

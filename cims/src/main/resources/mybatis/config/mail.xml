@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mail">
+	<resultMap type="mailVO" id="mailRM">
+		<result property="mailDate" column="mail_date" />
+		<result property="mailNo" column="mail_no" />
+		<result property="mailTitle" column="mail_title" />
+		<result property="mailSender" column="mail_sender" />
+		<result property="mailReceiver" column="mail_receiver" />
+		<result property="mailContent" column="mail_content" />
+		<result property="mailPath" column="mail_path" />
+		<result property="employeeVO.empNo" column="emp_no" />
+		<result property="employeeVO.empName" column="emp_name" />
+	</resultMap>
+	<select id="getReceiveMailList" resultMap="mailRM">
+		select pageNo,mail_no,mail_title,mail_sender,mail_receiver,mail_date,emp_name from(
+		select mail_no,mail_title,mail_sender,mail_receiver,mail_date,ceil(rownum/5) as pageNo, emp_name from(
+		select m.mail_no,m.mail_title,m.mail_sender,m.mail_receiver,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
+		mail m, employee e where m.emp_no=e.emp_no and m.mail_receiver=#{empNo} order by m.mail_no desc)
+		) where pageNo=#{pageNo}
+	</select>
+	<select id="getSendMailList" resultMap="mailRM">
+	select pageNo,mail_no,mail_title,mail_sender,mail_receiver,mail_date,emp_name from(
+		select mail_no,mail_title,mail_sender,mail_receiver,mail_date,ceil(rownum/5) as pageNo, emp_name from(
+		select m.mail_no,m.mail_title,m.mail_sender,m.mail_receiver,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
+		mail m, employee e where m.emp_no=e.emp_no and m.mail_sender=#{empNo} order by m.mail_no desc
+		)
+		) where pageNo=#{pageNo}
+	</select>
+	
+	<select id="totalSendMailContent" resultType="int">
+		select count(*) from mail where mail_sender=#{value}
+	</select>
+	
+	
+	<select id="totalReceiveMailContent" resultType="int">
+		select count(*) from mail where mail_receiver=#{value}
+	</select>
+	
+	
+	
+	<select id="showMailContent" resultMap="mailRM">
+	  select
+      m.mail_no,m.mail_title,m.mail_path,m.mail_content,m.mail_sender,m.mail_receiver,e.emp_no,e.emp_name,to_char(m.mail_date,'yyyy.mm.dd')
+      as mail_date
+      from mail m,employee e
+      where m.emp_no=e.emp_no and m.mail_no =#{mailNo}
+	</select>
+	
+	<delete id="deleteMail">
+		delete mail where mail_no=#{value}
+	</delete>
+	
+	<insert id="sendMail">
+	 <selectKey keyProperty="mailNo" order="BEFORE" resultType="int">
+         select mail_seq.nextval from dual
+      </selectKey>
+		insert into mail(mail_no,emp_no,mail_date,mail_title,mail_content,mail_sender,mail_receiver) 
+		values(#{mailNo},#{employeeVO.empNo},sysdate,#{mailTitle},#{mailContent},#{mailSender},#{mailReceiver})
+	</insert>
+</mapper>
+
+
+
+
+
+

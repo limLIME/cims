@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="document">
+
+	<resultMap type="documentVO" id="documentMap">
+		<id property="docNo" column="doc_no" />
+		<result property="employeeVO.empNo" column="emp_no" />
+		<result property="employeeVO.empName" column="emp_name" />
+		<result property="title" column="doc_title" />
+		<result property="content" column="doc_content" />
+		<result property="path" column="doc_path" />
+		<result property="state" column="doc_state" />
+		<result property="timePosted" column="doc_time_posted" />
+		<result property="sign1" column="doc_sign1" />
+		<result property="sign2" column="doc_sign2" />
+		<result property="sign3" column="doc_sign3" />
+	</resultMap>
+
+	<select id="showdocument" resultMap="documentMap">
+		select
+		d.doc_no,d.doc_title,d.doc_content,d.doc_time_posted,d.doc_path,e.emp_name,d.doc_sign1,d.doc_sign2,d.doc_sign3
+		from document d,employee e
+		where doc_no=#{no} and e.emp_no=d.emp_no
+	</select>
+
+	<insert id="write" parameterType="documentVO">
+		<selectKey keyProperty="docNo" resultType="int" order="BEFORE">
+			select document_seq.nextVal from dual
+		</selectKey>
+		insert into document(doc_no, emp_no,
+		doc_title,doc_path,doc_content,doc_time_posted, doc_state,
+		doc_approver)
+		values(#{docNo},#{employeeVO.empNo},#{title},#{path},#{content},sysdate,'결재중',#{approver})
+
+	</insert>
+
+	<select id="mainList" resultMap="documentMap">
+		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
+		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
+		from employee e, document d where e.emp_no=d.emp_no order by doc_no desc)
+		)where page=#{value}
+	</select>
+
+	<select id="getTotalPage" resultType="int">
+		select count(*) from
+		document
+	</select>
+
+	<update id="docReturn" parameterType="int">
+		update document set doc_state = '반려'
+		where doc_no=#{value}
+	</update>
+	<update id="docEnd" parameterType="int">
+		update document set doc_state = '결재완료'
+		where doc_no=#{value}
+	</update>
+	<update id="next" parameterType="HashMap">
+		update document set doc_approver=#{approver}
+		where doc_no=#{docNo}
+	</update>
+	<update id="docSign1" parameterType="HashMap">
+		update document set doc_sign1=#{sign}
+		where doc_no=#{docNo}
+	</update>
+	<update id="docSign2" parameterType="HashMap">
+		update document set doc_sign2=#{sign}
+		where doc_no=#{docNo}
+	</update>
+	<update id="docSign3" parameterType="HashMap">
+		update document set doc_sign3=#{sign}
+		where doc_no=#{docNo}
+	</update>
+	<sql id="countTotalPage">
+		select count(*) from document
+	</sql>
+
+	<select id="getMainTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+	</select>
+
+	<!-- 반려 -->
+	<select id="returnMain" resultMap="documentMap">
+		select page, doc_no, doc_title, doc_time_posted, doc_state,doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as page, doc_approver, emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted,d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d 
+		where d.doc_state='반려' and d.emp_no=e.emp_no and (d.emp_no=#{empNo} or ${sno}=#{empSign} or d.doc_approver=#{empNo} )
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="returnMy" resultMap="documentMap">
+		select page, doc_no, doc_title, doc_time_posted, doc_state,
+		doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as
+		page, doc_approver, emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d
+		where d.emp_no=e.emp_no and d.doc_state='반려' and e.emp_no=#{empNo} order by
+		doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="returnSign" resultMap="documentMap">
+		select page, doc_no, doc_title, doc_time_posted, doc_state,
+		doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as
+		page, doc_approver, emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d where d.doc_state='반려' and d.emp_no=e.emp_no
+		order by doc_no desc) where doc_approver=#{empNo}
+		)where page=#{page}
+	</select>
+	<select id="returnList" resultMap="documentMap">
+		select page, doc_no, doc_title, doc_time_posted, doc_state, doc_approver,
+		doc_sign1 ,emp_name,emp_no from(
+		select doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as
+		page, doc_approver,doc_sign1 ,emp_name, emp_no from (
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted, d.doc_sign1,
+		d.doc_state, d.doc_approver, e.emp_name, d.emp_no
+		from employee e, document d where d.doc_state='반려' and d.emp_no=e.emp_no and (d.emp_no=#{empNo}
+		or ${sno}=#{empSign})
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="getReturnMyTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='반려' and emp_no=#{value}
+	</select>
+	<select id="getReturnSignTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='반려' and doc_approver=#{value}
+	</select>
+	<select id="getReturnListTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='반려' and (${sno}=#{empSign} or emp_no=#{empNo})
+	</select>
+	<select id="getReturnMainTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='반려' and (${sno}=#{empSign} or doc_approver=#{empNo}
+		or emp_no=#{empNo})
+	</select>
+
+	<!-- 결재완료 -->
+	<select id="completeMy" resultMap="documentMap">
+		select page,
+		doc_no, doc_title, doc_time_posted, doc_state,
+		doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title,
+		doc_time_posted, doc_state, ceil(rownum/5) as page, doc_approver,
+		emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d 
+		where e.emp_no=d.emp_no and d.doc_state='결재완료' and e.emp_no=#{empNo}
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="completeMain" resultMap="documentMap">
+		select page,
+		doc_no, doc_title, doc_time_posted, doc_state,
+		doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title,
+		doc_time_posted, doc_state, ceil(rownum/5) as page, doc_approver,
+		emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d where d.doc_state='결재완료' and d.emp_no=e.emp_no and
+		(${sno}=#{empSign} or d.emp_no=#{empNo} or d.doc_approver=#{empNo} )
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="complete" resultMap="documentMap">
+		select page, doc_no, doc_title,
+		doc_time_posted, doc_state, doc_approver,emp_name,emp_no from(
+		select
+		doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as page,
+		doc_approver, emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d where d.doc_state='결재완료' and d.emp_no=e.emp_no and ${sno}=#{empSign}
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="completeSign" resultMap="documentMap">
+		select page, doc_no,
+		doc_title, doc_time_posted, doc_state, doc_approver,emp_name,emp_no
+		from(
+		select doc_no, doc_title, doc_time_posted, doc_state,
+		ceil(rownum/5) as page, doc_approver, emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d where d.doc_state='결재완료' and d.emp_no=e.emp_no and ${sno}=#{empSign}
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="getCompleteMyTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재완료' and emp_no=#{value}
+	</select>
+	<select id="getCompleteMainTotalPage" resultType="int"
+		parameterType="HashMap">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재완료' and (${sno}=#{empSign} or emp_no=#{empNo} or
+		doc_approver=#{empNo} )
+	</select>
+	<select id="getCompleteTotalPage" resultType="int"
+		parameterType="HashMap">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재완료' and ${sno}=#{empSign}
+	</select>
+	<select id="getCompleteSignTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재완료' and ${sno}=#{empSign}
+	</select>
+
+
+	<!-- 결재중 -->
+	<select id="waitingMy" resultMap="documentMap">
+	select page,
+		doc_no, doc_title, doc_time_posted, doc_state,
+		doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title,
+		doc_time_posted, doc_state, ceil(rownum/5) as page, doc_approver,
+		emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d 
+		where e.emp_no=d.emp_no and d.doc_state='결재중' and e.emp_no=#{empNo}
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="waitingMain" resultMap="documentMap">
+		select page,
+		doc_no, doc_title, doc_time_posted, doc_state,
+		doc_approver,emp_name,emp_no from(
+		select doc_no, doc_title,
+		doc_time_posted, doc_state, ceil(rownum/5) as page, doc_approver,
+		emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d where d.doc_state='결재중' and d.emp_no=e.emp_no and (${sno}=#{empSign}
+		or d.emp_no=#{empNo} or d.doc_approver=#{empNo} )
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="waiting" resultMap="documentMap">
+		select page, doc_no, doc_title,
+		doc_time_posted, doc_state, doc_approver,emp_name,emp_no from(
+		select
+		doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as page,
+		doc_approver, emp_name, emp_no from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, e.emp_no
+		from employee e, document d where d.doc_state='결재중' and d.emp_no=e.emp_no and ${sno}=#{empSign}
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="getWaitingMyTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재중' and emp_no=#{value}
+	</select>
+	<select id="getWaitingMainTotalPage" resultType="int"
+		parameterType="HashMap">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재중' and (${sno}=#{empSign} or emp_no=#{empNo} or
+		doc_approver=#{empNo} )
+	</select>
+	<select id="getWaitingTotalPage" resultType="int" parameterType="HashMap">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재중' and ${sno}=#{empSign}
+	</select>
+	<!-- 내가 사인해야하는 공문 -->
+	<select id="waitingMySign" resultMap="documentMap">
+		select page, doc_no, doc_title, doc_time_posted, doc_state, doc_approver
+		,emp_name,emp_no from(
+		select doc_no, doc_title, doc_time_posted, doc_state, ceil(rownum/5) as
+		page, doc_approver,emp_name, emp_no from (
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as
+		doc_time_posted,
+		d.doc_state, d.doc_approver, e.emp_name, d.emp_no
+		from employee e, document d where d.doc_state='결재중' and d.emp_no=e.emp_no and
+		d.doc_approver=#{empNo} and d.emp_no=e.emp_no
+		order by doc_no desc)
+		)where page=#{page}
+	</select>
+	<select id="getWaitingMySignTotalPage" resultType="int">
+		<include refid="countTotalPage"></include>
+		where doc_state='결재중' and doc_approver=#{empNo}
+	</select>
+
+
+
+</mapper>
+
+
+
+
+
+

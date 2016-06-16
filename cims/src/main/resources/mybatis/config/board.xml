@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<resultMap type="boardVO" id="boardRM">
+		<result column="board_no" property="boardNo" />
+		<result column="emp_no" property="employeeVO.empNo" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<result column="board_date" property="boardDate" />
+		<result column="board_path" property="boardPath" />
+		<result column="emp_name" property="employeeVO.empName" />
+		<result column="like_cnt" property="likeCnt" />
+		
+	</resultMap>
+	
+	<insert id="writer" parameterType="boardVO">
+		<selectKey keyProperty="boardNo" order="BEFORE" resultType="int">
+			select board_seq.nextval from dual
+		</selectKey>
+		insert into board(board_no,emp_no, board_title, board_content,board_date,board_path) values
+		(#{boardNo}, #{employeeVO.empNo},#{boardTitle}, #{boardContent}, sysdate,#{boardPath})
+	</insert>
+	
+	<select id="getPostingList" resultMap="boardRM">
+		select pageNo,board_no,board_title,board_date,emp_name,like_cnt from(
+		select board_no,board_title,board_date,like_cnt,ceil(rownum/5) as pageNo, emp_name
+		from(
+		select b.board_no,b.board_title,like_cnt,to_char(b.board_date,'YYYY.MM.DD') as
+		board_date, e.emp_name
+		from board b, employee e where b.emp_no=e.emp_no order by board_no desc)
+		) where pageNo=#{value}
+	</select>
+
+	<select id="showContent" resultMap="boardRM">
+		select
+		b.board_no,b.board_title,b.board_content,board_path,e.emp_no,e.emp_name,to_char(b.board_date,'yyyy.mm.dd')
+		as board_date
+		from board b,employee e
+		where b.emp_no=e.emp_no and b.board_no =
+		#{boardNo}
+	</select>
+
+	<select id="totalCount" resultType="int">
+		select count(*) from board
+	</select>
+
+	<update id="update" >
+		update board set board_title = #{boardTitle}, board_content =
+		#{boardContent} where board_no = #{boardNo}
+	</update>
+	<delete id="delete">
+		delete from board where board_no = #{value}
+	</delete>
+	
+	<update id="likeUpdate" parameterType="int">
+		update board set like_cnt=like_cnt+1 where board_no = #{boardNo}
+	</update>
+	
+	<select id = "popularList" resultMap="boardRM" >
+	<![CDATA[
+ 			select a.board_no, a.ranking, a.like_cnt, a.board_title,b.emp_name,a.board_date,a.like_cnt
+ 			from (select board_no, emp_no, rank() over(order by like_cnt desc, board_no asc) as ranking,board_title,board_date, like_cnt from
+ 			(select * from board where to_char(board_date, 'YYYY-MM-DD')= to_char(sysdate, 'YYYY-MM-DD'))) A,
+ 			employee b
+ 			where ranking <= 3 and b.emp_no=a.emp_no 
+	]]></select>
+</mapper> 		
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
