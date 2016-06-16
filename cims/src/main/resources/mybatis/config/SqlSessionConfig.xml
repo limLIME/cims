@@ -3,19 +3,36 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
-<!-- MyBatis  DataSource에 대한 설정 및  SQL 정의 xml 에 대한 매핑
-		spring과 연동시에는 spring 설정에서 DataSource(dbcp) 를 정의한다. 
--->
-<configuration>	
-	<!-- 사용할 클래스에 대한 별칭을 명시한다.  -->
-	<typeAliases>	
-	<typeAlias type="org.kosta.cims.model.MemberVO" alias="memberVO"/>
-	<typeAlias type="org.kosta.cims.model.EmployeeVO" alias="employeeVO"/>		
-	</typeAliases>	
-	<!-- mapper.xml 을 명시한다  -->
-	<mappers>	
-	<mapper resource="mybatis/config/member.xml"/>	
-	<mapper resource="mybatis/config/employee.xml"/>
+<!-- MyBatis DataSource에 대한 설정 및 SQL 정의 xml 에 대한 매핑 spring과 연동시에는 spring 
+	설정에서 DataSource(dbcp) 를 정의한다. -->
+<configuration>
+	<!-- 사용할 클래스에 대한 별칭을 명시한다. -->
+	<typeAliases>
+		<typeAlias type="org.kosta.cims.model.EmployeeVO" alias="employeeVO" />
+		<typeAlias type="org.kosta.cims.model.PositionVO" alias="positionVO" />
+		<typeAlias type="org.kosta.cims.model.DepartmentVO" alias="departmentVO" />
+		<typeAlias type="org.kosta.cims.model.ScheduleVO" alias="scheduleVO" />
+		<typeAlias type="org.kosta.cims.model.NoticeVO" alias="noticeVO" />
+		<typeAlias type="org.kosta.cims.model.BoardVO" alias="boardVO" />
+		<typeAlias type="org.kosta.cims.model.GoodVO" alias="goodVO" />
+		<typeAlias type="org.kosta.cims.model.CommentVO" alias="commentVO" />
+		<typeAlias type="org.kosta.cims.model.RecommendVO" alias="recommendVO" />
+		<typeAlias type="org.kosta.cims.model.RecCommentVO" alias="recCommentVO" />
+		<typeAlias type="org.kosta.cims.model.MailVO" alias="mailVO"/>   
+   		<typeAlias type="org.kosta.cims.model.DocumentVO" alias="documentVO"/>
+	</typeAliases>
+	<!-- mapper.xml 을 명시한다 -->
+	<mappers>
+		<mapper resource="mybatis/config/employee.xml" />
+		<mapper resource="mybatis/config/schedule.xml" />
+		<mapper resource="mybatis/config/notice.xml" />
+		<mapper resource="mybatis/config/board.xml" />
+		<mapper resource="mybatis/config/good.xml" />
+		<mapper resource="mybatis/config/comment.xml" />
+		<mapper resource="mybatis/config/recboard.xml" />
+		<mapper resource="mybatis/config/recComment.xml" />
+		<mapper resource="mybatis/config/document.xml"/>
+      	<mapper resource="mybatis/config/mail.xml"/>
 	</mappers>
 </configuration>
 

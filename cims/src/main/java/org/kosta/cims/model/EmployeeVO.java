@@ -1,92 +1,91 @@
 package org.kosta.cims.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class EmployeeVO {
-	private String emp_no;
-	private int dept_no;
-	private int position_no;
-	private String password;
-	private String emp_name;
-	private String emp_tel;
-	private String emp_sign;
+   private String empNo;
+   private String password;
+   private String empName;
+   private String empTel;
+   private String empSign;
+   private DepartmentVO departmentVO;
+   private PositionVO positionVO;
+   private MultipartFile multipartFile;  
+   public EmployeeVO() {
+      super();
+   }
+public EmployeeVO(String empNo, String password, String empName, String empTel,
+		String empSign, DepartmentVO departmentVO, PositionVO positionVO,
+		MultipartFile multipartFile) {
+	super();
+	this.empNo = empNo;
+	this.password = password;
+	this.empName = empName;
+	this.empTel = empTel;
+	this.empSign = empSign;
+	this.departmentVO = departmentVO;
+	this.positionVO = positionVO;
+	this.multipartFile = multipartFile;
+}
+public String getEmpNo() {
+	return empNo;
+}
+public void setEmpNo(String empNo) {
+	this.empNo = empNo;
+}
+public String getPassword() {
+	return password;
+}
+public void setPassword(String password) {
+	this.password = password;
+}
+public String getEmpName() {
+	return empName;
+}
+public void setEmpName(String empName) {
+	this.empName = empName;
+}
+public String getEmpTel() {
+	return empTel;
+}
+public void setEmpTel(String empTel) {
+	this.empTel = empTel;
+}
+public String getEmpSign() {
+	return empSign;
+}
+public void setEmpSign(String empSign) {
+	this.empSign = empSign;
+}
+public DepartmentVO getDepartmentVO() {
+	return departmentVO;
+}
+public void setDepartmentVO(DepartmentVO departmentVO) {
+	this.departmentVO = departmentVO;
+}
+public PositionVO getPositionVO() {
+	return positionVO;
+}
+public void setPositionVO(PositionVO positionVO) {
+	this.positionVO = positionVO;
+}
+public MultipartFile getMultipartFile() {
+	return multipartFile;
+}
+public void setMultipartFile(MultipartFile multipartFile) {
+	this.multipartFile = multipartFile;
+}
+@Override
+public String toString() {
+	return "EmployeeVO [empNo=" + empNo + ", password=" + password
+			+ ", empName=" + empName + ", empTel=" + empTel + ", empSign="
+			+ empSign + ", departmentVO=" + departmentVO + ", positionVO="
+			+ positionVO + ", multipartFile=" + multipartFile + "]";
+}
 
-	public EmployeeVO() {
-		super();
-	}
 
-	public EmployeeVO(String emp_no, int dept_no, int position_no,
-			String password, String emp_name, String emp_tel, String emp_sign) {
-		super();
-		this.emp_no = emp_no;
-		this.dept_no = dept_no;
-		this.position_no = position_no;
-		this.password = password;
-		this.emp_name = emp_name;
-		this.emp_tel = emp_tel;
-		this.emp_sign = emp_sign;
-	}
 
-	public String getEmp_no() {
-		return emp_no;
-	}
 
-	public void setEmp_no(String emp_no) {
-		this.emp_no = emp_no;
-	}
 
-	public int getDept_no() {
-		return dept_no;
-	}
-
-	public void setDept_no(int dept_no) {
-		this.dept_no = dept_no;
-	}
-
-	public int getPosition_no() {
-		return position_no;
-	}
-
-	public void setPosition_no(int position_no) {
-		this.position_no = position_no;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmp_name() {
-		return emp_name;
-	}
-
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
-	}
-
-	public String getEmp_tel() {
-		return emp_tel;
-	}
-
-	public void setEmp_tel(String emp_tel) {
-		this.emp_tel = emp_tel;
-	}
-
-	public String getEmp_sign() {
-		return emp_sign;
-	}
-
-	public void setEmp_sign(String emp_sign) {
-		this.emp_sign = emp_sign;
-	}
-
-	@Override
-	public String toString() {
-		return "EmployeeVO [emp_no=" + emp_no + ", dept_no=" + dept_no
-				+ ", position_no=" + position_no + ", password=" + password
-				+ ", emp_name=" + emp_name + ", emp_tel=" + emp_tel
-				+ ", emp_sign=" + emp_sign + "]";
-	}
-	
+   
 }

@@ -9,7 +9,6 @@ import org.kosta.cims.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
@@ -29,14 +28,17 @@ public class HomeController {
 	}
 
 	@RequestMapping("home.do")
-	public String homeView(String emp_no, String password, HttpSession session,
+	public String homeView(EmployeeVO vo, HttpSession session,
 			HttpServletRequest request) {
-		EmployeeVO vo = new EmployeeVO();
-		vo.setEmp_no(emp_no);
-		vo.setPassword(password);
 		session = request.getSession(false);
+		session.setAttribute("head", 1);
+		if (session.getAttribute("evo") != null) {
+			return "home";
+		}
 		vo = service.login(vo);
-		session.setAttribute("mvo", vo);
+		session.setAttribute("evo", vo);
+		session.setAttribute("home", "active");
 		return "home";
 	}
+
 }

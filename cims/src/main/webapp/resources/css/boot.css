@@ -18,37 +18,50 @@ html {
 }
 
 body {
-	margin: 0;
+	margin: 10px;
 }
 
 #container {
-	width: 822px; /* container 경계선 1 , left  200 padding 5+5 ,
+	width: 80%; /*822px; /* container 경계선 1 , left  200 padding 5+5 ,
 		                           main 600 padding 5+5 ,  border-left: 1   */
 	border: 1px solid black;
+	margin-bottom: auto;
+	margin-top: auto;
 	margin-left: auto;
 	margin-right: auto; /*  좌우 여백 동일하게 해서 중앙정렬 */
 	background-image: url("home_back.png");
 }
 
 #header {
-	padding: 5px;
-	height: 40px;
-	border-bottom: 1px #FFFFFF;
-	text-align: right;
+	height: 50px;
+	border-bottom: 1px solid black;
+	margin-bottom: auto;
+	margin-top: auto;
+	font-size: 2rem;
 }
+
 #left {
-	padding: 5px;
+	padding: 2%;
 	height: 500px;
-	width: 250px;
+	width: 26%;
+	float: left; /* left로 부유위치를 지정해 left와 main이 수평 배치하도록 한다    */
+}
+
+#common_left {
+	border-right: 1px solid black;
+	font-size: 1.5rem;
+	height: 500px;
+	width: 20%;
 	float: left; /* left로 부유위치를 지정해 left와 main이 수평 배치하도록 한다    */
 }
 
 #main {
-	padding: 5px;
-	width: 550px;
+	padding: 2px;
+	/* width: 56%; */
+	width: 74%;
 	height: 500px;
 	float: left; /* left로 부유위치를 지정해 left와 main이 수평 배치하도록 한다    */
-	border-left: 1px solid black;
+	/* border-left: 1px solid black; */
 }
 
 #footer {
@@ -69,25 +82,39 @@ audio, canvas, progress, video {
 }
 
 audio
+
+
 :not
+
  
+
 (
 [
 controls
 ]
+
  
+
 )
 {
 display
-:
- 
-none
-;
 
-	
-height
+
 :
+
  
+
+none
+
+
+;
+height
+
+
+:
+
+ 
+
 0;
 }
 [hidden], template {
@@ -148,20 +175,30 @@ img {
 }
 
 svg
+
+
 :not
+
  
+
 (
 :root
+
  
+
 )
 {
 overflow
+
+
 :
+
  
+
 hidden
+
+
 ;
-
-
 }
 figure {
 	margin: 1em 40px;
@@ -2657,10 +2694,14 @@ th {
 	text-align: left;
 }
 
+/*테이블 사이즈 설정*/
 .table {
-	width: 100%;
-	max-width: 100%;
+	/*원래 사이즈는 100이였음 둘다 max랑 일반 widtj*/
+	width: 50%;
+	max-width: 50%;
 	margin-bottom: 20px;
+	/*없던건데 추가함*/
+	font-size: 1.5rem;
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
@@ -3495,6 +3536,60 @@ a.btn.disabled, fieldset[disabled] a.btn {
 	background-color: #ffffff;
 }
 
+.btn-primary2 {
+	color: #ffffff;
+	background-color: #2a9fd6;
+	border-color: #2a9fd6;
+	float: right;
+	margin-right: 1%;
+}
+
+.btn-primary2:focus, .btn-primary2.focus {
+	color: #ffffff;
+	background-color: #2180ac;
+	border-color: #15506c;
+}
+
+.btn-primary2:hover {
+	color: #ffffff;
+	background-color: #2180ac;
+	border-color: #1f79a3;
+}
+
+.btn-primary2:active, .btn-primary2.active, .open>.dropdown-toggle.btn-primary2
+	{
+	color: #ffffff;
+	background-color: #2180ac;
+	border-color: #1f79a3;
+}
+
+.btn-primary2:active:hover, .btn-primary2.active:hover, .open>.dropdown-toggle.btn-primary2:hover,
+	.btn-primary2:active:focus, .btn-primary2.active:focus, .open>.dropdown-toggle.btn-primary2:focus,
+	.btn-primary2:active.focus, .btn-primary2.active.focus, .open>.dropdown-toggle.btn-primary2.focus
+	{
+	color: #ffffff;
+	background-color: #1b698e;
+	border-color: #15506c;
+}
+
+.btn-primary2:active, .btn-primary2.active, .open>.dropdown-toggle.btn-primary2
+	{
+	background-image: none;
+}
+
+.btn-primary2.disabled:hover, .btn-primary2[disabled]:hover, fieldset[disabled] .btn-primary2:hover,
+	.btn-primary2.disabled:focus, .btn-primary2[disabled]:focus, fieldset[disabled] .btn-primary2:focus,
+	.btn-primary2.disabled.focus, .btn-primary2[disabled].focus, fieldset[disabled] .btn-primary2.focus
+	{
+	background-color: #2a9fd6;
+	border-color: #2a9fd6;
+}
+
+.btn-primary2 .badge {
+	color: #2a9fd6;
+	background-color: #ffffff;
+}
+
 .btn-primary {
 	color: #ffffff;
 	background-color: #7a8288;
@@ -4054,29 +4149,47 @@ tbody.collapse.in {
 .btn-group
 >
 .btn
+
+
 :not
+
  
+
 (
 :first-child
+
  
+
 )
 :not
+
  
+
 (
 :last-child
+
  
+
 )
 :not
+
  
+
 (
 .dropdown-toggle
 
+
 	
+
 )
 {
 border-radius
+
+
 :
+
  
+
 0;
 }
 .btn-group>.btn:first-child {
@@ -4086,57 +4199,99 @@ border-radius
 .btn-group
 >
 .btn
+
+
 :first-child
+
+
 :not
+
  
+
 (
 :last-child
+
  
+
 )
 :not
+
  
+
 (
 .dropdown-toggle
+
  
+
 )
 {
 border-bottom-right-radius
+
+
 :
+
  
+
 0;
 border-top-right-radius
+
+
 :
+
  
+
 0;
 }
 .btn-group
 >
 .btn
+
+
 :last-child
+
+
 :not
+
  
+
 (
 :first-child
+
  
+
 ),
 .btn-group
 >
 .dropdown-toggle
+
+
 :not
 
+
 	
+
 (
 :first-child
+
  
+
 )
 {
 border-bottom-left-radius
+
+
 :
+
  
+
 0;
 border-top-left-radius
+
+
 :
+
  
+
 0;
 }
 .btn-group>.btn-group {
@@ -4218,95 +4373,157 @@ border-top-left-radius
 .btn-group-vertical
 >
 .btn
+
+
 :not
+
  
+
 (
 :first-child
+
  
+
 )
 :not
+
  
+
 (
 :last-child
+
  
+
 )
 {
 border-radius
+
+
 :
+
  
+
 0;
 }
 .btn-group-vertical
 >
 .btn
+
+
 :first-child
+
+
 :not
+
  
+
 (
 :last-child
+
  
+
 )
 {
 border-top-right-radius
+
+
 :
+
  
+
 4
 px
-;
 
-	
+
+;
 border-top-left-radius
+
+
 :
+
  
+
 4
 px
-;
 
-	
+
+;
 border-bottom-right-radius
+
+
 :
+
  
+
 0;
 border-bottom-left-radius
+
+
 :
+
  
+
 0;
 }
 .btn-group-vertical
 >
 .btn
+
+
 :last-child
+
+
 :not
+
  
+
 (
 :first-child
+
  
+
 )
 {
 border-top-right-radius
+
+
 :
+
  
+
 0;
 border-top-left-radius
+
+
 :
+
  
+
 0;
 border-bottom-right-radius
+
+
 :
+
  
+
 4
 px
-;
 
-	
+
+;
 border-bottom-left-radius
+
+
 :
+
  
+
 4
 px
+
+
 ;
-
-
 }
 .btn-group-vertical>.btn-group:not (:first-child ):not (:last-child ) >.btn
 	{
@@ -4428,51 +4645,87 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 }
 
 .input-group-addon
-:not
- 
-(
-:first-child
- 
-)
-:not
- 
-(
-:last-child
- 
-),
-.input-group-btn
-:not
- 
-(
-:first-child
- 
-)
-:not
- 
-(
-:last-child
- 
-),
-.input-group
- 
-.form-control
+
+
 :not
 
-	
+ 
+
 (
 :first-child
+
  
+
 )
 :not
+
  
+
 (
 :last-child
+
  
+
+),
+.input-group-btn
+
+
+:not
+
+ 
+
+(
+:first-child
+
+ 
+
+)
+:not
+
+ 
+
+(
+:last-child
+
+ 
+
+),
+.input-group
+
+ 
+
+.form-control
+
+
+:not
+
+
+	
+
+(
+:first-child
+
+ 
+
+)
+:not
+
+ 
+
+(
+:last-child
+
+ 
+
 )
 {
 border-radius
+
+
 :
+
  
+
 0;
 }
 .input-group-addon, .input-group-btn {
@@ -4583,19 +4836,23 @@ border-radius
 	padding: 10px 15px;
 }
 
+/*마우스를 올려놨을 때 폰트 색깔*/
 .nav>li>a:hover, .nav>li>a:focus {
 	text-decoration: none;
-	background-color: #3e444c;
+	background-color: #2A9FD6;
 }
 
+/*평소 disabled 색깔*/
 .nav>li.disabled>a {
-	color: #7a8288;
+	background-image: url("home_back.png");
+	border-bottom-color: 1px solid black;
+	/* color: #7a8288;  */
 }
-
+/*선택 disabled 색깔*/
 .nav>li.disabled>a:hover, .nav>li.disabled>a:focus {
 	color: #7a8288;
 	text-decoration: none;
-	background-color: transparent;
+	background-image: none;
 	cursor: not-allowed;
 }
 
@@ -4615,8 +4872,10 @@ border-radius
 	max-width: none;
 }
 
+/*네비 탭 선색*/
 .nav-tabs {
-	border-bottom: 1px solid #1c1e22;
+	background-image: url("home_back.png");
+	/* border-bottom: 1px solid #1c1e22; */
 }
 
 .nav-tabs>li {
@@ -4635,12 +4894,14 @@ border-radius
 	border-color: #1c1e22 #1c1e22 #1c1e22;
 }
 
+/* 선택된 네비 색깔 */
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus
 	{
 	color: #ffffff;
-	background-color: #3e444c;
+	background-color: #2A9FD6;
 	border: 1px solid #1c1e22;
-	border-bottom-color: transparent;
+	border-bottom-color: 1px solid #1c1e22;
+	/* border-bottom-color: transparent; */
 	cursor: default;
 }
 
@@ -5638,6 +5899,7 @@ a.badge:hover, a.badge:focus {
 	cursor: pointer;
 }
 
+/*메뉴바 선택시 색깔*/
 .list-group-item.active>.badge, .nav-pills>.active>a>.badge {
 	color: #ffffff;
 	background-color: #7a8288;
@@ -6020,6 +6282,7 @@ to {
 	padding-left: 0;
 }
 
+/*선택되기 전 메뉴바 색깔*/
 .list-group-item {
 	position: relative;
 	display: block;
@@ -6030,8 +6293,9 @@ to {
 }
 
 .list-group-item:first-child {
-	border-top-right-radius: 4px;
-	border-top-left-radius: 4px;
+	/* border-top-right-radius: 4px;
+	border-top-left-radius: 4px; */
+	
 }
 
 .list-group-item:last-child {
@@ -6049,11 +6313,12 @@ a.list-group-item .list-group-item-heading, button.list-group-item .list-group-i
 	color: #ffffff;
 }
 
+/*메뉴 선택됬을때 색깔*/
 a.list-group-item:hover, button.list-group-item:hover, a.list-group-item:focus,
-	button.list-group-item:focus {
+	button.list-group-item:focus,a.list-group-item:active {
 	text-decoration: none;
-	color: #c8c8c8;
-	background-color: #3e444c;
+	color: #ffffff;
+	background-color: #2A9FD6;
 }
 
 button.list-group-item {
@@ -6077,12 +6342,13 @@ button.list-group-item {
 	.list-group-item.disabled:focus .list-group-item-text {
 	color: #7a8288;
 }
-
+/*메뉴바 선택시*/
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus
 	{
 	z-index: 2;
 	color: #ffffff;
-	background-color: #3e444c;
+	/* background-color: #3e444c; */
+	background-color: #2A9FD6;
 	border-color: rgba(0, 0, 0, 0.6);
 }
 

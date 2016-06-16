@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="${initParam.root}home.do">
-사원번호<input type="text" name="emp_no"><br>
-패스워드<input type="password" name="password"><br>
+<form method="post" action="${initParam.root}home.do">
+	사원번호<input type="text" name="empNo"><br>
+	패스워드<input type="password" name="password"><br>
 <input type="submit">
 </form>
 </body>

@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-	<mvc:annotation-driven></mvc:annotation-driven>
-	<context:component-scan base-package="org.kosta.cims.controller"></context:component-scan>
+	<mvc:annotation-driven />
+	<context:component-scan base-package="org.kosta.cims.controller" />
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
@@ -30,28 +30,49 @@
 		<property name="order" value="0" />
 	</bean>
 	<!-- 파일 업로드 설정 -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding" value="utf-8" /> <!-- 일반적 업로드 -->
-		<!-- 파일 사이즈 제한 시 사용(5MB) -->
-		<!-- <property name="maxUploadSize" value="5*1024*1024" /> -->
-	</bean>
-	
-	<!-- 파일 업로드 경로 설정 -->
-	<!-- 개발시 사용하는 경로, 운영시에는 WAS경로로 수정한다. 
-		  운영시 경로는 C:\\java-kosta\\WAS\\spring-tomcat\\webapps\\springmvc26\\upload\\
-	-->
-	<bean id="uploadPath" class="java.lang.String">
-	<constructor-arg value="C:\\java-kosta\\spring-workspace2\\springmvc26\\src\\main\\webapp\\upload\\"></constructor-arg>
-	</bean>
-	
-	<!-- 파일 다운로드를 위한 설정 -->
-	<bean name="downloadView" class="org.kosta.cims.controller.DownloadView" />
-	
-	<!-- 파일 다운로드 서비스를 위해 ViewResolver를 추가한다. -->
-	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
-		<property name="order" value="1"></property>
-	</bean>
-	
+   <bean id="multipartResolver"
+      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <property name="defaultEncoding" value="utf-8" /> <!-- 일반적 업로드 -->
+      <!-- 파일 사이즈 제한 시 사용(5MB) -->
+      <!-- <property name="maxUploadSize" value="5*1024*1024" /> -->
+   </bean>
+   
+   <!-- 파일 업로드 경로 설정 -->
+   <!-- 개발시 사용하는 경로, 운영시에는 WAS경로로 수정한다. 
+        운영시 경로는 C:\\java-kosta\\WAS\\spring-tomcat\\webapps\\springmvc26\\upload\\
+   -->
+   <bean id="uploadPath" class="java.lang.String">
+   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\noticeimg\\"></constructor-arg>
+   </bean>
+   
+   <!-- 자유게시판 // 건의사항 업로드 -->
+    <bean id="boardUploadPath" class="java.lang.String">
+   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\boardimg\\"></constructor-arg>
+   </bean>
+   
+   
+   <!-- 공문 첨부파일 업로드 -->
+   <bean id="documentPath" class="java.lang.String">
+   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\document\\"></constructor-arg>
+   </bean>
+   
+   <!-- 회원 등록시, 회원 서명 업로드 -->
+   <bean id="signPath" class="java.lang.String">
+   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\sign\\"></constructor-arg>
+   </bean>
+   
+   <!-- 메일 첨부 파일 저장 -->
+   <bean id="mailPath" class="java.lang.String">
+   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\mail\\"></constructor-arg>
+   </bean>
+   
+   
+   <!-- 파일 다운로드를 위한 설정 -->
+   <bean name="downloadView" class="org.kosta.cims.controller.DownloadView" />
+   
+   <!-- 파일 다운로드 서비스를 위해 ViewResolver를 추가한다. -->
+   <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+      <property name="order" value="1"></property>
+   </bean>
 </beans>
 
