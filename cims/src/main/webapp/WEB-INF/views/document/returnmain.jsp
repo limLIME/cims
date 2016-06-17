@@ -23,7 +23,7 @@
 <input type="button" id="myDocBtn" value="내가 작성한 공문 중 반려">
 <input type="button" id="mySignBtn" value="내가 결재한 공문">
 <input type="button" id="myReturnBtn" value="내가 반려한 공문">
-<br><br>
+<br><br>  
 <table border="1">
 	<thead>
 		<tr>
