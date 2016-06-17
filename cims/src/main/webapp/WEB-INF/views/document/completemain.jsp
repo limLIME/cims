@@ -16,6 +16,8 @@
 		});
 	});	
 </script>
+<section id="main-content">
+          <section class="wrapper">
 결제완료된 문서 메인 <br>
 <input type="button" id="myDocBtn" value="내가 작성했고 완료된공문">
 <input type="button" id="mySignBtn" value="내가 결재한것중 완료된공문">
@@ -58,3 +60,4 @@
 		</c:when>
 	</c:choose>
 	<br><br>	
+</section></section>

@@ -7,6 +7,8 @@ $(document).ready(function() {
 
 });
 </script>
+<section id="main-content">
+          <section class="wrapper">
 <form id="writeForm" action="${initParam.root }doc_write.do" enctype="multipart/form-data" method="post">
 <table id="showDoc" border="1"  >
 	<tr>
@@ -46,3 +48,4 @@ $(document).ready(function() {
 </table>
 
 </form>
+</section></section>

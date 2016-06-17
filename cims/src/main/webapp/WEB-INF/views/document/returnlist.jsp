@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
-    반려된 공분 중 나랑 관련있는 리스트 
+    반려된 공문 중 나랑 관련있는 리스트 
     
 <script type="text/javascript">
 

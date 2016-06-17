@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<section id="main-content">
+          <section class="wrapper">
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#myDocBtn").click(function(){
@@ -59,3 +61,4 @@
 		</c:when>
 	</c:choose>
 	<br><br>	
+</section></section>

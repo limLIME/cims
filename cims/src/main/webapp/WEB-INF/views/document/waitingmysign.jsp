@@ -7,6 +7,9 @@
 <script type="text/javascript">
 
 </script>
+<section id="main-content">
+          <section class="wrapper">
+      
 <table border="1">
 	<thead>
 		<tr>
@@ -44,4 +47,5 @@
 		</c:when>
 	</c:choose>
 	<br><br>	
+	</section></section>
     
