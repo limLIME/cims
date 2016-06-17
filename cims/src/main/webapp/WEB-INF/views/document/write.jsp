@@ -7,8 +7,10 @@ $(document).ready(function() {
 
 });
 </script>
+
 <section id="main-content">
           <section class="wrapper">
+<h3>공문작성</h3>
 <form id="writeForm" action="${initParam.root }doc_write.do" enctype="multipart/form-data" method="post">
 <table id="showDoc" border="1"  >
 	<tr>

@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section id="main-content">
           <section class="wrapper">
-내가 관련된 반려문서 전부
+내가 관련된 반려문서 전부<br>
 
-반려 메인
+<h3>반려함 메인</h3>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -24,7 +24,7 @@
 <input type="button" id="myDocBtn" value="내가 작성한 공문">
 <input type="button" id="mySignBtn" value="내가 결재한 공문">
 <input type="button" id="myReturnBtn" value="내가 반려한 공문">
-
+<br><br>
 <table border="1">
 	<thead>
 		<tr>
