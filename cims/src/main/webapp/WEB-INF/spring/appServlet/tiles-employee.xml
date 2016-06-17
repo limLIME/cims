@@ -17,9 +17,8 @@
 		  * 에 해당하는 정보는 {1} 로 전달받을 수 있다 
 	 -->
 	 <!--  emp_ 로시작하는 뷰 보기위해 타일즈 설정 -->
-	<definition name="emp_*" extends="common">
-		<put-attribute name="common_main" value="/WEB-INF/views/employee/{1}.jsp" />
-		<put-attribute name="common_left" value="/WEB-INF/views/employee/left.jsp" />
+	<definition name="emp_*" extends="home">
+		<put-attribute name="main" value="/WEB-INF/views/employee/{1}.jsp" />
 	</definition>
 	<!-- 
 			관리자 모드 tiles 설정 

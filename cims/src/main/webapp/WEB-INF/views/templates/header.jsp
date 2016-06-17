@@ -1,26 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-	  <!-- Bootstrap core CSS -->
-    <link href="${initParam.root}assets/css/bootstrap.css" rel="stylesheet">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="${initParam.root}assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="${initParam.root}assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="${initParam.root}assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="${initParam.root}assets/lineicons/style.css">    
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
-    <link href="${initParam.root}assets/css/style.css" rel="stylesheet">
-    <link href="${initParam.root}assets/css/style-responsive.css" rel="stylesheet">
-
-    <script src="${initParam.root}	assets/js/chart-master/Chart.js"></script>
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style-responsive.css" rel="stylesheet">
     
-<header class="header black-bg">
+      <header class="header black-bg">
               <div class="sidebar-toggle-box">
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>DASHGUM FREE</b></a>
+            <a href="index.html" class="logo"><b>CLASS:sexy</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -168,10 +166,9 @@
             	</ul>
             </div>
         </header>
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-  <script type="text/javascript">
+        
+        
+<%--   <script type="text/javascript">
     $(document).ready(function() {
       if(${evo==null}){
          location.href="index.jsp";
@@ -241,5 +238,4 @@
 			background="${initParam.root}resources/css/home_back.png"><a
 			href="update.do">${evo.empName}</a>님</td>
 	</tr>
-</Table>
- --%>
+</Table> --%>

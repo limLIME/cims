@@ -3,7 +3,10 @@
       <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
            <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <jsp:useBean id="now" class="java.util.Date" />
-  <fmt:formatDate value="${now}" pattern="yyyy.MM.dd" var="today" />  
+  <fmt:formatDate value="${now}" pattern="yyyy.MM.dd" var="today" />
+  <body>  
+  <section id="main-content">
+  <section class="wrapper">
 <h3>건의사항</h3>
 <table border="1">
    <tr>
@@ -41,4 +44,6 @@
       </c:if>
 <br><br><br><br><br>
 <a href = "${initParam.root }rec_writer.do">글쓰기</a>
+</section>
+</section>
 </body>

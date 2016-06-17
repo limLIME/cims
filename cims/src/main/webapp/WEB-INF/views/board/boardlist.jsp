@@ -6,6 +6,9 @@
   <fmt:formatDate value="${now}" pattern="yyyy.MM.dd" var="today" />  
 
 <body>
+<section id="main-content">
+          <section class="wrapper">
+      
 <h3>오늘의 인기글</h3>
 <table border = "1">
 	<tr>
@@ -55,4 +58,6 @@
       </c:if>
 <br><br><br><br><br>
 <a href = "${initParam.root }free_writer.do">글쓰기</a>
+</section>
+</section>
 </body>

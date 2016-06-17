@@ -16,9 +16,8 @@
 		  아래의 타일즈 설정으로 응답하도록 한다 
 		  * 에 해당하는 정보는 {1} 로 전달받을 수 있다 
 	 -->
-	<definition name="notice_*" extends="common">
-		<put-attribute name="common_main" value="/WEB-INF/views/notice/{1}.jsp" />
-		<put-attribute name="common_left" value="/WEB-INF/views/notice/notice_left.jsp" />
+	<definition name="notice_*" extends="home">
+		<put-attribute name="main" value="/WEB-INF/views/notice/{1}.jsp" />
 	</definition>
 	<!-- 
 			관리자 모드 tiles 설정 

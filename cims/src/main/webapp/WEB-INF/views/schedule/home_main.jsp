@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
+<head> 
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".insertButton").click(function(){
@@ -65,6 +66,8 @@
 </script>
 </head>
 <body>
+<section id="main-content">
+<section class="wrapper">
 	<br>
 	<center>
 		<a href="${initParam.root}sch_home.do" class="btn btn-info">오늘</a> &nbsp;&nbsp;&nbsp; <a href="#"
@@ -99,6 +102,8 @@
 				</tbody>
 			</table>
 		</form>
-	</center>
+	</center> 
+	</section>
+	</section>
 </body>
 </html>
