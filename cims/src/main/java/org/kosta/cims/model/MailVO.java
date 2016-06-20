@@ -12,8 +12,10 @@ public class MailVO {
 	private EmployeeVO employeeVO;
 	private MultipartFile filePath;
 	private String mailPath;
+	private int mailConfirm;
+	private int mailState;
 	private int pageNo;
-	
+
 	public MailVO() {
 		super();
 	}
@@ -21,7 +23,7 @@ public class MailVO {
 	public MailVO(int mailNo, String mailTitle, String mailContent,
 			String mailDate, String mailSender, String mailReceiver,
 			EmployeeVO employeeVO, MultipartFile filePath, String mailPath,
-			int pageNo) {
+			int mailConfirm, int mailState, int pageNo) {
 		super();
 		this.mailNo = mailNo;
 		this.mailTitle = mailTitle;
@@ -32,6 +34,8 @@ public class MailVO {
 		this.employeeVO = employeeVO;
 		this.filePath = filePath;
 		this.mailPath = mailPath;
+		this.mailConfirm = mailConfirm;
+		this.mailState = mailState;
 		this.pageNo = pageNo;
 	}
 
@@ -107,6 +111,22 @@ public class MailVO {
 		this.mailPath = mailPath;
 	}
 
+	public int getmailConfirm() {
+		return mailConfirm;
+	}
+
+	public void setmailConfirm(int mailConfirm) {
+		this.mailConfirm = mailConfirm;
+	}
+
+	public int getmailState() {
+		return mailState;
+	}
+
+	public void setmailState(int mailState) {
+		this.mailState = mailState;
+	}
+
 	public int getPageNo() {
 		return pageNo;
 	}
@@ -121,7 +141,8 @@ public class MailVO {
 				+ ", mailContent=" + mailContent + ", mailDate=" + mailDate
 				+ ", mailSender=" + mailSender + ", mailReceiver="
 				+ mailReceiver + ", employeeVO=" + employeeVO + ", filePath="
-				+ filePath + ", mailPath=" + mailPath + ", pageNo=" + pageNo
-				+ "]";
+				+ filePath + ", mailPath=" + mailPath + ", mailConfirm=" + mailConfirm
+				+ ", mailState=" + mailState + ", pageNo=" + pageNo + "]";
 	}
+
 }

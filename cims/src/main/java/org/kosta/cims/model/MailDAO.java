@@ -8,6 +8,7 @@ public interface MailDAO {
 	public abstract int totalSendMailContent(String empNo);
 	public abstract int totalReceiveMailContent(String empNo);
 	public abstract MailVO showMailContent(int no);
+	public abstract int checkMail(int no,String empNo);
 	public abstract void deleteMail(int no);
 	public abstract void sendMail(MailVO mailVO);
 	public abstract List<Object> getSendMailList(String empNo,int pageNo);

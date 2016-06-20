@@ -87,7 +87,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	      HashMap<String, String> map=new HashMap<String, String>();
 	      System.out.println(page+empNo+empSign+positionNo);
 	      map.put("page", ""+page);
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      map.put("empSign", empSign);
 	      if(positionNo == 3){         
 	         map.put("sno", "d.doc_sign1");
@@ -105,7 +105,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	   public List<Object> returnList(int page, int empNo, String empSign, int positionNo) {
 	      HashMap<String, String> map=new HashMap<String, String>();
 	      map.put("page", ""+page);
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      map.put("empSign", empSign);
 	      if(positionNo == 3){         
 	         map.put("sno", "d.doc_sign1");
@@ -123,7 +123,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	   public List<Object> returnSign(int page,int empNo){
 	      HashMap<String, String> map = new HashMap<String, String>();
 	      map.put("page", ""+page);
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      return template.selectList("document.returnSign",map);
 	   }
 	   @Override
@@ -135,7 +135,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	   }
 	   @Override
 	   public int getReturnSignTotalPage(int empNo) {
-	      String empNo2 = "0"+empNo;
+	      String empNo2 = ""+empNo;
 	      System.out.println(empNo2);
 	      return template.selectOne("document.getReturnSignTotalPage", empNo2);
 	   }
@@ -146,7 +146,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	   @Override
 	   public int getReturnListTotalPage(String empSign, int positionNo, int empNo) {
 	      HashMap<String, String> map=new HashMap<String, String>();
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      map.put("empSign", empSign);
 	      if(positionNo == 3){         
 	         map.put("sno", "doc_sign1");
@@ -163,7 +163,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	   @Override
 	   public int getReturnMainTotalPage(String empSign, int positionNo, int empNo) {
 	      HashMap<String, String> map=new HashMap<String, String>();
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      map.put("empSign", empSign);
 	      if(positionNo == 3){         
 	         map.put("sno", "doc_sign1");
@@ -184,7 +184,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public List<Object> completeMain(int page,int empNo,String empSign,int positionNo) {
 			HashMap<String, String> map = new HashMap<String, String>();
 		map.put("page", ""+page);
-		map.put("empNo", "0"+empNo);
+		map.put("empNo", ""+empNo);
 		map.put("empSign", empSign);
 		if(positionNo == 3){			
 			map.put("sno", "d.doc_sign1");
@@ -209,7 +209,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public List<Object> completeSign(int page,String empSign, int empNo,int positionNo) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("page", ""+page);
-		map.put("empNo", "0"+empNo);
+		map.put("empNo", ""+empNo);
 		map.put("empSign", empSign);
 		if(positionNo == 3){			
 			map.put("sno", "d.doc_sign1");
@@ -226,7 +226,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public List<Object> complete(int page,int empNo,String empSign,int positionNo) {
 			HashMap<String, String> map = new HashMap<String, String>();
 		map.put("page", ""+page);
-		map.put("empNo","0"+empNo);
+		map.put("empNo",""+empNo);
 		map.put("empSign", empSign);
 		if(positionNo == 3){			
 			map.put("sno", "d.doc_sign1");
@@ -248,7 +248,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public int getCompleteSignTotalPage(int empNo,String empSign, int positionNo) {
 		HashMap<String, String> map=new HashMap<String, String>();
 		map.put("empSign", empSign);
-		map.put("empNo", "0"+empNo);
+		map.put("empNo", ""+empNo);
 		if(positionNo == 3){			
 			map.put("sno", "doc_sign1");
 		}else if(positionNo == 4){
@@ -264,7 +264,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public int getCompleteMainTotalPage(int empNo,String empSign, int positionNo) {
 		HashMap<String, String> map=new HashMap<String, String>();
 		map.put("empSign", empSign);
-		map.put("empNo", "0"+empNo);
+		map.put("empNo", ""+empNo);
 		if(positionNo == 3){			
 			map.put("sno", "doc_sign1");
 		}else if(positionNo == 4){
@@ -300,7 +300,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public List<Object> waitingMain(int page,int empNo,String empSign,int positionNo) {
 			HashMap<String, String> map = new HashMap<String, String>();
 		map.put("page", ""+page);
-		map.put("empNo", "0"+empNo);
+		map.put("empNo", ""+empNo);
 		map.put("empSign", empSign);
 		if(positionNo == 3){			
 			map.put("sno", "d.doc_sign1");
@@ -324,7 +324,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public List<Object> waiting(int page,int empNo,String empSign,int positionNo) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("page", ""+page);
-		map.put("empNo","0"+empNo);
+		map.put("empNo",""+empNo);
 		map.put("empSign", empSign);
 		if(positionNo == 3){			
 			map.put("sno", "d.doc_sign1");
@@ -342,7 +342,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public List<Object> waitingMySign(int page, int empNo, String empSign) {
 	      HashMap<String, String> map=new HashMap<String, String>();
 	      map.put("page", ""+page);
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      map.put("empSign", empSign);
 	      return template.selectList("document.waitingMySign", map);
 	   }	
@@ -353,7 +353,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	public int getWaitingMainTotalPage(int empNo,String empSign, int positionNo) {
 		HashMap<String, String> map=new HashMap<String, String>();
 		map.put("empSign", empSign);
-		map.put("empNo", "0"+empNo);
+		map.put("empNo", ""+empNo);
 		if(positionNo == 3){			
 			map.put("sno", "doc_sign1");
 		}else if(positionNo == 4){
@@ -384,11 +384,11 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 	public int getWaitingMySignTotalPage(String empSign, int empNo) {
 	      HashMap<String, String> map=new HashMap<String, String>();
-	      map.put("empNo", "0"+empNo);
+	      map.put("empNo", ""+empNo);
 	      map.put("empSign", empSign);
 	      return template.selectOne("document.getWaitingMySignTotalPage",map);
 	   }
-	
+		
 	
 	
 	//내가쓴글 전체리스트 

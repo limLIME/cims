@@ -45,6 +45,13 @@ public class MailDAOImpl implements MailDAO {
 	public MailVO showMailContent(int no){
 		return template.selectOne("mail.showMailContent",no);
 	}
+	public int checkMail(int no,String empNo){
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("no", ""+no);
+		map.put("empNo", empNo);
+		
+		return template.update("mail.checkMail",map);
+	}
 	
 	@Override
 	public void deleteMail(int no){
@@ -53,6 +60,7 @@ public class MailDAOImpl implements MailDAO {
 	
 	@Override
 	public void sendMail(MailVO mailVO){
+		System.out.println(mailVO);
 		template.insert("mail.sendMail",mailVO);
 	}
 }
