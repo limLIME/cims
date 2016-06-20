@@ -35,7 +35,8 @@ public class MailServiceImpl implements MailService {
 	}
 	
 	@Override
-	public MailVO showMailContent(int no){
+	public MailVO showMailContent(int no,String empNo){
+		mailDAO.checkMail(no,empNo);
 		return mailDAO.showMailContent(no);
 	}
 	

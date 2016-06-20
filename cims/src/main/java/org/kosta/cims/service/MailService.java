@@ -7,7 +7,7 @@ import org.kosta.cims.model.MailVO;
 public interface MailService {
 
 
-	public abstract MailVO showMailContent(int no);
+	public abstract MailVO showMailContent(int no,String empNo);
 	public abstract void deleteMail(int no);
 	public abstract void sendMail(MailVO mailVO);
 	
