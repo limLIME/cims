@@ -49,10 +49,26 @@ public class MailController {
 			ListVO lvo =new ListVO(list,pb);
 			return new ModelAndView("mail_sendmail","lvo",lvo);
 		}
+		//수신확인리스트
+		@RequestMapping("mail_getCheckList.do")
+		public ModelAndView getCheckList(int pageNo,HttpServletRequest request){
+			HttpSession session = request.getSession();
+			EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
+			List<Object> list = mailService.getSendMailList(evo.getEmpNo(),pageNo);
+			int totalSendContent = mailService.totalSendMailContent(evo.getEmpNo());
+			PagingBean pb = new PagingBean(totalSendContent,pageNo);
+			ListVO lvo =new ListVO(list,pb);
+			return new ModelAndView("mail_checkmail","lvo",lvo);
+		}
+		
+		
 	//메일본문보기
 	@RequestMapping("mail_showMailContent.do")
-	public ModelAndView showMailContent(int no){
-		MailVO mailVO = mailService.showMailContent(no);
+	public ModelAndView showMailContent(int no, HttpServletRequest request){
+		HttpSession session=request.getSession(false);
+		EmployeeVO vo=(EmployeeVO)session.getAttribute("evo");
+		
+		MailVO mailVO = mailService.showMailContent(no,vo.getEmpNo());
 		return new ModelAndView("mail_showMailContent","mailVO",mailVO);
 	}
 	
@@ -65,23 +81,25 @@ public class MailController {
 	
 	@RequestMapping("mail_sendMail.do")
 	public ModelAndView sendMail(MailVO mailVO,HttpServletRequest request){
+
 		HttpSession session = request.getSession();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		mailVO.setEmployeeVO(evo);
-		MultipartFile file = mailVO.getFilePath(); // 파일
+		mailVO.setMailSender(evo.getEmpNo());
 
+		MultipartFile file = mailVO.getFilePath(); // 파일
 		if(file.isEmpty()==false){
 			File uploadFile = new File(mailPath+file.getOriginalFilename());
 			try {
 				file.transferTo(uploadFile); 
-				mailVO.setMailPath(file.getOriginalFilename());
+				mailVO.setMailPath(file.getOriginalFilename());//케이윌
 			} catch (IllegalStateException | IOException e) { 
 				e.printStackTrace();
 			}
 		}else{
 			mailVO.setMailPath("1");
 		}
-		System.out.println(mailVO);
+
 		mailService.sendMail(mailVO);
 		return new ModelAndView("mail_ok");
 	}

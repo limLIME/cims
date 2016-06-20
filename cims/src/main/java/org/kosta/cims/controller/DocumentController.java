@@ -79,7 +79,9 @@ public class DocumentController {
 	         } catch (IllegalStateException | IOException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	         }
+	         }	
+	      }else{
+	          dvo.setPath("1");
 	      }
 		dvo.setEmployeeVO(evo);
 		documentService.write(dvo);
