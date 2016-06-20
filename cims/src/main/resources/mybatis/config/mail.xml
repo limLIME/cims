@@ -12,6 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mailReceiver" column="mail_receiver" />
 		<result property="mailContent" column="mail_content" />
 		<result property="mailPath" column="mail_path" />
+		<result property="mailConfirm" column="mail_confirm" />
+		<result property="mailState" column="mail_state" />
 		<result property="employeeVO.empNo" column="emp_no" />
 		<result property="employeeVO.empName" column="emp_name" />
 	</resultMap>
@@ -23,10 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) where pageNo=#{pageNo}
 	</select>
 	<select id="getSendMailList" resultMap="mailRM">
-	select pageNo,mail_no,mail_title,mail_sender,mail_receiver,mail_date,emp_name from(
-		select mail_no,mail_title,mail_sender,mail_receiver,mail_date,ceil(rownum/5) as pageNo, emp_name from(
-		select m.mail_no,m.mail_title,m.mail_sender,m.mail_receiver,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
-		mail m, employee e where m.emp_no=e.emp_no and m.mail_sender=#{empNo} order by m.mail_no desc
+	select pageNo,mail_no,mail_title,mail_sender,mail_receiver,mail_state,mail_confirm,mail_date,emp_name from(
+		select mail_no,mail_title,mail_sender,mail_receiver,mail_state,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
+		select m.mail_no,m.mail_title,m.mail_sender,m.mail_receiver,m.mail_state,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
+		mail m, employee e where m.emp_no=e.emp_no and m.mail_sender=#{empNo} and m.mail_state!=1 order by m.mail_no desc
 		)
 		) where pageNo=#{pageNo}
 	</select>
@@ -40,7 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from mail where mail_receiver=#{value}
 	</select>
 	
-	
+	<update id="checkMail" parameterType="HashMap">
+	update mail set mail_confirm=1
+	where mail_no=#{no} and mail_receiver=#{empNo}
+	</update>
 	
 	<select id="showMailContent" resultMap="mailRM">
 	  select
@@ -54,12 +59,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete mail where mail_no=#{value}
 	</delete>
 	
-	<insert id="sendMail">
+	<insert id="sendMail" parameterType="mailVO">
 	 <selectKey keyProperty="mailNo" order="BEFORE" resultType="int">
          select mail_seq.nextval from dual
       </selectKey>
-		insert into mail(mail_no,emp_no,mail_date,mail_title,mail_content,mail_sender,mail_receiver) 
-		values(#{mailNo},#{employeeVO.empNo},sysdate,#{mailTitle},#{mailContent},#{mailSender},#{mailReceiver})
+		insert into mail(mail_no,emp_no,mail_date,mail_title,mail_content,mail_sender,mail_receiver,mail_path) 
+		values(#{mailNo},#{employeeVO.empNo},sysdate,#{mailTitle},#{mailContent},#{mailSender},#{mailReceiver},#{mailPath})
 	</insert>
 </mapper>
 
