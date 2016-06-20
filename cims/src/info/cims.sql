@@ -82,18 +82,26 @@ constraint fk_doc_emp_no foreign key(emp_no) references employee
 )
 drop sequence document_seq;
 create sequence document_seq START WITH 10000;
-
+ select*from mail
+drop table mail
 --메일
 CREATE TABLE mail(
 mail_no number PRIMARY KEY,
 emp_no varchar2(100) not null,
+mail_title varchar2(100) not null,
 mail_content varchar2(100) not null,
+mail_date date not null,
+mail_path varchar2(100), 
 mail_sender varchar2(10) not null,
 mail_receiver varchar2(10) not null,
 mail_confirm number default 0,
+mail_state number default 0,
 constraint fk_mail_emp_no foreign key(emp_no) references employee
 )
-
+create sequence mail_seq 
+drop sequence mail_seq
+-- 메일확인
+-- 0읽지않음 1 읽음 2 수신자삭제 3 송신자삭제 4 둘다 삭제
 --공지
 CREATE TABLE notice(
 notice_no number PRIMARY KEY,
