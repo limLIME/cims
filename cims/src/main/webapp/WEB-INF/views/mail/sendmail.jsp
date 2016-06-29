@@ -12,6 +12,7 @@
 		<thead align="center">
 		<tr>
 			<th class="no">#NO</th>
+	
 			<th class="title">Title</th>
 			<th class="name">Sender</th>
 			<th class="name">Receiver</th>
@@ -25,16 +26,12 @@
 		<c:forEach var="mailVO" items="${requestScope.lvo.list}">				
 			<tr>
 			    <td>${mailVO.mailNo }</td>				
+		
+				
+		
 				<td>
-				<c:choose>
-				<c:when test="${sessionScope.evo!=null}">
 				<a href="${initParam.root}mail_showMailContent.do?no=${mailVO.mailNo }">
 				${mailVO.mailTitle}</a>
-				</c:when>
-				<c:otherwise>
-				${mailVO.mailTitle}
-				</c:otherwise>
-				</c:choose>
 				</td>
 				<td>${mailVO.mailSender}</td>
 				<td>${mailVO.mailReceiver}</td>

@@ -10,50 +10,76 @@
 <script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-    	$("#updateForm").submit(function(){ 
-    		if($("#title").val()==""){
+    	$("#update_form").submit(function(){ 
+    		if($("#noticeTitle").val()==""){
     			alert("제목을 입력하세요!");
     			return false;
     		}
-    		if($("#content").val()==""){
+    		if($("#noticeContent").val()==""){
     			alert("본문을 입력하세요!");
     			return false;
     		}
     	});
-    	$("#resetBtn").click(function(){    		
-    		$("#write_form")[0].reset();
-    	});
     });	
+    
+    function cancel(){
+    		location.href="${initParam.root}notice_notice.do?pageNo=1";
+    }
 </script>
 </head>
 <body>
-<%-- <jsp:include page="/member/login.jsp"></jsp:include>	 --%>
-<form method="post" id="updateForm" action="${initParam.root}notice_updateContent.do">
-	<table class="content">
-	<tr>
-		<td>
-			<table>
+<section id="main-content">
+  <section class="wrapper">
+   <div class="marginMain2">	
+ <div class="content-panel">
+ <h3>&nbsp;<i class="fa fa-angle-right"></i> Update</h3>
+<form method="post" id="update_form" action="${initParam.root}notice_updateContent.do" enctype="multipart/form-data">
+	<table class="table table-hover">
+		<tbody>
 				<tr>
 					<td>
-					글번호: <input type=text name=noticeNo value=${nvo.noticeNo } readonly></input>
-					| 타이틀:<input type=text id=title name=noticeTitle value=${nvo.noticeTitle }></input><br>		
-					날짜:<input type=text id=title name=noticeDate value=${nvo.noticeDate }></input>				
+					NO : <input type="text" name="noticeNo" value=${nvo.noticeNo } size="72" readonly></input>						
 					</td>
+				</tr>
+				<tr>
+					<td>Title : <input type="text" id="noticeTitle" name="noticeTitle" size="71" value=${nvo.noticeTitle }></input></td>
+				</tr>
+				<tr>
+					<td>Date : <input type="text" id="noticeDate" name="noticeDate" size="71" value=${nvo.noticeDate } readonly="readonly"></input></td>
+				</tr>
+				
 				<tr>
 					<td>						
-	<textarea rows="15" cols="75" id="content" name="noticeContent">${nvo.noticeContent }</textarea>
+						<textarea rows="15" cols="75" id="noticeContent" name="noticeContent">${nvo.noticeContent }</textarea>
 					</td>
 				</tr>
+				
+				<c:choose>
+		     	<c:when test="${'1' ne requestScope.nvo.noticePath}">
 				<tr>
-				<td valign="middle">						
-					<input type="submit" value="수정하기" class="action"></input>			
+					<td colspan="2"> AttachedFile : <a href="${initParam.root}notice_fileDownload.do?fileName=${requestScope.nvo.noticePath}"><font color="blue">${requestScope.nvo.noticePath }</font></a>
+						<input type="file" name="filePath" id="noticePath">
+					</td>
+				</tr>
+				</c:when>
+				<c:otherwise>
+				<tr>
+				<td colspan="2">AttachedFile does not exist<input type="file" name="filePath" id="noticePath"></td>
+				</tr>
+				</c:otherwise>	
+				</c:choose>
+			
+				<tr>
+				<td align="center">						
+					<input type="submit" value="Update" class="btn btn-info"/>&nbsp;	
+					<input type="button" value="Cancel" class="btn btn-warning" onclick="cancel()"/>			
 					</td>				
 				</tr>
-			</table>
-		</td>
-	</tr>
+	</tbody>
 </table>
 </form>	
+</div></div>
+</section></section>
 </body>
 </html>
 

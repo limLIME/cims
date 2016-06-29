@@ -12,7 +12,12 @@ public class PositionVO {
       this.positionNo = positionNo;
       this.positionName = positionName;
    }
-   public int getPositionNo() {
+   
+   public PositionVO(int positionNo) {
+	super();
+	this.positionNo = positionNo;
+}
+public int getPositionNo() {
       return positionNo;
    }
    public void setPositionNo(int positionNo) {

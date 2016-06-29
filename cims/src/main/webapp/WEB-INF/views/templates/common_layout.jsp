@@ -35,9 +35,6 @@
 		<div id="common_main">
 			<tiles:insertAttribute name="common_main" />
 		</div>
-		<div id="footer">
-			<tiles:insertAttribute name="footer" />
-		</div>
 	</div>
 </body>
 </html>

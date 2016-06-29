@@ -41,7 +41,6 @@ public class FreeBoardController {
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 		vo.setEmployeeVO(evo);
 		//이미지 업로드
-		System.out.println(vo.getUploadFile());
 		MultipartFile file  = vo.getUploadFile();
 		if(file.isEmpty() == false){
 			File uploadFile = new File(boardUploadPath+file.getOriginalFilename());
@@ -61,10 +60,12 @@ public class FreeBoardController {
 	
 	//보드리스트
 	@RequestMapping("free_boardList.do")
-	public ModelAndView showList(int pageNo){
+	public ModelAndView showList(int pageNo,HttpServletRequest request){
+		HttpSession session =request.getSession(false);
+		session.setAttribute("left", 6);
+		session.setAttribute("map", null);
 		List<Object> paging = boardService.getPostingList(pageNo);	
 		List<Object> lvo = boardService.popularList();
-		System.out.println("lvo:"+lvo);
 		ModelAndView mv = new ModelAndView("board_boardlist");
 		int count = boardService.totalCount();
 		PagingBean pb = new PagingBean(count, pageNo);
@@ -73,13 +74,43 @@ public class FreeBoardController {
 		mv.addObject("popular",lvo);
 		return mv;
 	}
+	@RequestMapping("freeBoardSearchList.do")
+	public ModelAndView searchList(String search, String searchVar,int pageNo,HttpServletRequest request){
+		HttpSession session =request.getSession();
+		if(searchVar.equals("")){
+			session.setAttribute("map", null);
+			return new ModelAndView("redirect:free_boardList.do?pageNo=1");
+		}
+		ModelAndView mv = new ModelAndView("board_boardlist");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("search", search);
+		map.put("searchVar", searchVar);
+		List<Object> lvo = boardService.popularList();
+		List<Object> sList = null;
+		int count = 0;
+		if(search.equals("title")){
+			sList = boardService.searchTitleList(searchVar,pageNo);
+			count = boardService.totalTitleCount(searchVar);
+		}else if(search.equals("content")){
+			sList = boardService.searchContentList(searchVar,pageNo);
+			count = boardService.totalContentCount(searchVar);
+		}else if(search.equals("titleContent")){
+			sList = boardService.searchTitleContentList(searchVar,pageNo);
+			count = boardService.totalTitleContentCount(searchVar);
+		}
+		PagingBean pb = new PagingBean(count, pageNo);
+		ListVO list = new ListVO(sList,pb);
+		mv.addObject("list",list);
+		mv.addObject("popular",lvo);
+		session.setAttribute("map", map);
+		return mv;
+	}
 	
 	//쇼컨텐트
 	@RequestMapping("free_showContent.do")
 	public ModelAndView showContent(int no){
 		BoardVO vo = boardService.showContent(no);
 		List<Object> list = boardService.commentList(no);
-		System.out.println(list);
 		ModelAndView mv = new ModelAndView("board_showContent");
 		mv.addObject("vo",vo);
 		mv.addObject("list",list);
@@ -96,6 +127,19 @@ public class FreeBoardController {
 	//업데이트 하기
 	@RequestMapping("free_update_result.do")
 	public String update(BoardVO vo){
+		BoardVO vo2 = boardService.showContent(vo.getBoardNo());
+		MultipartFile file  = vo.getUploadFile();
+		if(file.isEmpty()){
+			vo.setBoardPath(vo2.getBoardPath());
+		}else{
+			File uploadFile = new File(boardUploadPath+file.getOriginalFilename());
+			try{
+				file.transferTo(uploadFile);
+			}catch (IllegalStateException | IOException e){
+				e.printStackTrace();
+			}
+			vo.setBoardPath(file.getOriginalFilename());
+		}
 		System.out.println(vo);
 		boardService.update(vo);
 		return("redirect:free_showContent.do?no="+vo.getBoardNo());

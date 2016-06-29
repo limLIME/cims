@@ -24,6 +24,14 @@ public interface RecBoardService {
 	public abstract List<Object> recCommentList(int no);
 
 	public abstract void deleteRecComment(int commentNo);
+	
+	public abstract List<Object> searchTitleList(String searchVar, int pageNo);
+	public abstract List<Object> searchContentList(String searchVar, int pageNo);
+	public abstract List<Object> searchTitleContentList(String searchVar,
+			int pageNo);
+	public abstract int totalTitleCount(String searchVar);
+	public abstract int totalContentCount(String searchVar);
+	public abstract int totalTitleContentCount(String searchVar);
 
 	
 }

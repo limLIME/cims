@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.kosta.cims.model.EmployeeVO;
 import org.kosta.cims.model.ListVO;
 import org.kosta.cims.model.NoticeVO;
-import org.kosta.cims.model.PagingBean;
+import org.kosta.cims.model.PagingBean2;
 import org.kosta.cims.service.NoticeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +27,13 @@ public class NoticeController {
 	private String uploadPath;
 	
 	@RequestMapping("notice_notice.do")
-	public ModelAndView getNoticeList(int pageNo){
+	public ModelAndView getNoticeList(int pageNo,HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 2);
+		session.setAttribute("map", null);
 		List<Object> nList = noticeService.getNoticeList(pageNo); 
 		int totalContent = noticeService.totalContent();
-		PagingBean pb = new PagingBean(totalContent,pageNo);
+		PagingBean2 pb = new PagingBean2(totalContent,pageNo);
 		ListVO list =new ListVO(nList,pb);
 		return new ModelAndView("notice_notice","lvo",list);
 	}	
@@ -76,7 +79,7 @@ public class NoticeController {
 	@RequestMapping("notice_deleteContent.do")
 	public ModelAndView deleteContent(int no){
 		noticeService.deleteContent(no);
-		return new ModelAndView("redirect:notice.do?pageNo=1");
+		return new ModelAndView("redirect:notice_notice.do?pageNo=1");
 	}
 	
 	@RequestMapping("notice_update.do")
@@ -90,6 +93,21 @@ public class NoticeController {
 		HttpSession session = request.getSession();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		nvo.setEmployeeVO(evo);
+		NoticeVO nvo2 = noticeService.showContent(nvo.getNoticeNo());
+		MultipartFile file = nvo.getFilePath();
+		if(nvo.getFilePath().isEmpty()){
+			nvo.setNoticePath(nvo2.getNoticePath());
+		}else{ 
+			File uploadFile = new File(uploadPath+file.getOriginalFilename());
+			//uploadpath 끝에 \\가 붙어있어서 하위 경로 적용됨
+			try {
+				file.transferTo(uploadFile); // 실제 디렉토리로 파일을 저장한다.
+			} catch (IllegalStateException | IOException e) { 
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			nvo.setNoticePath(file.getOriginalFilename());
+		}
 		noticeService.updateContent(nvo);
 		return new ModelAndView("notice_updateContent_result","nvo",nvo);	
 	}
@@ -100,6 +118,38 @@ public class NoticeController {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("path", uploadPath);
 			return new ModelAndView("downloadView",map);
+		}
+		
+		@RequestMapping("noticeSearchList.do")
+		public ModelAndView searchByTitle(String search, String searchVar, int pageNo, HttpServletRequest request){
+			HttpSession session = request.getSession();
+		    if(searchVar.equals("")){
+			         session.setAttribute("map", null);
+			         return new ModelAndView("redirect:notice_notice.do?pageNo=1");
+			 }
+		    ModelAndView mv = new ModelAndView("notice_notice");
+		    HashMap<String, String> map = new HashMap<String, String>();
+		    map.put("search", search);
+		    map.put("searchVar", searchVar);
+		    
+			List<Object> searchList = null;
+			int totalContent = 1;			
+			if(search.equals("title")){
+				searchList = noticeService.searchByTitle(searchVar, pageNo);
+				totalContent = noticeService.totalContentByTitle(searchVar);
+				System.out.println(totalContent);
+			}else if(search.equals("content")){
+				searchList = noticeService.searchByContent(searchVar, pageNo);
+				totalContent = noticeService.totalContentBycontent(searchVar);
+			}else if(search.equals("titleContent")){
+				searchList = noticeService.searchByTitleContent(searchVar, pageNo);
+				totalContent = noticeService.totalContentByTitleContent(searchVar);
+			}
+			PagingBean2 pb = new PagingBean2(totalContent,pageNo);
+			ListVO list =new ListVO(searchList,pb);
+			session.setAttribute("map", map);
+			mv.addObject("lvo",list);
+			return mv;
 		}
 }
 

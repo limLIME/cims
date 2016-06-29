@@ -21,4 +21,11 @@ public interface BoardService {
 	public abstract void commentRegister(CommentVO commentVO);
 	public abstract void deleteComment(int commentNo);
 	public abstract void updateComment(int commentNo);
+	public abstract List<Object> searchTitleList(String searchVar, int pageNo);
+	public abstract List<Object> searchContentList(String searchVar, int pageNo);
+	public abstract List<Object> searchTitleContentList(String searchVar,
+			int pageNo);
+	public abstract int totalTitleCount(String searchVar);
+	public abstract int totalContentCount(String searchVar);
+	public abstract int totalTitleContentCount(String searchVar);
 }

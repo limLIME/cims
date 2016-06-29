@@ -1,29 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<form action="${initParam.root}free_update_result.do?boardNo=${vo.boardNo}" method="post" name="write_form">
-      <table border="1">
-         <tbody>
-         <tr>
-         	<td>글번호</td>
-         	<td colspan="3">${vo.boardNo}</td>
-         </tr>
-            <tr>
-               <td>제목</td>
-               <td colspan="3">
-                  <input type="text" name="boardTitle" size="48" value = "${vo.boardTitle}">
-               </td>
-            </tr>
-            <tr>
-               <td>작성자</td>
-               <td>${evo.empName }</td>
-            </tr>
-            <tr>
-               <td colspan="4" align="left">&nbsp;&nbsp; 
-                  <textarea cols="53" rows="15" name="boardContent">${vo.boardContent}</textarea>
-               </td>
-            </tr>
-         </tbody>
-      </table>
-      <br><br>
-      <input type = "submit" value = "수정하기">
-   </form>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+$(document).ready(function(){
+	 $("#write_form").submit(function(){ 
+       if($("#boardTitle").val()==""){
+          alert("제목을 입력하세요!");
+          return false;
+       }
+       if($("#boardContent").val()==""){
+          alert("본문을 입력하세요!");
+          return false;
+       }
+	 });
+ });   
+	function cancleUpdate() {
+		if (confirm("취소하시겠습니까?")) {
+			location.href = "${initParam.root}free_boardList.do?pageNo=1";
+		}
+	}
+</script>
+<section id="main-content">
+	<section class="wrapper">
+		<div class="marginMain2">
+			<div class="content-panel">
+				<h3>
+					&nbsp;<i class="fa fa-angle-right">&nbsp;</i>Update
+				</h3>
+				<hr>
+				<form
+					action="${initParam.root}free_update_result.do?boardNo=${vo.boardNo}"
+					method="post" id="write_form" enctype="multipart/form-data">
+					<table class="table table-hover">
+						<tbody>
+							<tr>
+								<td>No</td>
+								<td colspan="3">${vo.boardNo}</td>
+							</tr>
+							<tr>
+								<td>Title</td>
+								<td colspan="3"><input type="text" name="boardTitle" id = "boardTitle"
+									value="${vo.boardTitle}" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>Writer</td>
+								<td>${evo.empName }</td>
+							</tr>
+							<tr>
+								<td colspan="4" align="left">&nbsp;&nbsp; <textarea
+									id="boardContent"	cols="60" rows="15" name="boardContent" class="form-control">${vo.boardContent} </textarea>
+								</td>
+							</tr>
+							<c:choose>
+								<c:when test="${'1' ne requestScope.vo.boardPath}">
+									<tr>
+										<td colspan="2">AttachedFile :
+											${requestScope.vo.boardPath }</td>
+										<td><input type="file" name="uploadFile"></td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="2">AttachedFile does not exist</td>
+										<td><input type="file" name="uploadFile"></td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+					<div align="center">
+						<input type="submit" value="Update" class="btn btn-info">
+						<input type="button" value="Cancel" class="btn btn-warning"
+							onclick="cancleUpdate()">
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+</section>

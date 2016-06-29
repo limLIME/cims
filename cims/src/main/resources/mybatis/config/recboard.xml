@@ -13,7 +13,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="emp_name" property="employeeVO.empName" />	
 	</resultMap>
 	
-	<select id="getPostingList" resultMap="recommendRM">
+	<select id="searchTitleList" resultMap="recommendRM">
+	 select pageNo,rec_no,rec_title,rec_date,rec_content,emp_name from(
+	  select rec_no,rec_title,rec_content,rec_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.rec_no,b.rec_title,b.rec_content,to_char(b.rec_date,'YYYY.MM.DD') as
+      rec_date, e.emp_name
+      from recommend b, employee e 
+      where b.emp_no=e.emp_no and  b.rec_title like '%' || #{recTitle} || '%' order by b.rec_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+	
+	
+		<select id="searchContentList" resultMap="recommendRM">
+	 select pageNo,rec_no,rec_title,rec_date,rec_content,emp_name from(
+	  select rec_no,rec_title,rec_content,rec_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.rec_no,b.rec_title,b.rec_content,to_char(b.rec_date,'YYYY.MM.DD') as
+      rec_date, e.emp_name
+      from recommend b, employee e 
+      where b.emp_no=e.emp_no and  b.rec_content like '%' || #{recTitle} || '%' order by b.rec_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+	
+			<select id="searchTitleContentList" resultMap="recommendRM">
+	 select pageNo,rec_no,rec_title,rec_date,rec_content,emp_name from(
+	  select rec_no,rec_title,rec_content,rec_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.rec_no,b.rec_title,b.rec_content,to_char(b.rec_date,'YYYY.MM.DD') as
+      rec_date, e.emp_name
+      from recommend b, employee e 
+      where b.emp_no=e.emp_no and  (b.rec_content like '%' || #{recTitle} || '%'  or rec_title like '%' || #{recTitle} || '%') order by b.rec_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+	
+		<select id="getPostingList" resultMap="recommendRM">
 		select pageNo,rec_no,rec_title,rec_date,emp_name from(
 		select rec_no,rec_title,rec_date,ceil(rownum/5) as pageNo, emp_name
 		from(
@@ -25,6 +59,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 		<select id="recTotalCount" resultType="int">
 		select count(*) from recommend
+	</select>
+	
+		<select id="totalTitleCount" resultType="int" parameterType="string">
+		select count(*) from recommend where rec_title  like '%' || #{value} || '%'
+	</select>
+	
+		<select id="totalContentCount" resultType="int" parameterType="string">
+		select count(*) from recommend where rec_content  like '%' || #{value} || '%'
+	</select>
+			<select id="totalTitleContentCount" resultType="int" parameterType="string">
+		select count(*) from recommend where (rec_content like '%' || #{value} || '%' or rec_title like '%' || #{value} || '%')
 	</select>
 	
 	<select id="recShowContent" resultMap="recommendRM" parameterType="int">
@@ -42,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 		<update id="recUpdate" parameterType="recommendVO">
 		update recommend set rec_title = #{recTitle}, rec_content =
-		#{recContent} where rec_no = #{recNo}
+		#{recContent}, rec_path = #{recPath} where rec_no = #{recNo}
 	</update>
 	
 		<insert id="recWriter" parameterType="recommendVO">

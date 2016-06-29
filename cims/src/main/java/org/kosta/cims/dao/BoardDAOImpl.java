@@ -1,16 +1,17 @@
-package org.kosta.cims.model;
+package org.kosta.cims.dao;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.cims.model.BoardVO;
+import org.kosta.cims.model.CommentVO;
+import org.kosta.cims.model.GoodVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 @Repository
-public class BoardDAOImpl implements BoardDAO {
+public  class BoardDAOImpl implements BoardDAO {
 	@Resource
 	private SqlSessionTemplate template;
 	public void writer(BoardVO vo) {
@@ -74,4 +75,35 @@ public class BoardDAOImpl implements BoardDAO {
 		template.update("comment.updateContent",commentNo);
 		
 	}
+	@Override
+	public List<Object> searchTitleList(String searchVar, int pageNo) {
+		BoardVO vo = new BoardVO(searchVar,pageNo);
+		return template.selectList("board.searchTitleList",vo);
+	}
+	@Override
+	public List<Object> searchContentList(String searchVar, int pageNo) {
+		BoardVO vo = new BoardVO(searchVar,pageNo);
+		return template.selectList("board.searchContentList",vo);
+	}
+	@Override
+	public List<Object> searchTitleContentList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		BoardVO vo = new BoardVO(searchVar,searchVar,pageNo);
+		return template.selectList("board.searchTitleContentList",vo);
+	}
+	public int totalTitleCount(String searchVar) {
+		
+		return template.selectOne("board.totalTitleCount",searchVar);
+	}
+	@Override
+	public int totalContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return template.selectOne("board.totalContentCount",searchVar);
+	}
+	@Override
+	public int totalTitleContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return template.selectOne("board.totalTitleContentCount",searchVar);
+	}
+
 }

@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="password" column="password" />
 		<result property="empTel" column="emp_tel" />
 		<result property="empSign" column="emp_sign" />
+		<result property="empPath" column="emp_path" />
 		<result property="positionVO.positionName" column="position_name" />
 		<result property="positionVO.positionNo" column="position_no" />
 		<result property="departmentVO.deptName" column="dept_name" />
@@ -19,41 +20,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="login" resultMap="employeeMap" parameterType="employeeVO">
-		SELECT emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign
+		SELECT emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign,emp_path
 		FROM employee
 		where emp_no=#{empNo} and password=#{password}
 	</select>
 
 	<update id="update" parameterType="employeeVO">
 		update employee set password=#{password}, emp_tel=#{empTel},
-		emp_sign=#{empSign}
-		where emp_no=#{empNo} and password=#{password}
+		   emp_sign=#{empSign}, emp_path=#{empPath}
+		where emp_no=#{empNo}
+	</update>
+	
+	<update id="adminUpdate" parameterType="employeeVO">
+		update employee set password=#{password}, emp_tel=#{empTel},
+		   emp_sign=#{empSign}, emp_path=#{empPath}, emp_name=#{empName},
+		   dept_no=#{departmentVO.deptNo}, position_no=#{positionVO.positionNo}   
+		where emp_no=#{empNo}
 	</update>
 
 	<insert id="register" parameterType="employeeVO">
 		insert into
-		employee(emp_no,password,emp_name,emp_tel,emp_sign,dept_no,position_no)
-		values(#{empNo},#{password},#{empName},#{empTel},#{empSign},#{departmentVO.deptNo},#{positionVO.positionNo})
+		employee(emp_no,password,emp_name,emp_tel,emp_sign,dept_no,position_no,emp_path)
+		values(#{empNo},#{password},#{empName},#{empTel},#{empPath},#{departmentVO.deptNo},#{positionVO.positionNo},
+		#{empPath})
 	</insert>
 	
-	<select id="findApprover" resultMap="employeeMap">
-		SELECT
-		e.emp_no,d.dept_name,p.position_name,e.password,e.emp_name,e.emp_tel,e.emp_sign
-		FROM employee e, department d ,position p
-		where e.dept_no=#{deptNo} and e.position_no=#{positionNo}+1
-		and d.dept_no=e.dept_no and p.position_no=e.position_no
-	</select>
+	  <select id="findApprover" resultMap="employeeMap">
+      SELECT
+      e.emp_no,d.dept_name,p.position_name,e.password,e.emp_name,e.emp_tel,e.emp_sign
+      FROM employee e, department d ,position p
+      where e.dept_no=#{deptNo} and e.position_no=#{positionNo}
+      and d.dept_no=e.dept_no and p.position_no=e.position_no
+   	</select>
 
-	 <select id="findByName" resultMap="employeeMap">
+   <select id="findByName" resultMap="employeeMap">
       select d.dept_name, p.position_name, e.emp_name, e.emp_no 
-      from employee e, department d, position p 
-      where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no > 0 
-      and (e.emp_name like '%' || #{value} || '%' or e.emp_no like '%' || #{value} || '%')
+        from employee e, department d, position p 
+        where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no > 0 
+        and (e.emp_name like  '%' || #{seach} || '%' or e.emp_no like '%' || #{seach} || '%' or p.position_name like '%' || #{seach} || '%') 
+   </select>
+   
+      <select id="findByNo" resultMap="employeeMap">
+      select * from employee where emp_no = #{value}
    </select>
    
    <update id="deleteEmp" >
          update employee set position_no=0 where emp_no=#{empNo}
    </update>
+   
+         <select id="findMaster" resultMap="employeeMap">
+      SELECT
+      e.emp_no,d.dept_name,p.position_name,e.password,e.emp_name,e.emp_tel,e.emp_sign
+      FROM employee e, department d ,position p
+      where  e.position_no=#{positionNo} and  p.position_no=e.position_no and d.dept_no=e.dept_no
+   </select>
    
 </mapper>
 

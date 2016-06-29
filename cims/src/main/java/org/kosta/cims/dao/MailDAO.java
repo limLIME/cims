@@ -1,6 +1,8 @@
-package org.kosta.cims.model;
+package org.kosta.cims.dao;
 
 import java.util.List;
+
+import org.kosta.cims.model.MailVO;
 
 public interface MailDAO {
 

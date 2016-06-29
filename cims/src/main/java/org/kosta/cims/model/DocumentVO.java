@@ -8,38 +8,30 @@ public class DocumentVO {
 	private String title;
 	private String content;
 	private String path;
-	private String state;
 	private String timePosted;
+	private String state;
 	private MultipartFile multipartFile;  
-	private String approver;	
-	private String sign1;
-	private String sign2;
-	private String sign3;
+	private String returner;
+	private String approver;
 	private EmployeeVO employeeVO;
 	public DocumentVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
 	public DocumentVO(int docNo, String title, String content, String path,
-			String state, String timePosted, MultipartFile multipartFile,
-			String approver, String sign1, String sign2, String sign3,
-			EmployeeVO employeeVO) {
+			String timePosted, String state, MultipartFile multipartFile,
+			String returner, String approver, EmployeeVO employeeVO) {
 		super();
 		this.docNo = docNo;
 		this.title = title;
 		this.content = content;
 		this.path = path;
-		this.state = state;
 		this.timePosted = timePosted;
+		this.state = state;
 		this.multipartFile = multipartFile;
+		this.returner = returner;
 		this.approver = approver;
-		this.sign1 = sign1;
-		this.sign2 = sign2;
-		this.sign3 = sign3;
 		this.employeeVO = employeeVO;
 	}
-
 	public int getDocNo() {
 		return docNo;
 	}
@@ -64,47 +56,17 @@ public class DocumentVO {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
 	public String getTimePosted() {
 		return timePosted;
 	}
 	public void setTimePosted(String timePosted) {
 		this.timePosted = timePosted;
 	}
-	public String getApprover() {
-		return approver;
+	public String getState() {
+		return state;
 	}
-	public void setApprover(String approver) {
-		this.approver = approver;
-	}
-	public String getSign1() {
-		return sign1;
-	}
-	public void setSign1(String sign1) {
-		this.sign1 = sign1;
-	}
-	public String getSign2() {
-		return sign2;
-	}
-	public void setSign2(String sign2) {
-		this.sign2 = sign2;
-	}
-	public String getSign3() {
-		return sign3;
-	}
-	public void setSign3(String sign3) {
-		this.sign3 = sign3;
-	}
-	public EmployeeVO getEmployeeVO() {
-		return employeeVO;
-	}
-	public void setEmployeeVO(EmployeeVO employeeVO) {
-		this.employeeVO = employeeVO;
+	public void setState(String state) {
+		this.state = state;
 	}
 	public MultipartFile getMultipartFile() {
 		return multipartFile;
@@ -112,17 +74,32 @@ public class DocumentVO {
 	public void setMultipartFile(MultipartFile multipartFile) {
 		this.multipartFile = multipartFile;
 	}
-
+	public String getReturner() {
+		return returner;
+	}
+	public void setReturner(String returner) {
+		this.returner = returner;
+	}
+	public String getApprover() {
+		return approver;
+	}
+	public void setApprover(String approver) {
+		this.approver = approver;
+	}
+	public EmployeeVO getEmployeeVO() {
+		return employeeVO;
+	}
+	public void setEmployeeVO(EmployeeVO employeeVO) {
+		this.employeeVO = employeeVO;
+	}
 	@Override
 	public String toString() {
 		return "DocumentVO [docNo=" + docNo + ", title=" + title + ", content="
-				+ content + ", path=" + path + ", state=" + state
-				+ ", timePosted=" + timePosted + ", multipartFile="
-				+ multipartFile + ", approver=" + approver + ", sign1=" + sign1
-				+ ", sign2=" + sign2 + ", sign3=" + sign3 + ", employeeVO="
-				+ employeeVO + "]";
+				+ content + ", path=" + path + ", timePosted=" + timePosted
+				+ ", state=" + state + ", multipartFile=" + multipartFile
+				+ ", returner=" + returner + ", approver=" + approver
+				+ ", employeeVO=" + employeeVO + "]";
 	}
-	
+
 	
 }
-

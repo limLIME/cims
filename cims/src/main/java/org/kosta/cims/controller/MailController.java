@@ -26,22 +26,29 @@ public class MailController {
 	@Resource(name="mailPath")
 	private String mailPath;
 	
+	@RequestMapping("mail_sendForm.do")
+	public String mail_sendForm(HttpServletRequest request){
+		HttpSession session=request.getSession(false);
+		session.setAttribute("left", 12);
+		return "mail_sendForm";
+	}
 	//받은 메일리스트 받기
 	@RequestMapping("mail_getReceiveList.do")
 	public ModelAndView getReceiveList(int pageNo,HttpServletRequest request){
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 13);
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 		List<Object> list = mailService.getReceiveMailList(evo.getEmpNo(),pageNo);
 		int totalReceiveContent = mailService.totalReceiveMailContent(evo.getEmpNo());
 		PagingBean pb = new PagingBean(totalReceiveContent,pageNo);
 		ListVO lvo =new ListVO(list,pb);
-		System.out.println(list);
 		return new ModelAndView("mail_receivemail","lvo",lvo);
 	}
 	//보낸 메일리스트 받기
 		@RequestMapping("mail_getSendList.do")
 		public ModelAndView getSendList(int pageNo,HttpServletRequest request){
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			session.setAttribute("left", 14);
 			EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			List<Object> list = mailService.getSendMailList(evo.getEmpNo(),pageNo);
 			int totalSendContent = mailService.totalSendMailContent(evo.getEmpNo());
@@ -52,7 +59,8 @@ public class MailController {
 		//수신확인리스트
 		@RequestMapping("mail_getCheckList.do")
 		public ModelAndView getCheckList(int pageNo,HttpServletRequest request){
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			session.setAttribute("left", 15);
 			EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			List<Object> list = mailService.getSendMailList(evo.getEmpNo(),pageNo);
 			int totalSendContent = mailService.totalSendMailContent(evo.getEmpNo());
@@ -81,8 +89,7 @@ public class MailController {
 	
 	@RequestMapping("mail_sendMail.do")
 	public ModelAndView sendMail(MailVO mailVO,HttpServletRequest request){
-
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		mailVO.setEmployeeVO(evo);
 		mailVO.setMailSender(evo.getEmpNo());

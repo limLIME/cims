@@ -14,6 +14,9 @@
 		$("#update").click(function(){
 			location.href = "${initParam.root}free_update.do?no=${vo.boardNo}";
 		});
+		$("#index").click(function(){
+			location.href = "${initParam.root}free_boardList.do?pageNo=1";
+		});
 		$("#boardlike").click(function(){
 			 $.ajax({
 					type:"POST",
@@ -22,7 +25,7 @@
 					dataType:"json",   
 					success:function(result){ 					
 						if(result.success == "1"){
-							$("#like").html("좋아요");
+							$("#like").html("Like Complete");
 						}else{
 							alert("이미 좋아요를 누르셨습니다.");
 						}
@@ -51,31 +54,32 @@
 			location.href = "${initParam.root}free_delete_comment.do?commentNo="+no+"&boardNo=${vo.boardNo}";
 		}
 	}
-	function commentUpdate(no){
-		if(confirm("수정하시겠습니까?")){
-			location.href = "${initParam.root}free_update_comment.do?commentNo="+no+"&boardNo=${vo.boardNo}";
-		}
-	}
 </script>
 <body>
- <table border="1" >
-   <tr>
-      <td>
-      	<table class="content">
+<section id="main-content">
+     <section class="wrapper">
+     <div class = "marginMain3">
+          <div class = "content-panel">
+     <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>ShowContent</h3>
+     <hr>
+
+      	<table class = "table table-hover" >
 		<tr>
-			<td><h3>글번호 : ${vo.boardNo} </h3> </td>
-			<td colspan="2">타이틀: ${vo.boardTitle }</td>
+			<td colspan="2"><h4>No : ${vo.boardNo} </h4> </td>
 		</tr>
 		<tr>
-			<td>작성자 :  ${vo.employeeVO.empName }</td>
-			<td>작성일시 : ${vo.boardDate }</td>
+			<td colspan="2">Title: ${vo.boardTitle }</td>
+		</tr>
+		<tr>
+			<td>Writer :  ${vo.employeeVO.empName }</td>
+			<td>Date : ${vo.boardDate }</td>
 		</tr>
 <c:choose>
 	<c:when test="${vo.boardPath=='1'}">
-			<td colspan="3">첨부파일 없음</td>	
+			<td colspan="3">AttachedFile does not exist</td>	
 	</c:when>
 	<c:otherwise>	
-			<td colspan="3"> <img width="500" height="500" src ="${initParam.root}upload/boardimg/${vo.boardPath}" ></td>		
+			<td colspan="3"> <img width="300" height="300" src ="${initParam.root}upload/boardimg/${vo.boardPath}" ></td>		
 	</c:otherwise>
 </c:choose>
 		<tr>
@@ -86,31 +90,37 @@
 		
 		</tr>
 	</table>  
-       </td>
-   </tr>
-</table>
-	<img class="action"  id = "boardlike"  src="${initParam.root}img/like.jpg" ><span id = "like"></span>
 
+		<button  id = "boardlike" class = "btn btn-primary"  >
+		<i class="fa fa-thumbs-up" ></i>
+		</button>
+		<span id = "like">Like </span><br><br>
+			<div align="center">
 			 <c:if test="${vo.employeeVO.empNo == evo.empNo}">
-			 <br><br><br>
-			 <img class="action"  id="delete" 	src="${initParam.root}img/delete_btn.jpg" > 
-			 <img class="action"  id="update"  src="${initParam.root}img/modify_btn.jpg" >
-			 	<input type = "button" id = "comment" value = "댓글달기"><br>
-			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
+				     <input type = "button" value = "Delete" class="btn btn-danger"  id = "delete" >  
+					&nbsp; <input type = "button" value = "Update" class="btn btn-info" id = "update" >
 			 </c:if>
-			 
-	<table>
+			 	&nbsp;<input type = "button" id = "comment" value = "Comment" class="btn btn-success" >
+			 	&nbsp;<input type = "button" id = "index" value = "List" class="btn btn-warning" ><br>
+			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
+			 </div>
+	<table class = "table table-striped table-advance table-hover" >
 	
 	<c:forEach items = "${requestScope.list}" var = "l">
 		<tr>
 			<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
 			<c:if test="${l.employeeVO.empNo == evo.empNo}">
-				<td>   <input type = "button" value = "삭제" onclick="commentCancel(${l.commentNo})" >  
-						<input type = "button" value = "수정" onclick = "commentUpdate(${l.commentNo})" >
+				<td> 
+				     <input type = "button" value = "Delete" class="btn btn-danger"  onclick="commentCancel(${l.commentNo})" >  
+				
 				  </td>
 
 			</c:if>
 		</tr>
 	</c:forEach>
 	</table>
+	</div>
+	</div>
+	</section>
+	</section>
 </body>

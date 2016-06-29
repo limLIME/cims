@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.kosta.cims.model.BoardDAO;
+import org.kosta.cims.dao.BoardDAO;
 import org.kosta.cims.model.BoardVO;
 import org.kosta.cims.model.CommentVO;
 import org.kosta.cims.model.GoodVO;
@@ -75,6 +75,33 @@ public class BoardServiceImpl implements BoardService{
 	public void updateComment(int commentNo) {
 		boardDAO.updateComment(commentNo);
 		
+	}
+	@Override
+	public List<Object> searchTitleList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.searchTitleList(searchVar, pageNo);
+	}
+	public List<Object> searchContentList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.searchContentList(searchVar, pageNo);
+	}
+	@Override
+	public List<Object> searchTitleContentList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.searchTitleContentList(searchVar, pageNo);
+	}
+	public int totalTitleCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return boardDAO.totalTitleCount(searchVar);
+	}
+	public int totalContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return boardDAO.totalContentCount(searchVar);
+	}
+	@Override
+	public int totalTitleContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return boardDAO.totalTitleContentCount(searchVar);
 	}
 	
 }

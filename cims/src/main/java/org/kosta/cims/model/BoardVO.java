@@ -22,6 +22,21 @@ public class BoardVO {
 		super();
 		this.boardNo = boardNo;
 	}
+	
+
+	public BoardVO(String boardTitle, int pageNo) {
+		super();
+		this.boardTitle = boardTitle;
+		this.pageNo = pageNo;
+	}
+	
+
+	public BoardVO(String boardTitle, String boardContent, int pageNo) {
+		super();
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.pageNo = pageNo;
+	}
 
 	public BoardVO(int boardNo, EmployeeVO employeeVO, String boardTitle,
 			String boardContent, String boardDate, MultipartFile uploadFile,

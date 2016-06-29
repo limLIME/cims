@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.kosta.cims.model.MailDAO;
+import org.kosta.cims.dao.MailDAO;
 import org.kosta.cims.model.MailVO;
 import org.springframework.stereotype.Service;
 

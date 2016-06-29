@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${initParam.root}css/home3.css" type="text/css">
 <script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
@@ -20,48 +19,57 @@
     		}
     	});
     	$("#resetBtn").click(function(){    		
-    		$("#write_form")[0].reset();
+        		location.href="${initParam.root}notice_notice.do?pageNo=1";
     	});
     });	
 </script>
 </head>
 <%-- <jsp:include page="/member/login.jsp"></jsp:include> --%>
  <br>
+  <section id="main-content">
+  <section class="wrapper">
+
+ <div class="marginMain2">	
+  <div class="content-panel">
+  <h3>&nbsp;<i class="fa fa-angle-right"></i> Write</h3>
+  <hr>
   <form action="${initParam.root}notice_writeContent.do" method="post" id="write_form" enctype="multipart/form-data">
-   <table class="inputForm" >
-    <caption>글쓰기</caption>
+   <table class="table table-hover" >
     <tbody>
     <tr>
-     <td>제목</td>
+     <td>Title</td>
      <td colspan="3">
-     <input type="text" id="title" name="noticeTitle" size="48">
+     <input type="text" id="title" name="noticeTitle" size="53">
      </td>
     </tr>
     <tr>
-     <td>이름 | </td>
-     <td>${sessionScope.evo.empName}</td>     
+     <td>Writer</td>
+     <td>관리자</td>     
     </tr>
     <tr>
-    	<td>파일첨부하기</td>
+    	<td>AttachFile</td>
     	<td>
-				첨부파일 <input type="file" name="filePath">
+			<input type="file" name="filePath">
     	</td>
     </tr>
     <tr>
-     <td colspan="4" align="left">
+     <td colspan="4" align="center">
      &nbsp;&nbsp;
      <textarea cols="53" rows="15" id="content" name="noticeContent"></textarea>
      </td>
     </tr> 
     <tr>
      <td colspan="4" align="center" >
-      <img id="writeBtn" class="action" src="${initParam.root}img/write_btn.jpg" alt="글입력"  onclick="content_submit()">
-      <img id="resetBtn" class="action" src="${initParam.root}img/cancel.gif" onclick="cancel()">      
+         <button type="button" id="writeBtn" class="btn btn-info">Write</button>&nbsp;
+         <button type="button" id="resetBtn" class="btn btn-warning">Cancel</button>   
      </td>  
     </tr>
     </tbody>
    </table>
   </form>
+  </div>
+  </div>
+  </section></section>
 </html>
 
 

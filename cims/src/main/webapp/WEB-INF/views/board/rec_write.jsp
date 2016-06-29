@@ -1,25 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
+   <script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-	function content_submit() {
-		document.write_form.submit();
-	}
-	function cancel() {
-		document.write_form.reset();
-	}
+$(document).ready(function(){
+	$("#writeBtn").click(function(){ 
+		if($("#title").val()==""){
+			alert("제목을 입력하세요!");
+		}else if($("#content").val()==""){
+			alert("본문을 입력하세요!");
+		}else{
+			$("#write_form").submit();
+		}
+	});
+	$("#resetBtn").click(function(){    		
+		$("#write_form")[0].reset();
+	});
+});	
 </script>
 </head>
 <body>
+<section id="main-content">
+     <section class="wrapper">
    <br>
-   <form action="${initParam.root}recWriter_result.do" method="post"  name="write_form" enctype="multipart/form-data">
-      <table border="1">
-         <caption>글쓰기</caption>
+      <div class = "marginMain3">
+      < <div class = "content-panel">
+         <caption><h3>&nbsp;<i class="fa fa-angle-right"></i>글쓰기</h3></caption>
+   <form  class = "form-horizontal style-form" action="${initParam.root}recWriter_result.do" method="post"  id="write_form" enctype="multipart/form-data">
+      <table class = "table table-hover">
          <tbody>
             <tr>
                <td>제목</td>
                <td colspan="3">
-                  <input type="text" name="recTitle" size="48">
+                  <input type="text" name="recTitle" size="48" id = "title">
                </td>
             </tr>
             <tr>
@@ -29,16 +43,20 @@
             </tr>
             <tr>
                <td colspan="4" align="left">&nbsp;&nbsp; 
-                  <textarea cols="53" rows="15" name="recContent"></textarea>
+                  <textarea cols="53" rows="15" name="recContent"  class = "form-control"  id = "content"></textarea>
                </td>
             </tr>
             <tr>
                <td colspan="4" align="center">
-                  <img class="action" src="${initParam.root }img/write_btn.jpg" alt="글입력" onclick="content_submit()"> 
-                  <img class="action" src="${initParam.root }img/cancel.gif" onclick="cancel()">
+            	   <button  type="button" id = "writeBtn" class="btn btn-success" >글입력</button>
+      				 <button type="button" id = "resetBtn" class="btn btn-danger"  >작성취소</button>
                </td>
             </tr>
          </tbody>
       </table>
    </form>
+   </div>
+   </div>
+   </section>
+   </section>
 </body>

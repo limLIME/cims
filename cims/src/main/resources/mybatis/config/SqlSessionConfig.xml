@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="org.kosta.cims.model.RecCommentVO" alias="recCommentVO" />
 		<typeAlias type="org.kosta.cims.model.MailVO" alias="mailVO"/>   
    		<typeAlias type="org.kosta.cims.model.DocumentVO" alias="documentVO"/>
+   		<typeAlias type="org.kosta.cims.model.ApproverVO" alias="approverVO"/>
 	</typeAliases>
 	<!-- mapper.xml 을 명시한다 -->
 	<mappers>

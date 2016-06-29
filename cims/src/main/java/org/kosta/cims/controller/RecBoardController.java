@@ -2,6 +2,7 @@ package org.kosta.cims.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -29,13 +30,47 @@ public class RecBoardController {
 	 private String uploadPath;
 	 
 	 @RequestMapping("rec_boardList.do")
-		public ModelAndView showList(int pageNo){
+		public ModelAndView showList(int pageNo,HttpServletRequest request){
+	  	   HttpSession session =request.getSession(false);
+	  	   session.setAttribute("left", 7);
+	     	 session.setAttribute("map", null);
 			List<Object> paging = service.getPostingList(pageNo);
 			ModelAndView mv = new ModelAndView("board_rec_boardList");
 			int count = service.recTotalCount();
 			PagingBean pb = new PagingBean(count, pageNo);
 			ListVO list = new ListVO(paging,pb);
 			mv.addObject("list",list);
+			return mv;
+		}
+	 
+	 @RequestMapping("recBoardSearchList.do")
+		public ModelAndView searchList(String search, String searchVar,int pageNo,HttpServletRequest request){
+		 	HttpSession session =request.getSession();
+			if(searchVar.equals("")){
+				session.setAttribute("map", null);
+				return new ModelAndView("redirect:rec_boardList.do?pageNo=1");
+			}
+			ModelAndView mv = new ModelAndView("board_rec_boardList");
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("search", search);
+			map.put("searchVar", searchVar);
+			List<Object> sList = null;
+			int count = 0;
+			if(search.equals("title")){
+				sList = service.searchTitleList(searchVar,pageNo);
+				count = service.totalTitleCount(searchVar);
+			}else if(search.equals("content")){
+				sList = service.searchContentList(searchVar,pageNo);
+				count = service.totalContentCount(searchVar);
+			}else if(search.equals("titleContent")){
+				sList = service.searchTitleContentList(searchVar,pageNo);
+				count = service.totalTitleContentCount(searchVar);
+			}
+			System.out.println(sList);
+			PagingBean pb = new PagingBean(count, pageNo);
+			ListVO list = new ListVO(sList,pb);
+			mv.addObject("list",list);
+			session.setAttribute("map", map);
 			return mv;
 		}
 	 
@@ -62,6 +97,13 @@ public class RecBoardController {
 		}
 	 @RequestMapping("recUpdate_result.do")
 	 public String recUpdateResult(RecommendVO recommendVO){
+		 MultipartFile file  = recommendVO.getRecUploadFile();
+		 RecommendVO vo = service.recShowContent(recommendVO.getRecNo());
+		 if(file.isEmpty()){
+			 recommendVO.setRecPath(vo.getRecPath());
+		 }else{
+			 recommendVO.setRecPath(file.getOriginalFilename());
+		 }
 		 service.recUpdate(recommendVO);
 			return("redirect:rec_showContent.do?no="+recommendVO.getRecNo());
 	 }

@@ -32,6 +32,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from board b, employee e where b.emp_no=e.emp_no order by board_no desc)
 		) where pageNo=#{value}
 	</select>
+	
+	<select id="searchTitleList" resultMap="boardRM" >
+	 select pageNo,board_no,board_title,board_date,emp_name,like_cnt from(
+	  select board_no,board_title,board_content,like_cnt,board_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.board_no,b.board_title,like_cnt,b.board_content,to_char(b.board_date,'YYYY.MM.DD') as
+      board_date, e.emp_name
+      from board b, employee e 
+      where b.emp_no=e.emp_no and  b.board_title like '%' || #{boardTitle} || '%' order by b.board_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+	
+		<select id="searchContentList" resultMap="boardRM" >
+	 select pageNo,board_no,board_title,board_date,emp_name,like_cnt from(
+	  select board_no,board_title,board_content,like_cnt,board_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.board_no,b.board_title,like_cnt,b.board_content,to_char(b.board_date,'YYYY.MM.DD') as
+      board_date, e.emp_name
+      from board b, employee e 
+      where b.emp_no=e.emp_no and  b.board_content like '%' || #{boardTitle} || '%' order by b.board_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+
+	<select id="searchTitleContentList" resultMap="boardRM" >
+	 select pageNo,board_no,board_title,board_date,emp_name,like_cnt from(
+	  select board_no,board_title,board_content,like_cnt,board_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.board_no,b.board_title,like_cnt,b.board_content,to_char(b.board_date,'YYYY.MM.DD') as
+      board_date, e.emp_name
+      from board b, employee e 
+      where b.emp_no=e.emp_no and  (b.board_content like '%' || #{boardTitle} || '%'  or board_title like '%' || #{boardTitle} || '%') order by b.board_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
 
 	<select id="showContent" resultMap="boardRM">
 		select
@@ -45,10 +78,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalCount" resultType="int">
 		select count(*) from board
 	</select>
+	
+	<select id="totalTitleCount" resultType="int" parameterType="string">
+		select count(*) from board where board_title  like '%' || #{value} || '%'
+	</select>
+	
+		<select id="totalContentCount" resultType="int" parameterType="string">
+		select count(*) from board where board_content  like '%' || #{value} || '%'
+	</select>
+			<select id="totalTitleContentCount" resultType="int" parameterType="string">
+		select count(*) from board where (board_Content like '%' || #{value} || '%' or board_title like '%' || #{value} || '%')
+	</select>
 
 	<update id="update" >
 		update board set board_title = #{boardTitle}, board_content =
-		#{boardContent} where board_no = #{boardNo}
+		#{boardContent}, board_path = #{boardPath} where board_no = #{boardNo}
 	</update>
 	<delete id="delete">
 		delete from board where board_no = #{value}

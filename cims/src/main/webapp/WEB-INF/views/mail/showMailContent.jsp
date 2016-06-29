@@ -2,6 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#DeleteBtn").click(function() {
+		Location.href="${initParam.root}mail_delete.do?mailNo=${requestScope.mailVO.mailNo}";
+	});
+	
+	
+});
+</script>
 <section id="main-content">
           <section class="wrapper">
 
@@ -61,8 +71,8 @@
 		</tr>
 		<tr>
 			<td valign="middle" align="center" colspan="3">
-			 <img id="resendImg" class="action"  onclick="resendBoard()" src="${initParam.root}img/resend_btn.jpg" >
-			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
+			
+   			  <input type="reset"  id="deleteBtn" class="btn btn-danger" value="Delete">
 			 <br><br>			
 			 </td>
 		</tr>

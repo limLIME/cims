@@ -12,18 +12,25 @@
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
-    
+    <c:if test="${evo == null}">
+    	<script>
+    		alert("세션이 만료되었습니다. 다시 로그인 해주십시오");
+    		location.href="${initParam.root}index2.jsp";
+    	</script>
+    </c:if>
       <header class="header black-bg">
               <div class="sidebar-toggle-box">
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>CLASS:sexy</b></a>
+            <a href="${initParam.root}home.do" class="logo"><b>CLASS:sexy</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
                 <ul class="nav top-menu">
-                    <!-- settings start -->
+                
+                
+                <!--     settings start
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                             <i class="fa fa-tasks"></i>
@@ -90,10 +97,10 @@
                                 <a href="#">See All Tasks</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- settings end -->
                     <!-- inbox dropdown start-->
-                    <li id="header_inbox_bar" class="dropdown">
+                    <!-- <li id="header_inbox_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                             <i class="fa fa-envelope-o"></i>
                             <span class="badge bg-theme">5</span>
@@ -156,14 +163,14 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- inbox dropdown end -->
+                    inbox dropdown end -->
                 </ul>
                 <!--  notification end -->
             </div>
-            <div class="top-menu">
-            	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.html">Logout</a></li>
-            	</ul>
+                <div class="top-menu">
+               <ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="${initParam.root }emp_logout.do">Logout</a></li>
+               </ul>
             </div>
         </header>
         

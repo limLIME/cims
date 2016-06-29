@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.kosta.cims.model.CommentVO;
-import org.kosta.cims.model.RecBoardDAO;
+import org.kosta.cims.dao.RecBoardDAO;
 import org.kosta.cims.model.RecCommentVO;
 import org.kosta.cims.model.RecommendVO;
 import org.springframework.stereotype.Service;
@@ -67,6 +66,34 @@ public class RecBoardServiceImpl implements RecBoardService{
 		recBoardDAO.deleteRecComment(commentNo);
 		
 	}
+	
+	@Override
+	public List<Object> searchTitleList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		return recBoardDAO.searchTitleList(searchVar, pageNo);
+	}
+	public List<Object> searchContentList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		return recBoardDAO.searchContentList(searchVar, pageNo);
+	}
+	@Override
+	public List<Object> searchTitleContentList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		return recBoardDAO.searchTitleContentList(searchVar, pageNo);
+	}
 
+	public int totalTitleCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return recBoardDAO.totalTitleCount(searchVar);
+	}
+	public int totalContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return recBoardDAO.totalContentCount(searchVar);
+	}
+	@Override
+	public int totalTitleContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return recBoardDAO.totalTitleContentCount(searchVar);
+	}
 
 }

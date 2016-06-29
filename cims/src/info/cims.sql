@@ -8,9 +8,20 @@ password varchar2(100) not null,
 emp_name varchar2(100) not null,
 emp_tel varchar2(100) not null,
 emp_sign varchar2(100) not null,
+emp_state number default 1,
+emp_substitute varchar2(100),
+emp_path VARCHAR2(100),
 constraint fk_emp_dept_no foreign key(dept_no) references department,
 constraint fk_emp_posi_no foreign key(position_no) references position
 )
+ALTER TABLE EMPLOYEE
+ADD (emp_state number default 1)
+
+ALTER TABLE EMPLOYEE
+ADD (emp_substitute varchar2(100)) 
+
+ALTER TABLE EMPLOYEE
+ADD (emp_path VARCHAR2(100));
 --선택
 SELECT emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign 
 FROM employee
@@ -20,11 +31,15 @@ select * from EMPLOYEE
 --사원 추가
 insert into 
 employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
-values('0581',1,1,'1234','임흥택','010-5114-0581','ok')
+values('1000',1,1,'1234','임흥택','010-5114-0581','ok')
 --사원 추가
 insert into 
 employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
 values('1742',1,1,'1234','박병우','010-5114-0581','ok')
+
+insert into 
+employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
+values('9999',1,100,'1234','관리자','010-5114-0581','ok')
 
 insert into employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
 values('0581',1,1,'1234','임흥택','010-5114-0581','임흥택사인');
@@ -55,13 +70,25 @@ insert into position(position_no,position_name) values(2,'대리');
 insert into position(position_no,position_name) values(3,'과장');
 insert into position(position_no,position_name) values(4,'부장');
 insert into position(position_no,position_name) values(5,'사장');
+insert into position(position_no,position_name) values(100,'관리자');
 
 --부서
 CREATE TABLE department(
 dept_no number PRIMARY KEY,
 dept_name varchar2(100) not null
 )
-insert into department(dept_no,dept_name) values(1,'인사과')
+insert into department(dept_no,dept_name) values(0,'임원진');
+insert into department(dept_no,dept_name) values(1,'인사과');
+insert into department(dept_no,dept_name) values(2,'개발과');
+insert into department(dept_no,dept_name) values(3,'영업과');
+insert into department(dept_no,dept_name) values(4,'경리과');
+insert into department(dept_no,dept_name) values(5,'지원과');
+
+select s.sch_no,s.emp_no,s.sch_content,s.sch_day,to_char(s.sch_day,'DAY') DAY
+from SCHEDULE s ,
+						(SELECT TO_char( TRUNC(SYSDATE, 'IW') + (LEVEL - 1 ), 'YYYY-MM-DD' ) day 
+						 FROM DUAL CONNECT BY LEVEL <7) d
+where d.day=to_char(s.sch_day, 'YYYY-MM-DD') and s.emp_no='0581'
 
 --결재 
 drop table document
@@ -74,16 +101,30 @@ doc_content clob not null,
 doc_path varchar2(100),
 doc_time_posted date not null,
 doc_state varchar2(100) not null,
-doc_approver varchar2(100) not null,
-doc_sign1 varchar2(100),
-doc_sign2 varchar2(100),
-doc_sign3 varchar2(100),
+doc_returner varchar2(100),
+doc_approver varchar2(100),
 constraint fk_doc_emp_no foreign key(emp_no) references employee
 )
+
 drop sequence document_seq;
 create sequence document_seq START WITH 10000;
- select*from mail
+
+select*from mail
 drop table mail
+
+drop table approver
+--결재자 테이블
+CREATE TABLE approver(
+doc_no number not null,
+emp_no varchar2(100) not null,
+position_no number not null,
+doc_sign varchar2(100) default '0',
+constraint fk_app_doc_no foreign key(doc_no) references document,
+constraint fk_app_emp_no foreign key(emp_no) references employee,
+constraint fk_app_position_no foreign key(position_no) references position,
+constraint pk_approver primary key(doc_no,emp_no,position_no)
+)
+
 --메일
 CREATE TABLE mail(
 mail_no number PRIMARY KEY,
@@ -102,6 +143,14 @@ create sequence mail_seq
 drop sequence mail_seq
 -- 메일확인
 -- 0읽지않음 1 읽음 2 수신자삭제 3 송신자삭제 4 둘다 삭제
+
+--내가 받은 열지 않은 받은 메일
+select  from mail
+where mail_receiver='0581' and mail_confirm=0 and rownum <=5
+order by mail_date desc
+
+
+
 --공지
 CREATE TABLE notice(
 notice_no number PRIMARY KEY,
@@ -112,6 +161,17 @@ notice_content clob not null,
 notice_path varchar2(100),
 constraint fk_notice_emp_no foreign key(emp_no) references employee
 )
+select * from notice
+
+select pageNo,notice_no,notice_title,notice_date,emp_name,like_cnt from(
+     select notice_no,notice_title,notice_content,like_cnt,notice_date,ceil(rownum/5) as pageNo, emp_name
+      from(
+      select b.notice_no,b.notice_title,like_cnt,b.notice_content,to_char(b.notice_date,'YYYY.MM.DD') as
+      notice_date, e.emp_name
+      from notice b, employee e 
+      where b.emp_no=e.emp_no and  (b.notice_content like '%' || #{noticeTitle} || '%'  or notice_title like '%' || #{noticeTitle} || '%') order by b.notice_no desc) 
+      ) where pageNo=#{pageNo}
+
 
 --공지 시퀀스
 create sequence notice_seq nocache
@@ -141,8 +201,18 @@ sch_content varchar2(100),
 sch_day date not null,
 constraint fk_schedule_emp_no foreign key(emp_no) references employee
 )
-insert into schedule(sch_no,emp_no,sch_content,sch_day) values(5,'0581','점심',sysdate);
-insert into schedule(sch_no,emp_no,sch_content,sch_day) values(7,'0581','저녁',sysdate);
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(28,'0581','새벽',sysdate);
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(29,'0581','진짜',sysdate);
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(27,'0581','개졸림',sysdate);
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(18,'0581','저녁',sysdate);
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(schedule_seq.nextVal,'0581','저녁',sysdate);
+
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(19,'0581','저녁','2016-06-23');
+
+create sequence schedule_seq start with 30 nocache 
+drop sequence schedule_seq
+
+update tablename set col1=val1 where condition
 
 select * from schedule where to_char(sch_day, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD') and emp_no='0581'
 select * from schedule where to_char(sch_day, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD') and emp_no='0581' and sch_no=3
@@ -180,6 +250,10 @@ FROM dual CONNECT BY LEVEL <= 6
 /*월별 일정(6월)*/
 select * from SCHEDULE  where to_char(sch_day, 'MM')=6
 
+		select sch_no,emp_no,sch_content,sch_day
+		from SCHEDULE  
+		where to_char(sch_day, 'MM')=6
+		
 --월간 일정
 CREATE TABLE month(
 month number PRIMARY KEY,
@@ -209,6 +283,7 @@ drop table board
 DROP TABLE board CASCADE CONSTRAINTS PURGE;
 --외래키 삭제
 ALTER TABLE  BOARD
+select * from board
 DROP  CONSTRAINT  fk_board_emp_no
 --자유 게시판 예제
 insert into board(board_no,emp_no, board_title, board_content,board_date,like_cnt) values

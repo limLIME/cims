@@ -8,7 +8,12 @@ public class DepartmentVO {
       super();
    }
 
-   public DepartmentVO(int deptNo, String deptName) {
+   public DepartmentVO(int deptNo) {
+	super();
+	this.deptNo = deptNo;
+}
+
+public DepartmentVO(int deptNo, String deptName) {
       super();
       this.deptNo = deptNo;
       this.deptName = deptName;

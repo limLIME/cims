@@ -30,6 +30,21 @@ public class NoticeVO {
 		this.pageNo = pageNo;
 	}
 
+
+
+	public NoticeVO(String noticeTitle, int pageNo) {
+		super();
+		this.noticeTitle = noticeTitle;
+		this.pageNo = pageNo;
+	}
+
+	public NoticeVO(String noticeTitle, String noticeContent, int pageNo) {
+		super();
+		this.noticeTitle = noticeTitle;
+		this.noticeContent = noticeContent;
+		this.pageNo = pageNo;
+	}
+
 	public int getNoticeNo() {
 		return noticeNo;
 	}

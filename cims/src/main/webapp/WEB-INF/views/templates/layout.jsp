@@ -35,9 +35,6 @@
 		<div id="tile_main">
 			<tiles:insertAttribute name="main" />
 		</div>
-		<div id="tile_footer">
-			<tiles:insertAttribute name="footer" />
-		</div>
 	</div>
 </body>
 </html>

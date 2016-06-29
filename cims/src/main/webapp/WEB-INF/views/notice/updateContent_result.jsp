@@ -12,40 +12,66 @@
     	$("#listImg").click(function(){    		
     		location.href="notice_notice.do";
     	});
-    	$("#deleteImg").click(function(){ 
-    		if(confirm("게시물을 삭제하시겠습니까?"))
-    			location.href="notice_deleteContent.do?no=${requestScope.nvo.noticeNo}";
+    	$("#deleteBtn").click(function(){ 
+    		if(confirm("Are you sure that delete this content?"))
+    			location.href="${initParam.root}notice_deleteContent.do?no=${requestScope.nvo.noticeNo}";
     	});
-    	$("#updateImg").click(function(){  
-    		if(confirm("게시물을 수정하시겠습니까?"))
-    		location.href="notice_updateContent.do?no=${requestScope.nvo.noticeNo }";
+    	$("#updateBtn").click(function(){  
+    		if(confirm("Do you want to update this content?"))
+    		location.href="${initParam.root}notice_update.do?no=${requestScope.nvo.noticeNo }";
+    	});
+    	$("#listBtn").click(function(){  
+    		location.href="${initParam.root}notice_notice.do?pageNo=1";
     	});
     });	
 </script>
 </head>
 <body>
-	<%-- <jsp:include page="/member/login.jsp"></jsp:include> --%>
-	<table class="content" border="1">
+ <section id="main-content">
+  <section class="wrapper">
+   <div class="marginMain2">	
+ <div class="content-panel">
+ <h3>&nbsp;<i class="fa fa-angle-right"></i> ShowContent</h3>
+	<table class="table table-hover">
 		<tr>
 			<td>NO : ${requestScope.nvo.noticeNo} </td>
-			<td colspan="2">${requestScope.nvo.noticeTitle} </td>
+			<td colspan="2">Title : ${requestScope.nvo.noticeTitle} </td>
 		</tr>
 		<tr>
-			<td>작성자 :  ${requestScope.nvo.employeeVO.empName}</td>
-			<td> ${requestScope.nvo.noticeDate}</td>
+			<td>Writer :  ${requestScope.nvo.employeeVO.empName}</td>
+			<td>Date :  ${requestScope.nvo.noticeDate}</td>
 		</tr>
 		<tr>
 			<td colspan="3">
 			<pre>${requestScope.nvo.noticeContent}</pre>
 			</td>
 		</tr>
+		
+		
+			<c:choose>
+		     	<c:when test="${'1' ne requestScope.nvo.noticePath}">
+				<tr>
+					<td colspan="2"> UpdateFile to : ${requestScope.nvo.noticePath}</td>
+				</tr>
+				</c:when>
+				<c:otherwise>
+				<tr>
+				<td colspan="2">UpdateFile to : AttachedFile does not exist</td>
+				</tr>
+				</c:otherwise>	
+				</c:choose>
+		
+		
 		<tr>
 			<td valign="middle" align="center" colspan="3">
-			 <img id="deleteImg" class="action"  src="${initParam.root}img/delete_btn.jpg" > 
-			 <img id="updateImg" class="action"  src="${initParam.root}img/modify_btn.jpg" >
+			<button type="button"  id="listBtn" class="btn btn-warning" >List</button>
+			 <button type="button"  id="deleteBtn" class="btn btn-danger" >Delete</button>
+			 <button type="button"  id="updateBtn" class="btn btn-info">Update</button>
 			 <br><br>			
 			 </td>
 		</tr>
 	</table>
+	</div></div>
+	</section></section>
 </body>
 </html>

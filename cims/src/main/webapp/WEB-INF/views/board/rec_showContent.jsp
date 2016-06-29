@@ -12,6 +12,9 @@
 		$("#update").click(function(){
 			location.href = "${initParam.root}rec_update.do?no=${vo.recNo}";
 		});
+		$("#index").click(function(){
+			location.href = "${initParam.root}rec_boardList.do?pageNo=1";
+		})
 		$("#comment").click(function() {
 			$("#commentWrite").html("<input type ='text' name = 'content'> <input type = 'button' id = 'submitContent' value = '입력'>");
 		$("#submitContent").on("click",function(){
@@ -35,24 +38,29 @@
 	}
 </script>
 <body>
- <table border="1" >
-   <tr>
-      <td>
-      	<table class="content">
+<section id="main-content">
+     <section class="wrapper">
+      <div class = "marginMain3">
+       <div class = "content-panel">
+       <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>ShowContent</h3>
+
+      	<table class="table table-hover">
 		<tr>
-			<td><h3>글번호 : ${vo.recNo} </h3> </td>
-			<td colspan="2">타이틀: ${vo.recTitle }</td>
+			<td colspan="2"><h3>No : ${vo.recNo} </h3> </td>
 		</tr>
 		<tr>
-			<td>작성자 :  ${vo.employeeVO.empName }</td>
-			<td>작성일시 : ${vo.recDate }</td>
+			<td colspan="2">Title: ${vo.recTitle }</td>
+		</tr>
+		<tr>
+			<td>Writer :  ${vo.employeeVO.empName }</td>
+			<td>Date : ${vo.recDate }</td>
 		</tr>
 <c:choose>
 	<c:when test="${vo.recPath=='1'}">
-			<td colspan="3">첨부파일 없음</td>	
+			<td colspan="3">AttachedFile does not exist</td>	
 	</c:when>
 	<c:otherwise>	
-			<td colspan="3"> <img src ="${initParam.root}upload/boardimg/${vo.recPath}" ></td>		
+			<td colspan="3"> <img width="300" height="300" src ="${initParam.root}upload/boardimg/${vo.recPath}" ></td>		
 	</c:otherwise>
 </c:choose>
 		<tr>
@@ -63,30 +71,32 @@
 		
 		</tr>
 	</table>  
-       </td>
-   </tr>
-</table>
 
-			 <c:if test="${vo.employeeVO.empNo == sessionScope.mvo.empNo}">
+
+			 <div align="center">
+			 <c:if test="${vo.employeeVO.empNo == sessionScope.evo.empNo}">
 			 <br><br><br>
-			 <img class="action"  id="delete" 	src="${initParam.root}img/delete_btn.jpg" > 
-			 <img class="action"  id="update"  src="${initParam.root}img/modify_btn.jpg" >
-			 	<input type = "button" id = "comment" value = "댓글달기"><br>
-			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
+				     <input type = "button" value = "Delete" class="btn btn-danger"  id = "delete" >  
+					&nbsp;  <input type = "button" value = "Update" class="btn btn-info" id = "update" >
+					
 			 </c:if>
-			 
+			 	&nbsp; <input type = "button" id = "comment" value = "Comment" class="btn btn-success" >
+		     	&nbsp;  <input type = "button" id = "index" value = "List" class="btn btn-warning" ><br>
+			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
+			  </div>
 			<table>
 	
 	<c:forEach items = "${requestScope.list}" var = "l">
 		<tr>
 			<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
 			<c:if test="${l.employeeVO.empNo == sessionScope.mvo.empNo}">
-				<td>   <input type = "button" value = "삭제" onclick="commentCancel(${l.commentNo})" >
-						 <input type = "button" value = "수정" onclick = "commentUpdate(${l.commentNo})" >
-			   </td>
+				<td>   <input type = "button" value = "Delete" onclick="commentCancel(${l.commentNo})" ></td> 
 			</c:if>
 		</tr>
 	</c:forEach>
 	</table>
-			 
+	</div>
+	</div>
+	</section>
+	</section>
 </body>

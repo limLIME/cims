@@ -1,14 +1,19 @@
 package org.kosta.cims.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kosta.cims.model.EmployeeVO;
+import org.kosta.cims.model.MailVO;
 import org.kosta.cims.service.EmployeeService;
+import org.kosta.cims.service.MailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
@@ -19,26 +24,36 @@ public class HomeController {
 	 * @PathVariable 적용 메서드가 실행된다
 	 */
 	@Resource
-	private EmployeeService service;
+	private EmployeeService empService;
 
 	@RequestMapping("{viewId}.do")
 	public String showView(@PathVariable String viewId) {
 		System.out.println("@PathVariable:" + viewId);
 		return viewId;
 	}
-
+	
 	@RequestMapping("home.do")
-	public String homeView(EmployeeVO vo, HttpSession session,
-			HttpServletRequest request) {
-		session = request.getSession(false);
-		session.setAttribute("head", 1);
-		if (session.getAttribute("evo") != null) {
-			return "home";
-		}
-		vo = service.login(vo);
-		session.setAttribute("evo", vo);
-		session.setAttribute("home", "active");
+	public String home(HttpSession session) {
 		return "home";
 	}
 
+	@RequestMapping("homeCheck.do")
+	@ResponseBody
+	public String homeView(EmployeeVO vo, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("left", 1);
+		String result=null;
+		EmployeeVO evo = empService.login(vo);
+		System.out.println(vo);
+		 if(evo==null){
+	         result = "fail";
+	         System.out.println("실패");
+	      }else{
+	    	 session.setAttribute("evo", evo);
+	         result = "success";
+	         System.out.println(result);
+	      }
+		/*List<MailVO> mlist = mailService.currentMail(vo.getEmpNo());*/
+		return result;
+	}
 }

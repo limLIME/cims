@@ -1,6 +1,9 @@
-package org.kosta.cims.model;
+package org.kosta.cims.dao;
 
 import java.util.List;
+
+import org.kosta.cims.model.RecCommentVO;
+import org.kosta.cims.model.RecommendVO;
 
 public interface RecBoardDAO {
 	public abstract List<Object> getPostingList(int pageNo);
@@ -12,6 +15,13 @@ public interface RecBoardDAO {
 	public abstract void recCommentRegister(RecCommentVO commentVO);
 	public abstract List<Object> recCommentList(int no);
 	public abstract void deleteRecComment(int commentNo);
+	public abstract List<Object> searchTitleList(String searchVar, int pageNo);
+	public abstract List<Object> searchContentList(String searchVar, int pageNo);
+	public abstract List<Object> searchTitleContentList(String searchVar,
+			int pageNo);
+	public abstract int totalTitleCount(String searchVar);
+	public abstract int totalContentCount(String searchVar);
+	public abstract int totalTitleContentCount(String searchVar);
 
 
 }

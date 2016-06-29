@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.cims.dao.NoticeDAO;
 import org.kosta.cims.model.NoticeVO;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +44,35 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void updateContent(NoticeVO nvo){
 		noticeDAO.updateContent(nvo);
+	}
+	
+	@Override
+	public List<Object> searchByTitle(String searchVar, int pageNo){
+		return noticeDAO.searchByTitle(searchVar, pageNo);
+	}
+	
+	@Override
+	public int totalContentByTitle(String searchVar){
+		return noticeDAO.totalContentByTitle(searchVar);
+	}
+	
+	@Override
+	public List<Object> searchByContent(String searchVar, int pageNo){
+		return noticeDAO.searchByContent(searchVar, pageNo);
+	}
+	
+	@Override
+	public int totalContentBycontent(String searchVar){
+		return noticeDAO.totalContentBycontent(searchVar);
+	}
+	
+	@Override
+	public List<Object> searchByTitleContent(String searchVar, int pageNo){
+		return noticeDAO.searchByTitleContent(searchVar, pageNo);
+	}
+	
+	@Override
+	public int totalContentByTitleContent(String searchVar){
+		return noticeDAO.totalContentByTitleContent(searchVar);
 	}
 }

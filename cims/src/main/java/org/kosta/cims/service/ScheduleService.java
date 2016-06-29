@@ -15,4 +15,11 @@ public interface ScheduleService {
 
 	public abstract void todayDelete(ScheduleVO vo);
 
+	public abstract List<ScheduleVO> getMonthSchedule(String month);
+
+	public abstract void weeklyUpdateList(List<String> monNo,
+			List<String> monCon, String evoNo);
+
+	public abstract void todayInsertSchedule(ScheduleVO vo);
+
 }

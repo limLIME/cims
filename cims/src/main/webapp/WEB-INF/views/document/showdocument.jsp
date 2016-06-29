@@ -3,136 +3,112 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<section id="main-content">
           <section class="wrapper">
+          <div class="showDocMargin" >
 	<script type="text/javascript" >
 	$(document).ready(function(){
-	var state="${dvo.state}";
-	var position=${sessionScope.evo.positionVO.positionNo};
-	
-/* 
-	 if(state!='결재중'|| position<3){
-			$("#btnForm").hide();
-		}  */
-		
-		
 		$("#sign").click(function() {
 			if(confirm("결재하시겠습니까?")){
-				location.href="${initParam.root}doc_sign.do?docNo=${dvo.docNo}&approver="+$("#nextSign").val();
+				location.href="${initParam.root}doc_sign.do?docNo=${dvo.docNo}";
 			}
-			 alert($("#nextSign").val()); 
+			
 		});
 		$("#return").click(function() {
+			if(confirm("반려하시겠습니까?")){
 			location.href="${initParam.root}doc_return.do?docNo=${dvo.docNo }";
+			}
 		});
 		
 		
 	});
 	
 	</script>
-<link rel="stylesheet" type="text/css"
-	href="${initParam.root}resources/css/boot.css">
-
-
-<table id="showDoc" border="1">
 	
+<div class="content-panel" align="center">
+<table id="showDoc1" >
+	<tr></tr>
 	<tr align="right">
 	<td colspan="4">
 			<div id="signDiv">
-				<table id="showDoc" border="1">
-					<tr>
-						<td>과장</td>
-						<td>부장</td>
-						<td>사장</td>
-					</tr>
-					<tr>
-						<td>
-					<c:choose>
-					<c:when test="${dvo.sign1 == null}">
-					&nbsp;
-					</c:when>
-					<c:otherwise>
-					<img src="${initParam.root }upload/sign/${dvo.sign1 }" height="30" width="30">
-					</c:otherwise>
-					</c:choose>
+				<table id="showDoc" border="1" >
+				<thead>
+				<tr>
+				<c:forEach items="${requestScope.positionList}" var="p">
+				<td width="50" align="center">${p}</td>
+				</c:forEach>
+				</tr>
+				</thead>
+				<tbody>			
+					<tr height="50">
 						
-						</td>
-						<td>
-						<c:choose>
-					<c:when test="${dvo.sign2 == null}">
-					&nbsp;
-					</c:when>
-					<c:otherwise>
-					<img src="${initParam.root }upload/sign/${dvo.sign2 }"  height="30" width="30">
-					</c:otherwise>
-					</c:choose>
-						</td>
-						<td>
-						<c:choose>
-					<c:when test="${dvo.sign3 == null}">
-					&nbsp;
-					</c:when>
-					<c:otherwise>
-					<img src="${initParam.root }upload/sign/${dvo.sign3 }"  height="30" width="30">
-					</c:otherwise>
-					</c:choose>
-						</td>
-					</tr>
-				</table>
+						<c:forEach items="${requestScope.signList}" var="s">
+							<td>
+							<c:choose>
+							<c:when test="${s == '0'}">
+								&nbsp;
+							</c:when>
+							<c:otherwise>
+							 <img src="${initParam.root }upload/sign/${s}" height="30" width="30">
+							</c:otherwise>
+							</c:choose>
+							</td>
+						</c:forEach>
+					</tbody>		
+				</table> 
 		</div>
 		</td>
 	</tr>
 	<tr align="center">
-		<td colspan="4"><h2>공 문</h2></td>
+		<td colspan="4"><h1>공&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문</h1></td>
 	</tr>
 	<tr>
-		<td>결재번호 </td>
-		<td colspan="3">${dvo.docNo }</td>
+		<td colspan="4">결재번호 :  ${requestScope.dvo.docNo }</td>
+	
 		
-	</tr>
+	</tr><tr><td>&nbsp;</td></tr>
 	<tr>
-		<td>제목</td>
-		<td colspan="3">${dvo.title }</td>
-	</tr>
+		<td colspan="4">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목 : ${requestScope.dvo.title }</td>
+	
+	</tr><tr><td>&nbsp;</td></tr>
 	<tr>
-		<td colspan="4">공문내용<br> ${dvo.content }</td>
+		<td colspan="4">공문내용 : ${requestScope.dvo.content }</td>
 	</tr>
+		<tr><td>&nbsp;</td></tr>
 	<tr>
-		<td colspan="4" >첨부 : 
-		
-		<a href="${initParam.root }fileDownload.do?fileName=${dvo.path}" ><font color="blue">${dvo.path }</font></a>
-
+		<td colspan="4" >첨&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부 : 
+		<c:choose>
+		<c:when test="${requestScope.dvo.path=='1'}">
+			No File
+		</c:when>
+		<c:otherwise>
+		<a href="${initParam.root }fileDownload.do?fileName=${requestScope.dvo.path}" >${requestScope.dvo.path }</a>
+		</c:otherwise>	
+		</c:choose>
 		</td>
-	</tr>
+	</tr><tr><td>&nbsp;</td></tr>
 	<tr>
-		<td>작성일</td>
-		<td colspan="3">${dvo.timePosted }</td>
-	</tr>
+		<td colspan="4">작&nbsp;&nbsp;성&nbsp;&nbsp;일&nbsp; : ${requestScope.dvo.timePosted }</td>
+	</tr><tr><td>&nbsp;</td></tr>
 	<tr>
-	<td>작성자</td>
-	<td colspan="3">${dvo.employeeVO.empName }</td>
-	</tr>
-	<tr>
-	<td>다음결재자</td>
-	<td colspan="3">
-			<div id="next">
-				<select id="nextSign">
-				<c:if test="${requestScope.list!=null }">
-				<c:forEach items="${requestScope.list }" var="next">
-				<option value="${next.empNo }">${next.departmentVO.deptName } ${next.positionVO.positionName } ${next.empName }</option>
-				</c:forEach>
-				</c:if>
-				</select>
-			</div>
-		</td>
-	</tr>
+	<td colspan="4">작&nbsp;&nbsp;성&nbsp;&nbsp;자&nbsp; : ${requestScope.dvo.employeeVO.empName }</td>
 
- 
-			
+	</tr><tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+
 
 </table>
+ </div>
+ <br><br>
+	<center>
 	<form id="btnForm" >
-		<input type="button" id="sign" value="결재"> 
-	<input type="button" id="return" value="반려">	
-	</form>
+			<input type="button" id="sign" class="btn btn-primary" value="결재">&nbsp;&nbsp;&nbsp;
+			<input type="button" id="return" class="btn btn-danger" value="반려">	
+			</form>
+			</center>
 
+
+	</div>
 	</section></section>
 

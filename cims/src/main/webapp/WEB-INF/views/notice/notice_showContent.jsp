@@ -6,51 +6,61 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="${initParam.root}css/home3.css" type="text/css">
 <script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
     	$("#listImg").click(function(){    		
     		location.href="notice_notice.do";
     	});
-    	$("#deleteImg").click(function(){ 
+    	$("#deleteBtn").click(function(){ 
     		if(confirm("게시물을 삭제하시겠습니까?"))
-    			location.href="notice_deleteContent.do?no=${requestScope.nvo.noticeNo}";
+    			location.href="${initParam.root}notice_deleteContent.do?no=${requestScope.nvo.noticeNo}";
     	});
-    	$("#updateImg").click(function(){  
+    	$("#updateBtn").click(function(){  
     		if(confirm("게시물을 수정하시겠습니까?"))
-    		location.href="notice_update.do?no=${requestScope.nvo.noticeNo }";
+    		location.href="${initParam.root}notice_update.do?no=${requestScope.nvo.noticeNo }";
+    	});
+    	$("#listBtn").click(function(){  
+    		location.href="${initParam.root}notice_notice.do?pageNo=1";
     	});
     });	
 </script>
 </head>
 <body>
-	<%-- <jsp:include page="/member/login.jsp"></jsp:include> --%>
-	<table class="content" border="1">
+<section id="main-content">
+<section class="wrapper">
+ <div class="marginMain2">	
+ <div class="content-panel">
+  <h3>&nbsp;<i class="fa fa-angle-right"></i> ShowContent</h3>
+	<table class="table table-hover">
+	
+	<tbody>
 		<tr>
-			<td>NO : ${requestScope.nvo.noticeNo} </td>
-			<td colspan="2">${requestScope.nvo.noticeTitle} </td>
+			<td>No : ${requestScope.nvo.noticeNo} </td>
 		</tr>
 		<tr>
-			<td>작성자 :  ${requestScope.nvo.employeeVO.empName}</td>
-			<td> ${requestScope.nvo.noticeDate}</td>
+			<td colspan="2">Title : ${requestScope.nvo.noticeTitle} </td>
+		</tr>
+		<tr>
+			<td>Writer :  ${requestScope.nvo.employeeVO.empName}</td>
+			<td>Date : ${requestScope.nvo.noticeDate}</td>
 		</tr>
 		<c:choose>
 		<c:when test="${'1' ne requestScope.nvo.noticePath}">
 		<tr>
-			<td> 첨부파일 <a href="${initParam.root}notice_fileDownload.do?fileName=${requestScope.nvo.noticePath}"><font color="blue">${requestScope.nvo.noticePath }</font></a></td>
+			<td colspan="2"> AttachedFile : <a href="${initParam.root}notice_fileDownload.do?fileName=${requestScope.nvo.noticePath}"><font color="blue">${requestScope.nvo.noticePath }</font></a></td>
 		</tr>
 		</c:when>
 		<c:otherwise>
 		<tr>
-			<td>첨부파일 없음</td>
+			<td colspan="2">AttachedFile does not exist</td>
 		</tr>
-		</c:otherwise>
+		</c:otherwise>	
 		</c:choose>
 		<c:choose>
 		<c:when test="${ fn:endsWith( requestScope.nvo.noticePath,'.jpg')}">
 		<tr>
-			<td><img src="${initParam.root}upload/noticeimg/${requestScope.nvo.noticePath }"></td>
+			<td align="center"><img width="300" height="300" src="${initParam.root}upload/noticeimg/${requestScope.nvo.noticePath }"></td>
 		</tr>
 		</c:when>
 		</c:choose>
@@ -61,11 +71,18 @@
 		</tr>
 		<tr>
 			<td valign="middle" align="center" colspan="3">
-			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
-			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
+			<button type="button"  id="listBtn" class="btn btn-warning" >List</button>&nbsp;
+			<c:if test="${sessionScope.evo.positionVO.positionNo=='100'}">				
+				 <button type="button"  id="deleteBtn" class="btn btn-danger" >Delete</button>&nbsp;
+			 	 <button type="button"  id="updateBtn" class="btn btn-info">Update</button>
+			</c:if>
 			 <br><br>			
 			 </td>
 		</tr>
+		</tbody>
 	</table>
+	</div>
+	</div>
+	</section></section>
 </body>
 </html>

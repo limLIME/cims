@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	<select id="getNoticeList" resultMap="noticeRM">
 		select pageNo,notice_no,notice_title,notice_date,emp_name from(
-		select notice_no,notice_title,notice_date,ceil(rownum/5) as pageNo, emp_name
+		select notice_no,notice_title,notice_date,ceil(rownum/9) as pageNo, emp_name
 		from(
 		select n.notice_no,n.notice_title,to_char(n.notice_date,'YYYY.MM.DD') as
 		notice_date, e.emp_name
@@ -29,8 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="showContent" resultMap="noticeRM">
       select
-      n.notice_no,n.notice_title,n.notice_path,n.notice_content,e.emp_no,e.emp_name,to_char(n.notice_date,'yyyy.mm.dd')
-      as notice_date
+      n.notice_no,n.notice_title,n.notice_path,n.notice_content,e.emp_no,e.emp_name,n.notice_date
       from notice n,employee e
       where n.emp_no=e.emp_no and n.notice_no =
       #{noticeNo}
@@ -50,8 +49,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateContent">
-		update notice set notice_date=sysdate, notice_title=#{noticeTitle},notice_content=#{noticeContent} where notice_no=#{noticeNo}
+		update notice set notice_date=sysdate, notice_title=#{noticeTitle},notice_content=#{noticeContent},notice_path=#{noticePath} where notice_no=#{noticeNo}
 	</update>
+	
+	
+	<select id="searchByTitle" resultMap="noticeRM">
+		select pageNo,notice_no,notice_title,notice_date,emp_name from(
+		select notice_no,notice_title,notice_content,notice_date,ceil(rownum/9) as pageNo, emp_name
+		from(
+		select n.notice_no,n.notice_title,n.notice_content,to_char(n.notice_date,'YYYY.MM.DD') as
+		notice_date, e.emp_name
+		from notice n, employee e where n.emp_no=e.emp_no and  n.notice_title like '%' || #{noticeTitle} || '%' order by notice_no desc)
+        ) where pageNo=#{pageNo}	
+	</select>
+	
+	<select id="totalContentByTitle" resultType="int" >
+		select count(*) from notice where notice_title like '%' || #{value} || '%'
+	</select>
+	
+	<select id="searchByContent" resultMap="noticeRM">
+		select pageNo,notice_no,notice_title,notice_content,notice_date,emp_name from(
+		select notice_no,notice_title,notice_content,notice_date,ceil(rownum/9) as pageNo, emp_name
+		from(
+		select n.notice_no,n.notice_title,n.notice_content,to_char(n.notice_date,'YYYY.MM.DD') as
+		notice_date, e.emp_name
+		from notice n, employee e where n.emp_no=e.emp_no and  n.notice_content like '%' || #{noticeTitle} || '%' order by notice_no desc)
+        ) where pageNo=#{pageNo}	
+	</select>
+	
+	<select id="totalContentBycontent" resultType="int" >
+		select count(*) from notice where notice_content like '%' || #{value} || '%'
+	</select>
+	
+	<select id="searchByTitleContent" resultMap="noticeRM">
+        select pageNo,notice_no,notice_title,notice_date,emp_name from(
+   	    select notice_no,notice_title,notice_content,notice_date,ceil(rownum/9) as pageNo, emp_name
+      from(
+      select b.notice_no,b.notice_title,b.notice_content,to_char(b.notice_date,'YYYY.MM.DD') as
+      notice_date, e.emp_name
+      from notice b, employee e 
+      where b.emp_no=e.emp_no and  (b.notice_content like '%' || #{noticeTitle} || '%'  or notice_title like '%' || #{noticeTitle} || '%') order by b.notice_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+	
+	<select id="totalContentByTitleContent" resultType="int" >
+		select count(*) from notice where notice_content like '%' || #{noticeTitle} || '%' or notice_title like '%' || #{noticeTitle} || '%'
+	</select>
+	
 </mapper>
 
 

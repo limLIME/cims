@@ -10,6 +10,7 @@ public class RecommendVO {
 	private String recDate;
 	private MultipartFile recUploadFile;
 	private String recPath;
+	private int pageNo;
 	public RecommendVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -25,6 +26,19 @@ public class RecommendVO {
 		this.recDate = recDate;
 		this.recUploadFile = recUploadFile;
 		this.recPath = recPath;
+	}
+	
+	public RecommendVO(String recTitle, int pageNo) {
+		super();
+		this.recTitle = recTitle;
+		this.pageNo = pageNo;
+	}
+	
+	public RecommendVO(String recTitle, String recContent, int pageNo) {
+		super();
+		this.recTitle = recTitle;
+		this.recContent = recContent;
+		this.pageNo = pageNo;
 	}
 	public int getRecNo() {
 		return recNo;
@@ -72,8 +86,9 @@ public class RecommendVO {
 	public String toString() {
 		return "RecommendVO [recNo=" + recNo + ", employeeVO=" + employeeVO
 				+ ", recTitle=" + recTitle + ", recContent=" + recContent
-				+ ", recDate=" + recDate + ", uploadFile=" + recUploadFile
-				+ ", recPath=" + recPath + "]";
+				+ ", recDate=" + recDate + ", recUploadFile=" + recUploadFile
+				+ ", recPath=" + recPath + ", pageNo=" + pageNo + "]";
 	}
+	
 	
 }

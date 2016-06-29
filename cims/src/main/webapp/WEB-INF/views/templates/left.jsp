@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <aside>
 	<div id="sidebar" class="nav-collapse ">
@@ -11,64 +11,272 @@
 				<a href="profile.html"><img src="assets/img/ui-sam.jpg"
 					class="img-circle" width="60"></a>
 			</p>
-			<h5 class="centered">Marcel Newman</h5>
-			
-			<li class="mt"><a class="active" href="${initParam.root}home.do">
-					<i class="fa fa-dashboard"></i> <span>MainPage</span>
-			</a></li>
-			
-			<li class="sub-menu"><a
-				href="${initParam.root}notice_notice.do?pageNo=1"> <i
-					class="fa fa-dashboard"></i> <span>Notice Board</span>
-			</a></li>
+			<h5 class="centered">${evo.empName}</h5>
 
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class="fa fa-desktop"></i> <span>Schedule</span>
-			</a>
+
+			<li class="mt"><c:choose>
+					<c:when test="${left==1}">
+						<a class="active" href="${initParam.root}home.do"><i
+							class="fa fa-dashboard"></i> <span>MainPage</span> </a>
+					</c:when>
+					<c:otherwise>
+						<a href="${initParam.root}home.do"><i class="fa fa-dashboard"></i>
+							<span>MainPage</span> </a>
+					</c:otherwise>
+				</c:choose></li>
+
+			<li class="sub-menu">
+			<c:choose>
+					<c:when test="${left==2}">
+					<a class="active" href="${initParam.root}notice_notice.do?pageNo=1"> 
+					<i class="fa fa-dashboard"></i> <span>Notice Board</span></a>
+					</c:when>
+					<c:otherwise>
+					<a href="${initParam.root}notice_notice.do?pageNo=1"> 
+					<i class="fa fa-dashboard"></i> <span>Notice Board</span></a>
+					</c:otherwise>
+				</c:choose></li>
+
+			<li class="sub-menu">
+			<c:choose>
+			<c:when test="${left==3}">
+				<a class = "active" href="javascript:;"> 
+					<i class="fa fa-desktop"></i>
+					<span>Schedule</span>
+				</a>
+					<ul class="sub">
+						<li class="active"><a href="${initParam.root}sch_home.do">Today</a></li>
+						<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
+						<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
+					</ul>
+				</c:when>
+				
+				<c:when test="${left==4}">
+					<a class = "active" href="javascript:;"> 
+					<i class="fa fa-desktop"></i>
+					<span>Schedule</span>
+				</a>
+					<ul class="sub">
+						<li><a href="${initParam.root}sch_home.do">Today</a></li>
+						<li class="active"><a href="${initParam.root}sch_week.do">Weekly</a></li>
+						<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
+					</ul>	
+				</c:when>
+				
+				<c:when test="${left==5}">
+					<a class = "active" href="javascript:;"> 
+					<i class="fa fa-desktop"></i>
+					<span>Schedule</span>
+				</a>
+					<ul class="sub">
+						<li><a href="${initParam.root}sch_home.do">Today</a></li>
+						<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
+						<li class="active"><a href="${initParam.root}sch_month.do">Monthly</a></li>
+					</ul>	
+				</c:when>	
+				<c:otherwise>
+				<a href="javascript:;"> 
+					<i class="fa fa-desktop"></i> 
+					<span>Schedule</span>
+				</a>
+					<ul class="sub">
+						<li ><a href="${initParam.root}sch_home.do">Today</a></li>
+						<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
+						<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
+					</ul>
+				</c:otherwise>
+			</c:choose>
+			</li>
+
+			<li class="sub-menu">
+				<c:choose>
+					<c:when test="${left==6}">
+					<a class = "active"  href="javascript:;"> <i class="fa fa-cogs"></i> <span>Board</span></a>
 				<ul class="sub">
-					<li><a href="${initParam.root}sch_home.do">Today</a></li>
-					<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
-					<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
-				</ul></li>
-
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class="fa fa-cogs"></i> <span>Board</span>
-			</a>
+					<li class = "active" ><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
+					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
+				</ul>
+					</c:when>
+					<c:when test="${left==7}">
+					<a class = "active"  href="javascript:;"> <i class="fa fa-cogs"></i> <span>Board</span></a>
+				<ul class="sub">
+					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
+					<li class = "active" ><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
+				</ul>
+					</c:when>
+					<c:otherwise>
+						<a href="javascript:;"> <i class="fa fa-cogs"></i> <span>Board</span></a>
 				<ul class="sub">
 					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
 					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
-				</ul></li>
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class="fa fa-book"></i> <span>Document</span>
-			</a>
+				</ul>
+					</c:otherwise>
+				</c:choose>
+				</li>
+				
+				
+			<li class="sub-menu">
+			<c:choose>
+				<c:when test="${left==8 || left ==9|| left ==10 ||left ==11}">
+					<a class="active" href="javascript:;"> 
+					<i class="fa fa-book"></i> <span>Document</span></a>
+				</c:when>
+				<c:otherwise>
+					<a href="javascript:;"> 
+					<i class="fa fa-book"></i> <span>Document</span></a>
+				</c:otherwise>
+			</c:choose>
+			
+			<c:choose>
+			<c:when test="${left==8}">
 				<ul class="sub">
-					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting
-					</a></li>
+					<li class="active"><a href="${initParam.root}doc_writeForm.do">Write </a></li>
+					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
 					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-				</ul></li>
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class="fa fa-tasks"></i> <span>Employee</span>
-			</a>
+				</ul>
+				</c:when>
+				<c:when test="${left==9}">
 				<ul class="sub">
-					<li><a href="${initParam.root}emp_registerform.do">Register</a></li>
+					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
+					<li class="active"><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==10}">
+				<ul class="sub">
+					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
+					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
+					<li class="active"><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==11}">
+				<ul class="sub">
+					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
+					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li class="active"><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+				</ul>
+				</c:when>
+				<c:otherwise>
+				<ul class="sub">
+					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
+					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+				</ul>
+				</c:otherwise>
+			</c:choose>
+				</li>
+				
+			
+			<li class="sub-menu">
+			
+			<c:choose>
+			<c:when test="${left==12 || left==13 || left==14 || left==15}">
+			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Mail</span></a>
+			</c:when>
+			<c:otherwise>
+			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Mail</span></a>
+			</c:otherwise>
+			</c:choose>
+			
+				<c:choose>
+				<c:when test="${left==12 }">
+				<ul class="sub">
+					<li class="active"><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==13 }">
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==14 }">
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
+					<li class="active"><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==15 }">
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
+					<li class="active"><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+				</ul>
+				</c:when>
+				<c:otherwise>
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+				</ul>
+				</c:otherwise>
+				</c:choose>	
+				</li>
+				<!-- 끝 -->
+				
+			<!-- Employee시작 -->
+			<li class="sub-menu">
+			
+			<c:choose>
+			<c:when test="${left==16 || left==17 || left==18}">
+			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Employee</span></a>
+			</c:when>
+			<c:otherwise>
+			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Employee</span></a>
+			</c:otherwise>
+			</c:choose>
+				
+				<c:choose>
+			<c:when test="${left==16}">
+				<ul class="sub">
+					<li class="active"><a href="${initParam.root}emp_updateform.do">Update</a></li>
+              	 	<li><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+             	  	<li><a href="${initParam.root}emp_registerform.do">Register</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==17}">
+				<ul class="sub">
 					<li><a href="${initParam.root}emp_updateform.do">Update</a></li>
-				</ul></li>
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class="fa fa-th"></i> <span>Data Tables</span>
-			</a>
+              	 	<li class="active"><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+             	  	<li><a href="${initParam.root}emp_registerform.do">Register</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==18}">
 				<ul class="sub">
-					<li><a href="basic_table.html">Basic Table</a></li>
-					<li><a href="responsive_table.html">Responsive Table</a></li>
-				</ul></li>
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class=" fa fa-bar-chart-o"></i> <span>Charts</span>
-			</a>
+					<li><a href="${initParam.root}emp_updateform.do">Update</a></li>
+              	 	<li><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+             	  	<li  class="active"><a href="${initParam.root}emp_registerform.do">Register</a></li>
+             	  </ul>
+				</c:when>
+				<c:otherwise>
 				<ul class="sub">
-					<li><a href="morris.html">Morris</a></li>
-					<li><a href="chartjs.html">Chartjs</a></li>
-				</ul></li>
+					<li><a href="${initParam.root}emp_updateform.do">Update</a></li>
+              	 	<li><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+             	  	<li ><a href="${initParam.root}emp_registerform.do">Register</a></li>
+				</ul>
+				</c:otherwise>
+				</c:choose>
+				</li>
+				
+            
+		         <li class="sub-menu"><a href="${initParam.root}lock_lock_screen.do"> <i
+               class="fa fa-desktop"></i> <span>Lock</span>
+            </a>
+         		</li>
 
 		</ul>
 		<!-- sidebar menu end-->
@@ -124,6 +332,11 @@
 	
 	
 	
+	
+	
+	
+	
+	
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
             $("#date-popover").hide();
@@ -157,6 +370,11 @@
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     
+
+
+
+
+
 
 
 </script>

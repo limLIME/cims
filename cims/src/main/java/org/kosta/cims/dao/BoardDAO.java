@@ -1,6 +1,10 @@
-package org.kosta.cims.model;
+package org.kosta.cims.dao;
 
 import java.util.List;
+
+import org.kosta.cims.model.BoardVO;
+import org.kosta.cims.model.CommentVO;
+import org.kosta.cims.model.GoodVO;
 
 public interface BoardDAO {
 	public abstract void writer(BoardVO vo);
@@ -17,5 +21,12 @@ public interface BoardDAO {
 	public abstract void commentRegister(CommentVO commentVO);
 	public abstract void deleteComment(int commentNo);
 	public abstract void updateComment(int commentNo);
+	public abstract List<Object> searchTitleList(String searchVar, int pageNo);
+	public abstract List<Object> searchContentList(String searchVar, int pageNo);
+	public abstract List<Object> searchTitleContentList(String searchVar,
+			int pageNo);
+	public abstract int totalTitleCount(String searchVar);
+	public abstract int totalContentCount(String searchVar);
+	public abstract int totalTitleContentCount(String searchVar);
 	
 }

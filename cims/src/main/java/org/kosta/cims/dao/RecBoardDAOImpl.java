@@ -1,9 +1,11 @@
-package org.kosta.cims.model;
+package org.kosta.cims.dao;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.cims.model.RecCommentVO;
+import org.kosta.cims.model.RecommendVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 @Repository
@@ -65,6 +67,36 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		template.delete("commentRec.deleteRecComment",commentNo);
 		
 	}
+	@Override
+	public List<Object> searchTitleList(String searchVar, int pageNo) {
+		RecommendVO vo = new RecommendVO(searchVar,pageNo);
+		return template.selectList("rec.searchTitleList",vo);
+	}
+	@Override
+	public List<Object> searchContentList(String searchVar, int pageNo) {
+		RecommendVO vo = new RecommendVO(searchVar,pageNo);
+		return template.selectList("rec.searchContentList",vo);
+	}
+	@Override
+	public List<Object> searchTitleContentList(String searchVar, int pageNo) {
+		// TODO Auto-generated method stub
+		RecommendVO vo = new RecommendVO(searchVar,searchVar,pageNo);
+		return template.selectList("rec.searchTitleContentList",vo);
+	}
 
+	public int totalTitleCount(String searchVar) {
+		
+		return template.selectOne("rec.totalTitleCount",searchVar);
+	}
+	@Override
+	public int totalContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return template.selectOne("rec.totalContentCount",searchVar);
+	}
+	@Override
+	public int totalTitleContentCount(String searchVar) {
+		// TODO Auto-generated method stub
+		return template.selectOne("rec.totalTitleContentCount",searchVar);
+	}
 
 }
