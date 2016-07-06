@@ -37,7 +37,7 @@
 							<div class="row">
 								<div class="col-sm-6 col-xs-6 goleft">
 									<p>
-										<i class="fa fa-envelope"></i> 122
+										<i class="fa fa-envelope"></i>${mainList[0]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -58,7 +58,7 @@
 							<div class="row">
 								<div class="col-sm-6 col-xs-6 goleft">
 									<p>
-										<i class="fa fa-file"></i> 122
+										<i class="fa fa-file"></i> ${mainList[2]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -78,7 +78,7 @@
 							<div class="row">
 								<div class="col-sm-6 col-xs-6 goleft">
 									<p>
-										<i class="fa fa-calendar"></i> 122
+										<i class="fa fa-calendar"></i> ${mainList[1]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -98,7 +98,7 @@
 							<div class="row">
 								<div class="col-sm-6 col-xs-6 goleft">
 									<p>
-										<i class="fa fa-bullhorn"></i> 122
+										<i class="fa fa-bullhorn"></i> ${mainList[3]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -118,7 +118,7 @@
 							<div class="row">
 								<div class="col-sm-6 col-xs-6 goleft">
 									<p>
-										<i class="fa fa-bullhorn"></i> 122
+										<i class="fa fa-bullhorn"></i> ${mainList[4]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -170,23 +170,22 @@
 				<!--COMPLETED ACTIONS DONUTS CHART-->
 				<h3>Mail Box</h3>
 
-				<%-- 				<!-- 반복문 -->
-				<c:forEach items="" var="">
+				 				<!-- 반복문 -->
+				<c:forEach items="${mlist}" var="i">
 					<div class="desc">
 						<div class="thumb">
 							<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
 						</div>
 						<div class="details">
 						<p>
-							<muted>${시간전 }</muted>
-							<br />${보낸이}에게 <a href="${initParam.root}mail_showMailContent.do?no=42">메일</a>이 도착했습니다.<br />
+							<muted>${i.mailDate}</muted>
+							<br />${i.mailSender}에게 <a href="${initParam.root}mail_showMailContent.do?no=${i.mailNo}">메일</a>이 도착했습니다.<br />
 						</p>
 					</div>
 				</div>
 				</c:forEach>
- --%>
-
-				<!-- First Action -->
+<!-- 
+				First Action
 				<div class="desc">
 					<div class="thumb">
 						<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
@@ -198,122 +197,38 @@
 						</p>
 					</div>
 				</div>
-
-				<!-- Second Action -->
-				<div class="desc">
-					<div class="thumb">
-						<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-					</div>
-					<div class="details">
-						<p>
-							<muted>3 Hours Ago</muted>
-							<br /> <a href="#">박병우</a>님께서 <a href="#">메일</a>을 보내셨습니다.<br />
-						</p>
-					</div>
-				</div>
-				<!-- Third Action -->
-				<div class="desc">
-					<div class="thumb">
-						<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-					</div>
-					<div class="details">
-						<p>
-							<muted>7 Hours Ago</muted>
-							<br /> <a href="#">이상우</a>님께서 <a href="#">메일</a>을 보내셨습니다.<br />
-						</p>
-					</div>
-				</div>
-				<!-- Fourth Action -->
-				<div class="desc">
-					<div class="thumb">
-						<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-					</div>
-					<div class="details">
-						<p>
-							<muted>11 Hours Ago</muted>
-							<br /> <a href="#">이상우</a>님께서 <a href="#">메일</a>을 보내셨습니다.<br />
-						</p>
-					</div>
-				</div>
-				<!-- Fifth Action -->
-				<div class="desc">
-					<div class="thumb">
-						<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-					</div>
-					<div class="details">
-						<p>
-							<muted>18 Hours Ago</muted>
-							<br /> <a href="#">김원두</a>님께서 <a href="#">메일</a>을 보내셨습니다.<br />
-						</p>
-					</div>
-				</div>
-
+ -->
 				<!-- USERS ONLINE SECTION -->
 				<h3>TEAM MEMBERS</h3>
 				<!-- First Member -->
+				<c:forEach items="${tlist}" var="i">
 				<div class="desc">
 					<div class="thumb">
-						<img class="img-circle" src="assets/img/ui-zac.jpg" width="35px"
+						<img class="img-circle" src="" width="35px"
 							height="35px" align="">
 					</div>
 					<div class="details">
 						<p>
-							<a href="#">병우 박</a><br />
-							<muted><a href="#">출근중</a> 출근하기 싫다</muted>
+							<a href="#">${i.empName }</a><br />
+							<muted><a href="#">${i.empState }</a>${i.empMemo}</muted>
 						</p>
 					</div>
 				</div>
-				<!-- Second Member -->
-				<div class="desc">
-					<div class="thumb">
-						<img class="img-circle" src="assets/img/ui-sherman.jpg"
-							width="35px" height="35px" align="">
-					</div>
-					<div class="details">
-						<p>
-							<a href="#">원두 킴</a><br />
-							<muted><a href="#">출근중</a> I am Busy</muted>
-						</p>
-					</div>
-				</div>
-				<!-- Third Member -->
-				<div class="desc">
-					<div class="thumb">
-						<img class="img-circle" src="assets/img/jasal.jpg" width="35px"
-							height="35px" align="">
-					</div>
-					<div class="details">
-						<p>
-							<a href="#">흥택 임</a><br />
-							<muted><a href="#">외근중</a> 자살각...</muted>
-						</p>
-					</div>
-				</div>
-				<!-- Fourth Member -->
-				<div class="desc">
-					<div class="thumb">
-						<img class="img-circle" src="assets/img/allan.jpg" width="35px"
-							height="35px" align="">
-					</div>
-					<div class="details">
-						<p>
-							<a href="#">Allan Min</a><br />
-							<muted><a href="#">식사중</a> 님들 롤하쉴?</muted>
-						</p>
-					</div>
-				</div>
+				</c:forEach>
+				
 				<!-- Fifth Member -->
 				<div class="desc">
-					<div class="thumb">
+					<!-- <div class="thumb">
 						<img class="img-circle" src="assets/img/ui-sam.jpg" width="35px"
 							height="35px" align="">
-					</div>
-					<div class="details">
-						<p>
-							<a href="#">관리자</a><br />
-							<muted>Admin</muted>
+					</div> -->
+					
+						<p align="center" style="font-size: 1.5em;">
+							<!-- <a href="#">관리자</a> -->
+							1 2 3 4 5
+							<br/>
 						</p>
-					</div>
+					
 				</div>
 
 			</div>

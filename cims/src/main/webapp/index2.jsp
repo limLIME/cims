@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -37,12 +36,12 @@
 	  	<div class="container">
 	  	
 	  
-		      <form class="form-login">
+		      <form class="form-login" method="post" action = "${initParam.root}homeCheck.do">
 		        <h2 class="form-login-heading">Login now</h2>
 		        <div class="login-wrap">
-		            <input type="text" class="form-control" placeholder="User ID" autofocus id = "empNo">
+		            <input type="text" class="form-control" placeholder="User ID"  name = "empNo">
 		            <br>
-		            <input type="password" class="form-control" placeholder="Password" id = "password">
+		            <input type="password" class="form-control" placeholder="Password" name = "password">
 		            <label class="checkbox">
 		                <span class="pull-right">
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
@@ -85,34 +84,5 @@
     <script>
         $.backstretch("assets/img/company3.jpg", {speed: 500});
     </script>
-
-  <script src="resources/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$("#button").click(function(){ 
-		var empNo = $("#empNo").val();
-		var password = $("#password").val();
-		if(empNo==""){
-			alert("사원번호를 입력하세요");
-			return false;
-		}if(password==""){
-			alert("패스워드를 입력하세요.");
-			return false;
-		}
-		$.ajax({
-			type:"POST",
-			url:"homeCheck.do",				
-			data:"empNo="+empNo+"&password="+password,   
-			success:function(result){
-				if(result=='success'){
-					location.href = "${initParam.root}home.do";
-				}else{
-					alert("아이디/비밀번호를 확인하세요");
-				}
-			}// success
-		  });//ajax 
-	});
-});	
-</script>
   </body>
 </html>

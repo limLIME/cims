@@ -8,7 +8,8 @@ public interface MailService {
 
 
 	public abstract MailVO showMailContent(int no,String empNo);
-	public abstract void deleteMail(int no);
+	public abstract void sDeleteMail(int no);
+	public abstract void rDeleteMail(int no);
 	public abstract void sendMail(MailVO mailVO);
 	
 	public abstract int totalReceiveMailContent(String empNo);
@@ -16,5 +17,6 @@ public interface MailService {
 	
 	public abstract List<Object> getSendMailList(String empNo,int pageNo);
 	public abstract List<Object> getReceiveMailList(String empNo,int pageNo);
-
+	public abstract Integer countMail(String empNo);
+	public abstract List<MailVO> getMyMailList(String empNo);
 }

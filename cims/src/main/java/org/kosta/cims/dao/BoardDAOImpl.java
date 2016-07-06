@@ -105,5 +105,9 @@ public  class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		return template.selectOne("board.totalTitleContentCount",searchVar);
 	}
+	@Override
+	public Integer countBor() {
+		return template.selectOne("board.countBor");
+	}
 
 }

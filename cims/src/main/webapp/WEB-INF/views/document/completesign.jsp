@@ -39,7 +39,8 @@
           <section class="wrapper">
 <h3><i class="fa fa-angle-right"></i> Complete Document By Me</h3><hr><br>
 <div class="marginMain">
-
+<div class="content-panel" align="center">
+<div align="left"> &nbsp;&nbsp;&nbsp;
 <!-- 내가 작성했고 완료된공문" -->
 <button class="btn btn-primary" id="myDocBtn">
 <i class="fa fa-user" ></i>
@@ -52,10 +53,8 @@
 <button class="btn btn-success" id="myCompleteBtn" >
 <i class="fa fa-circle-o" ></i>
 </button> 
-
-<br><br>
-<div class="content-panel" align="center">
-
+</div>
+<br>
 <table class="table table-striped table-advance table-hover">
 	<thead>
 		<tr>
@@ -80,13 +79,9 @@
 </table>
 <br>
 <div align="right">
-	<input type="button" id="completeMainBtn" class="btn btn-primary" value="main page">
+	<input type="button" id="completeMainBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
-<div align="center">
-	<input type="text"  id="completeSignSearchText" class="form-control" placeholder="Enter your search word" style="width: 400px">
-	<button class="btn btn-primary" id="completeSignSearchBtn" value="Search" style="width: 50px; height: 32px">
-	<i class="fa fa-search"></i></button>
-</div>
+
 <br>
 	<c:choose >
 	<c:when test="${completeSign.pagingBean.previousPageGroup==true}">
@@ -101,7 +96,13 @@
 		<a href="${initParam.root}doc_completeSign.do?page=${completeSign.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">다음</a>
 		</c:when>
 	</c:choose>
-	<br><br>	
+	<br>	<br>
+	<div align="center">
+	<input type="text"  id="completeSignSearchText" placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="completeSignSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<i class="fa fa-search"></i></button>
+</div>
+	<br>	
 </div></div>
 </section>
 </section>

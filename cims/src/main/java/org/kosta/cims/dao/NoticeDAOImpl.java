@@ -86,5 +86,10 @@ public class NoticeDAOImpl implements NoticeDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Integer countNot() {
+		return template.selectOne("notice.countNot");
+	}
 	
 }

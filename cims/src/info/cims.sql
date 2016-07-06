@@ -18,7 +18,10 @@ ALTER TABLE EMPLOYEE
 ADD (emp_state number default 1)
 
 ALTER TABLE EMPLOYEE
-ADD (emp_substitute varchar2(100)) 
+ADD (emp_memo varchar2(100))
+
+ALTER TABLE EMPLOYEE
+ (emp_substitute varchar2(100)) 
 
 ALTER TABLE EMPLOYEE
 ADD (emp_path VARCHAR2(100));
@@ -28,6 +31,10 @@ FROM employee
 where emp_no='0581' and password='1234'
 
 select * from EMPLOYEE
+
+--같은 부서원 선
+select * from employee where dept_no=1
+
 --사원 추가
 insert into 
 employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
@@ -57,7 +64,8 @@ insert into employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_si
 values('0587',1,4,'1234','손문수','010-5114-0581','손문수사인');
 insert into employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
 values('0588',1,4,'1234','박진용','010-5114-0581','박진용사인');
-
+insert into employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
+values('1009',1,4,'1234','손문수','010-5114-0581','손문수사인');
 --직책
 CREATE TABLE position(
 position_no number PRIMARY KEY,
@@ -106,6 +114,11 @@ doc_approver varchar2(100),
 constraint fk_doc_emp_no foreign key(emp_no) references employee
 )
 
+--메인 결재 뽑기
+  select count(*) from document d,employee e
+      where e.emp_no=d.emp_no and d.doc_state='결재중' and
+      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no='0581')=1
+
 drop sequence document_seq;
 create sequence document_seq START WITH 10000;
 
@@ -126,28 +139,51 @@ constraint pk_approver primary key(doc_no,emp_no,position_no)
 )
 
 --메일
+drop table mail
 CREATE TABLE mail(
 mail_no number PRIMARY KEY,
 emp_no varchar2(100) not null,
+mail_receiver varchar2(100) not null,
 mail_title varchar2(100) not null,
 mail_content varchar2(100) not null,
 mail_date date not null,
 mail_path varchar2(100), 
-mail_sender varchar2(10) not null,
-mail_receiver varchar2(10) not null,
-mail_confirm number default 0,
-mail_state number default 0,
+mail_confirm number default 0, --수신확인
+mail_sdelete number default 0, --송신자   삭제1 
+mail_rdelete number default 0, --수신자   삭제1
 constraint fk_mail_emp_no foreign key(emp_no) references employee
 )
 create sequence mail_seq 
 drop sequence mail_seq
--- 메일확인
--- 0읽지않음 1 읽음 2 수신자삭제 3 송신자삭제 4 둘다 삭제
+
+--메인의 메일 수
+select count(mail_no) as count
+from mail
+where mail_receiver='9999' and mail_confirm=0
 
 --내가 받은 열지 않은 받은 메일
-select  from mail
-where mail_receiver='0581' and mail_confirm=0 and rownum <=5
+select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path, mail_sender, mail_receiver, mail_confirm, mail_state
+from mail
+where mail_receiver='9999' and mail_confirm=0 and rownum <=5
 order by mail_date desc
+
+
+select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path,
+		mail_sender, mail_receiver, mail_confirm, mail_state
+		from
+		(select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path,
+		mail_sender, mail_receiver, mail_confirm, mail_state
+		from mail
+		order by rownum desc)
+		where mail_receiver='9999' and mail_confirm=0 and rownum <=5 
+		
+--메인 페이지 메일 역순
+select *
+from
+(select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path, mail_sender, mail_receiver, mail_confirm, mail_state
+from mail
+order by rownum desc)
+where mail_receiver='9999' and mail_confirm=0 and rownum <=5
 
 
 
@@ -161,7 +197,18 @@ notice_content clob not null,
 notice_path varchar2(100),
 constraint fk_notice_emp_no foreign key(emp_no) references employee
 )
-select * from notice
+--오늘 공지 수 체크
+select count(notice_no) 
+from notice 
+where to_char(notice_date, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD')
+
+
+select * from NOTICE
+
+--내 일정 수 체크
+select count(notice_no) 
+from notice 
+where emp_no='9999' and  to_char(notice_date, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD') 
 
 select pageNo,notice_no,notice_title,notice_date,emp_name,like_cnt from(
      select notice_no,notice_title,notice_content,like_cnt,notice_date,ceil(rownum/5) as pageNo, emp_name
@@ -201,13 +248,19 @@ sch_content varchar2(100),
 sch_day date not null,
 constraint fk_schedule_emp_no foreign key(emp_no) references employee
 )
+select * from schedule
 insert into schedule(sch_no,emp_no,sch_content,sch_day) values(28,'0581','새벽',sysdate);
 insert into schedule(sch_no,emp_no,sch_content,sch_day) values(29,'0581','진짜',sysdate);
 insert into schedule(sch_no,emp_no,sch_content,sch_day) values(27,'0581','개졸림',sysdate);
 insert into schedule(sch_no,emp_no,sch_content,sch_day) values(18,'0581','저녁',sysdate);
 insert into schedule(sch_no,emp_no,sch_content,sch_day) values(schedule_seq.nextVal,'0581','저녁',sysdate);
 
-insert into schedule(sch_no,emp_no,sch_content,sch_day) values(19,'0581','저녁','2016-06-23');
+insert into schedule(sch_no,emp_no,sch_content,sch_day) values(32,'9999','저녁','2016-07-06');
+
+--내 일정 수 체크
+select count(sch_no) 
+from schedule 
+where emp_no='9999' and  to_char(sch_day, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD') 
 
 create sequence schedule_seq start with 30 nocache 
 drop sequence schedule_seq
@@ -235,8 +288,15 @@ from SCHEDULE s ,
 (SELECT TO_char( TRUNC(SYSDATE, 'IW') + ( LEVEL - 1 ), 'YYYY-MM-DD' ) day 
 FROM	DUAL 
 CONNECT BY LEVEL < 7) d
-where d.day=to_char(s.sch_day, 'YYYY-MM-DD')
+where d.day=to_char(s.sch_day, 'YYYY-MM-DD') order by s.sch_day 
 
+--요일의 날짜 찾기(일요일 = 1번,  월요일 = 2번, 화요일 = 3번)
+select decode(to_char(sysdate, 'D'), 1, to_char(sysdate, 'YYYYMMDD'),
+to_char(sysdate - to_char(sysdate, 'D')+1, 'YYYYMMDD') ) last_sunday
+from dual;
+
+select to_char(sysdate, 'D') from dual
+select to_char(sysdate - to_char(sysdate, 'D')+1, 'YYYYMMDD') from dual 
 
 SELECT TO_char( TRUNC(SYSDATE, 'IW') + ( LEVEL - 1 ), 'YYYY-MM-DD' ) day 
 FROM	DUAL 
@@ -273,6 +333,10 @@ CREATE TABLE BOARD(
   like_cnt number default 0,
   constraint fk_board_emp_no foreign key(emp_no) references employee(emp_no)
 )
+--오늘 새로운 자게글
+select count(board_no) from board
+where to_char(board_date, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD')
+
 --외래키 추가
 ALTER TABLE BOARD
 ADD CONSTRAINT fk_board_emp_no FOREIGN KEY(emp_no)
@@ -348,3 +412,68 @@ constraint fk_comment_rec_rec_no foreign key(rec_no) references recommend on del
 constraint fk_comment_rec_emp_no foreign key(emp_no) references employee 
 )
 create sequence comment_rec_seq nocache
+
+-- 동아리 --
+drop table club
+create table club(
+   club_no number primary key,
+   emp_no varchar2(100) not null,
+   club_name varchar2(100) not null,
+   club_content clob not null,
+   club_confirm number default 0,
+   constraint fk_club_emp_no foreign key(emp_no) references employee
+)
+-- confirm 0 = 신청대기 , 1 = 개설 , 2 = 거절/폐설
+drop sequence club_seq
+create sequence club_seq nocache
+select * from club;
+
+-- 동아리 활동 게시판 --
+drop table club_board
+create table club_board(
+   club_board_no number primary key,
+   club_no number not null,
+   club_board_title varchar2(100) not null,
+   club_board_content clob not null,
+   club_board_maxpeople number not null,
+   club_board_date date not null,
+   club_board_member number,
+   constraint fk_club_board_club_no foreign key(club_no) references club
+)
+drop sequence club_board_seq
+create sequence club_board_seq nocache
+select * from club_board;
+
+-- 동아리 회원 --
+drop table club_member
+create table club_member(
+   club_no number not null,
+   emp_no varchar2(100) not null,
+   constraint pk_club_member primary key(club_no,emp_no)
+)
+select * from club_member
+
+-- 동아리 활동 신청자 --
+drop table club_applicant
+create table club_applicant(
+   club_board_no number not null,
+   emp_no varchar2(100) not null,
+   constraint pk_club_applicant primary key(club_board_no,emp_no)
+)
+
+--결산 시퀀스
+drop sequence evaluation_seq
+create sequence evaluation_seq nocache
+drop table evaluation
+-- 결산 
+CREATE TABLE evaluation(
+evaluation_no number primary key,
+evaluation_title varchar2(100),
+evaluation_content clob,
+evaluation_date date not null,
+emp_no varchar2(100) not null,
+dept_no number not null,
+position_no number,
+constraint fk_eval_dept_no foreign key(dept_no) references department,
+constraint fk_eval_position_no foreign key(position_no) references position
+)

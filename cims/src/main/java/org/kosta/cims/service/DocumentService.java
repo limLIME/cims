@@ -28,8 +28,8 @@ public interface DocumentService {
 	public abstract ListVO waitingMy(int page,String empNo);
 	public abstract ListVO waitingMain(int page,String empNo,String empSign,int positionNo);
 	public abstract ListVO waitingMySign(int page, String empNo,int positionNo);
+	public abstract ListVO waitingSubstitute(int page, String empNo,int positionNo);
 
-	
 	//결재완료-----------------------------------------------------------------------------------
 	public abstract ListVO complete(int page,int positionNo);
 	public abstract ListVO completeSign(int page,String empNo,String empSign,int positionNo);
@@ -53,4 +53,7 @@ public interface DocumentService {
 	public abstract ListVO waitingMySearch(int page,String empNo,String data);
 	public abstract ListVO waitingMainSearch(int page, String empNo, String empSign, int positionNo,String data);
 	public abstract ListVO waitingMySignSearch(int page, String empNo, int positionNo,String data);
+	
+	//메인 페이지 갯수
+	public abstract Integer countDoc(EmployeeVO vo);
 }

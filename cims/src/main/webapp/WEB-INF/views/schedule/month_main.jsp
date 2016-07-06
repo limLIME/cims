@@ -6,11 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	$(document).ready(function(){	
+			$("#writeBtn").click(function(){	
+		       location.href="${initParam.root}sch_monthWriteForm.do";
+		    });//click
+	});	
+</script>
 </head>
 <body>
-	<section id="main-content"> <section class="wrapper">
+	<section id="main-content">
+	<section class="wrapper">
 	<div class="marginMain">
-		<div class="content-panel">
+		<div class="content-panel2">
 			<h3>
 				&nbsp;<i class="fa fa-angle-right"></i> Monthly Schedule
 			</h3>
@@ -25,7 +33,8 @@
 						<br>
 					</c:if>
 				</c:forEach>
-			</center>
+			</center>		
+			<div align="center"><input type="button" class="btn btn-success" value="Write" id="writeBtn"></div>
 		</div>
 	</div>
 	</section></section>

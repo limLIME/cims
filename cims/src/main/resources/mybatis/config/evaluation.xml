@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="evaluation">
+	<resultMap type="evaluationVO" id="evaluationRM">
+		<result property="evaluationDate" column="evaluation_date" />
+		<result property="evaluationNo" column="evaluation_no" />
+		<result property="evaluationTitle" column="evaluation_title" />
+		<result property="evaluationContent" column="evaluation_content" />
+		<result property="employeeVO.empNo" column="emp_no" />
+		<result property="employeeVO.empName" column="emp_name" />
+		<result property="departmentVO.deptNo" column="dept_no"/>
+		<result property="departmentVO.deptName" column="dept_name"/>
+		<result property="positionVO.positionNo" column="position_no"/>
+	</resultMap>
+	<select id="getEvaluationList" resultMap="evaluationRM">
+		select pageNo,evaluation_no,evaluation_title,evaluation_date,emp_name,dept_no,dept_name from(
+		select evaluation_no,evaluation_title,evaluation_date,ceil(rownum/9) as pageNo, emp_name, dept_no,dept_name
+		from(
+		select ev.evaluation_no,ev.evaluation_title,to_char(ev.evaluation_date,'YYYY.MM.DD') as
+		evaluation_date, e.emp_name, ev.dept_no,d.dept_name
+		from evaluation ev, employee e, department d where e.dept_no=d.dept_no and ev.emp_no=e.emp_no and ev.dept_no=#{departmentVO.deptNo} order by evaluation_no desc)
+		) where pageNo=#{pageNo}
+	</select>
+	
+	<select id="totalContent" resultType="int">
+		select count(*) from evaluation where dept_no=#{value}
+	</select>
+	
+	<select id="showContent" resultMap="evaluationRM">
+      select
+      ev.evaluation_no,ev.evaluation_title,ev.evaluation_content,e.emp_no,e.emp_name,ev.evaluation_date,ev.dept_no
+      from evaluation ev ,employee e
+      where ev.emp_no=e.emp_no and ev.evaluation_no=
+      #{evaluationNo}
+	</select>
+	
+	<insert id="writeContent" parameterType="evaluationVO">
+		<selectKey keyProperty="evaluationNo" order="BEFORE" resultType="int">
+			select evaluation_seq.nextval from dual
+		</selectKey>
+		insert into 
+		evaluation(evaluation_no,emp_no,evaluation_title,evaluation_content,evaluation_date,dept_no,position_no) 
+		values(#{evaluationNo},#{employeeVO.empNo},#{evaluationTitle},#{evaluationContent},sysdate,#{employeeVO.departmentVO.deptNo},#{employeeVO.positionVO.positionNo})
+	</insert>
+	
+	<delete id="deleteContent">
+		delete evaluation where evaluation_no=#{value} 
+	</delete>
+	
+	<update id="updateContent">
+		update evaluation set evaluation_date=sysdate,evaluation_title=#{evaluationTitle},evaluation_content=#{evaluationContent} where evaluation_no=#{evaluationNo}
+	</update>
+	
+	<select id="getDayEvaluationList" resultMap="evaluationRM">
+		select pageNo,evaluation_no,evaluation_title,evaluation_date,emp_name,dept_no from(
+		select evaluation_no,evaluation_title,evaluation_date,ceil(rownum/9) as pageNo, emp_name, dept_no
+		from(
+		select ev.evaluation_no,ev.evaluation_title,to_char(ev.evaluation_date,'YYYY.MM.DD') as
+		evaluation_date, e.emp_name, ev.dept_no
+		from evaluation ev, employee e where ev.emp_no=e.emp_no and ev.dept_no=e.dept_no order by evaluation_no desc)
+		) where pageNo=#{pageNo}
+	</select> 
+	
+	<select id="totalDayContent" resultType="int">
+		select count(*) from evaluation where evaluation_date=sysdate
+	</select>
+	
+	
+	<select id="searchByTitle" resultMap="evaluationRM">
+		select pageNo,evaluation_no,evaluation_title,evaluation_date,emp_name from(
+		select evaluation_no,evaluation_title,evaluation_content,evaluation_date,ceil(rownum/9) as pageNo, emp_name
+		from(
+		select ev.evaluation_no,ev.evaluation_title,ev.evaluation_content,to_char(ev.evaluation_date,'YYYY.MM.DD') as
+		evaluation_date, e.emp_name
+		from evaluation ev, employee e where ev.emp_no=e.emp_no and ev.evaluation_title like '%' || #{evaluationTitle} || '%' order by evaluation_no desc)
+        ) where pageNo=#{pageNo}	
+	</select>
+	
+	<select id="totalContentByTitle" resultType="int" >
+		select count(*) from evaluation where evaluation_title like '%' || #{value} || '%'
+	</select>
+	
+	<select id="searchByContent" resultMap="evaluationRM">
+		select pageNo,evaluation_no,evaluation_title,evaluation_content,evaluation_date,emp_name from(
+		select evaluation_no,evaluation_title,evaluation_content,evaluation_date,ceil(rownum/9) as pageNo, emp_name
+		from(
+		select ev.evaluation_no,ev.evaluation_title,ev.evaluation_content,to_char(ev.evaluation_date,'YYYY.MM.DD') as
+		evaluation_date, e.emp_name
+		from evaluation ev, employee e where ev.emp_no=e.emp_no and  ev.evaluation_content like '%' || #{evaluationTitle} || '%' order by evaluation_no desc)
+        ) where pageNo=#{pageNo}	
+	</select>
+	
+	<select id="totalContentBycontent" resultType="int" >
+		select count(*) from evaluation where evaluation_content like '%' || #{value} || '%'
+	</select>
+	
+	<select id="searchByTitleContent" resultMap="evaluationRM">
+        select pageNo,evaluation_no,evaluation_title,evaluation_date,emp_name from(
+   	    select evaluation_no,evaluation_title,evaluation_content,evaluation_date,ceil(rownum/9) as pageNo, emp_name
+      from(
+      select ev.evaluation_no,ev.evaluation_title,ev.evaluation_content,to_char(ev.evaluation_date,'YYYY.MM.DD') as
+      evaluation_date, e.emp_name
+      from evaluation ev, employee e 
+      where ev.emp_no=e.emp_no and  (ev.evaluation_content like '%' || #{evaluationTitle} || '%'  or evaluation_title like '%' || #{evaluationTitle} || '%') order by ev.evaluation_no desc) 
+      ) where pageNo=#{pageNo}
+	</select>
+	
+	<select id="totalContentByTitleContent" resultType="int" >
+		select count(*) from evaluation where evaluation_content like '%' || #{evaluationTitle} || '%' or evaluation_title like '%' || #{evaluationTitle} || '%'
+	</select>
+	
+	
+	<select id="getEvaluationListByDept" resultMap="evaluationRM">
+		select pageNo,evaluation_no,evaluation_title,evaluation_date,emp_name,dept_no from(
+		select evaluation_no,evaluation_title,evaluation_date,ceil(rownum/9) as pageNo, emp_name, dept_no
+		from(
+		select ev.evaluation_no,ev.evaluation_title,to_char(ev.evaluation_date,'YYYY.MM.DD') as
+		evaluation_date, e.emp_name, ev.dept_no
+		from evaluation ev, employee e where ev.emp_no=e.emp_no order by evaluation_no desc)
+		) where pageNo=#{pageNo}
+	</select> 
+	
+	<select id="totalContentByDept" resultType="int">
+		select count(*) from evaluation
+	</select>
+	
+	<select id="checkGetTodayCount" parameterType="string" resultType="int">
+		select count(*) from evaluation where to_char(evaluation_date,'YYYY.MM.DD')=to_char(sysdate,'YYYY.MM.DD') and dept_no=#{value}
+	</select>
+	
+	<insert id="createEmptyEvaluation">
+		<selectKey keyProperty="evaluationNo" order="BEFORE" resultType="int">
+			select evaluation_seq.nextval from dual
+		</selectKey>
+		insert into evaluation(evaluation_no,evaluation_date,dept_no,emp_no) values(#{evaluationNo},sysdate,#{departmentVO.deptNo},#{employeeVO.empNo})
+	</insert>
+	
+	<select id="findByEvaluationNo" resultType="string">
+		select evaluation_no from evaluation where to_char(evaluation_date,'YYYY.MM.DD')=to_char(sysdate,'YYYY.MM.DD') and dept_no=#{value}
+	</select>
+</mapper>
+
+
+
+
+
+

@@ -11,13 +11,27 @@ public class EmployeeVO {
 	private String empTel;
 	private String empSign;
 	private int empState;
+	private String empMemo;
 	private String substitute;
 	private String empPhoto;
 	private DepartmentVO departmentVO;
 	private PositionVO positionVO;
 	private List<MultipartFile> file;
+	
 	public int getEmpState() {
 		return empState;
+	}
+	public EmployeeVO(String empNo) {
+		super();
+		this.empNo = empNo;
+	}
+	
+	public String getEmpMemo() {
+		return empMemo;
+	}
+
+	public void setEmpMemo(String empMemo) {
+		this.empMemo = empMemo;
 	}
 
 	public void setEmpState(int empState) {
@@ -44,7 +58,7 @@ public class EmployeeVO {
 
 	public EmployeeVO(String empNo, String password, String empName,
 			String empTel, String empSign, DepartmentVO departmentVO,
-			PositionVO positionVO, List<MultipartFile> file, String empPath) {
+			PositionVO positionVO, List<MultipartFile> file, String empPath, String empMemo, int empState) {
 		super();
 		this.empNo = empNo;
 		this.password = password;
@@ -55,6 +69,8 @@ public class EmployeeVO {
 		this.positionVO = positionVO;
 		this.file = file;
 		this.empPath = empPath;
+		this.empMemo = empMemo;
+		this.empState = empState;
 	}
 
 	public EmployeeVO() {
@@ -151,10 +167,10 @@ public class EmployeeVO {
 	public String toString() {
 		return "EmployeeVO [empNo=" + empNo + ", password=" + password
 				+ ", empName=" + empName + ", empTel=" + empTel + ", empSign="
-				+ empSign + ", empState=" + empState + ", substitute="
-				+ substitute + ", empPhoto=" + empPhoto + ", departmentVO="
-				+ departmentVO + ", positionVO=" + positionVO + ", file="
-				+ file + ", empPath=" + empPath + "]";
+				+ empSign + ", empState=" + empState + ", empMemo=" + empMemo
+				+ ", substitute=" + substitute + ", empPhoto=" + empPhoto
+				+ ", departmentVO=" + departmentVO + ", positionVO="
+				+ positionVO + ", file=" + file + ", empPath=" + empPath + "]";
 	}
 
 }

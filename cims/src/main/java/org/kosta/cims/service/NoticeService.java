@@ -18,5 +18,6 @@ public interface NoticeService {
 	int totalContentByTitle(String searchVar);
 	int totalContentBycontent(String searchVar);
 	int totalContentByTitleContent(String searchVar);
+	public abstract Integer countNot();
 
 }

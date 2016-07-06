@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.kosta.cims.dao.EmployeeDAO;
+import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void deleteEmp(int empNo) {
+	public void deleteEmp(String empNo) {
 		dao.deleteEmp(empNo);
 	}
 
@@ -67,4 +68,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 	   public List<EmployeeVO> findApprover4(int deptNo) {
 	      return dao.findApprover4(deptNo);
 	   }
+	   @Override
+	   public List<DepartmentVO> deptList() {
+	      return dao.deptList();
+	   }
+
+	   @Override
+	   public List<EmployeeVO> seardBydeptName(String deptName) {
+	      return dao.seardBydeptName(deptName);
+	   }
+	   @Override
+		public List<EmployeeVO> findSubstitute(String empNo,int deptNo,int positionNo){
+	   return dao.findSubstitute(empNo,deptNo,positionNo);
+	   }
+	   @Override
+	   public EmployeeVO getMySubstitute(String empNo){
+		   return dao.getMySubstitute(empNo);
+	   }
+	   
+	   @Override
+	   public void updateSubstitute(String empNo,String subNo){
+		   dao.updateSubstitute(empNo,subNo);
+	   }
+	   @Override
+	   public  void updateMyState(String empNo,int state){
+		   dao.updateMyState(empNo,state);
+		   }
+	   @Override
+		public List<EmployeeVO> getMyTeamList(int deptNo) {
+			return dao.getMyTeamList(deptNo);
+		}
 }

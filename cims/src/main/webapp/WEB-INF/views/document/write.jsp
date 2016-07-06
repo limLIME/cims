@@ -4,7 +4,18 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-
+	$("#app1").click(function() {
+		window.open("${initParam.root}doc_popup.do?txt=app1","결재대상자지정","left=300,top=50,width=1500,height=800"); 
+	});
+	$("#app2").click(function() {
+		window.open("${initParam.root}doc_popup.do?txt=app2", "결재대상자지정","left=300,top=50,width=1500,height=800"); 
+	});
+	$("#app3").click(function() {
+		window.open("${initParam.root}doc_popup.do?txt=app3", "결재대상자지정","left=300,top=50,width=1500,height=800"); 
+	});
+	$("#app4").click(function() {
+		window.open("${initParam.root}doc_popup.do?txt=app4", "결재대상자지정","left=300,top=50,width=1500,height=800"); 
+	});
 });
 
 </script>
@@ -27,68 +38,22 @@ $(document).ready(function() {
 	<tr>
 		<td colspan="4">Writter :  ${sessionScope.evo.departmentVO.deptName}  ${sessionScope.evo.positionVO.positionName}  ${sessionScope.evo.empName}</td>
 	</tr>
-	<tr id="ap1">
-		<td width="30%">Next Approver(대리급) : </td>
-	<td colspan="3">
-			<div id="next">
-				<select id="nextSign1" name="approver1">
-				<option value="">No Approver</option>
-				<c:forEach items="${requestScope.list1 }" var="next1">
-						<option value="${next1.empNo }">${next1.departmentVO.deptName }
-							${next1.positionVO.positionName } ${next1.empName }</option>
-					</c:forEach>
-
-				</select>
-			</div>
-		</td>
-	</tr>
-	<tr  id="ap2" class="ap2">
-		<td width="30%">Next Approver(과장급) : </td>
-	<td colspan="3">
-			<div id="next">
-				<select id="nextSign2" name="approver2">
-					<option value="">No Approver</option>
-					<c:forEach items="${requestScope.list2 }" var="next2">
-						<option value="${next2.empNo }">${next2.departmentVO.deptName }
-							${next2.positionVO.positionName } ${next2.empName }</option>
-					</c:forEach>
-
-				</select>
-			</div>
-		</td>
-	</tr>
-	<tr  id="ap3">
-		<td width="30%">Next Approver(부장급) : </td>
-	<td colspan="3">
-			<div id="next">
-				<select id="nextSign3" name="approver3">
-						<option value="">No Approver</option>
-					<c:forEach items="${requestScope.list3 }" var="next3">
-						<option value="${next3.empNo }">${next3.departmentVO.deptName }
-							${next3.positionVO.positionName } ${next3.empName }</option>
-					</c:forEach>
-
-				</select>
-			</div>
-		</td>
-	</tr>
-	
-	<tr id="ap4">
-		<td width="30%">Next Approver(사장급) : </td>
-	<td colspan="3">
-			<div id="next">
-				<select id="nextSign4" name="approver4">
-						<option value="">No Approver</option>
-					<c:forEach items="${requestScope.list4 }" var="next4">
-						<option value="${next4.empNo }">${next4.departmentVO.deptName }
-							${next4.positionVO.positionName } ${next4.empName }</option>
-					</c:forEach>
-
-				</select>
-			</div>
-		</td>
-	</tr>
-	
+		 <tr>
+	 <td>Approver 1 :</td>
+	 <td colspan="3"> <input type="text" id="app1" name="approver1" ></td>
+	 </tr>
+	 	 <tr>
+	 <td>Approver 2 :</td>
+	 <td colspan="3"><input type="text" id="app2" name="approver2"  ></td>
+	 </tr>
+	<tr>
+	<td>Approver 3 :</td>
+	 <td colspan="3"><input type="text" id="app3" name="approver3" readonly="readonly"></td>
+	 </tr>
+	<tr>
+	<td>Approver 4 :</td>
+	 <td colspan="3"><input type="text" id="app4" name="approver4" readonly="readonly"></td>
+	 </tr>
 	<tr>
 		<td colspan="4">
 		<textarea style="width:100%;height:70;" name="content" rows="10" cols="70" placeholder="Write Docunemt Content"></textarea></td>

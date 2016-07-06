@@ -2,6 +2,7 @@ package org.kosta.cims.service;
 
 import java.util.List;
 
+import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
 
 public interface EmployeeService {
@@ -14,7 +15,7 @@ public interface EmployeeService {
 
 	public abstract List<EmployeeVO> findByName(String empName);
 
-	public abstract void deleteEmp(int empNo);
+	public abstract void deleteEmp(String empNo);
 
 	public abstract EmployeeVO findByNo(String empNo);
 
@@ -27,4 +28,19 @@ public interface EmployeeService {
 	public abstract List<EmployeeVO> findApprover3(int deptNo);
 
 	public abstract List<EmployeeVO> findApprover4(int deptNo);
+
+	public abstract List<DepartmentVO> deptList();
+
+	public abstract List<EmployeeVO> seardBydeptName(String deptName);
+
+	public abstract List<EmployeeVO> findSubstitute(String empNo, int deptNo,
+			int positionNo);
+
+	public abstract EmployeeVO getMySubstitute(String empNo);
+
+	public abstract void updateSubstitute(String empNo, String subNo);
+
+	public abstract void updateMyState(String empNo,int state);
+	
+	public abstract List<EmployeeVO> getMyTeamList(int deptNo);
 }

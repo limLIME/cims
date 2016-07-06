@@ -11,7 +11,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="password" column="password" />
 		<result property="empTel" column="emp_tel" />
 		<result property="empSign" column="emp_sign" />
+		<result property="empMemo" column="emp_memo"/>
 		<result property="empPath" column="emp_path" />
+		<result property="substitute" column="emp_substitute" />
+		<result property="empState" column="emp_state" />
 		<result property="positionVO.positionName" column="position_name" />
 		<result property="positionVO.positionNo" column="position_no" />
 		<result property="departmentVO.deptName" column="dept_name" />
@@ -20,9 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="login" resultMap="employeeMap" parameterType="employeeVO">
-		SELECT emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign,emp_path
-		FROM employee
-		where emp_no=#{empNo} and password=#{password}
+		SELECT e.emp_no,e.dept_no,e.position_no,e.password,e.emp_name,e.emp_tel,e.emp_sign,e.emp_path,e.emp_state,d.dept_name,p.position_name
+		FROM employee e, position p, department d
+		where e.position_no=p.position_no and e.dept_no=d.dept_no and e.emp_no=#{empNo} and e.password=#{password}
 	</select>
 
 	<update id="update" parameterType="employeeVO">
@@ -56,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="findByName" resultMap="employeeMap">
       select d.dept_name, p.position_name, e.emp_name, e.emp_no 
         from employee e, department d, position p 
-        where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no > 0 
+        where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no >= 0 
         and (e.emp_name like  '%' || #{seach} || '%' or e.emp_no like '%' || #{seach} || '%' or p.position_name like '%' || #{seach} || '%') 
    </select>
    
@@ -64,8 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select * from employee where emp_no = #{value}
    </select>
    
-   <update id="deleteEmp" >
-         update employee set position_no=0 where emp_no=#{empNo}
+   <update id="deleteEmp" parameterType="String">
+         update employee set position_no=0 where emp_no=#{value}
    </update>
    
          <select id="findMaster" resultMap="employeeMap">
@@ -75,6 +78,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where  e.position_no=#{positionNo} and  p.position_no=e.position_no and d.dept_no=e.dept_no
    </select>
    
+   
+   
+      <select id="deptList" resultMap="employeeMap">
+         select dept_no,dept_name from department
+   </select>
+   
+   <select id="seardBydeptName" resultMap="employeeMap">
+       select d.dept_name, p.position_name, e.emp_name, e.emp_no 
+        from employee e, department d, position p 
+        where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no > 0 
+        and d.dept_name=#{value}
+   </select>
+
+   
+   <select id="findSubstitute" resultMap="employeeMap">
+    select d.dept_name, p.position_name, e.emp_name, e.emp_no
+    from employee e, department d, position p
+   <![CDATA[where d.dept_no=e.dept_no and p.position_no=e.position_no 
+   		and e.dept_no=#{deptNo} and (e.position_no<=#{positionNo} and e.position_no>=#{positionNo}-1  )and e.emp_no!=#{empNo}]]>
+   </select>
+   
+   <select id="getMySubstitute" resultType="String">
+   SELECT emp_substitute FROM employee where emp_no=#{value}
+   </select>
+
+   <select id="subInfo" resultMap="employeeMap">
+    SELECT e.emp_no,e.dept_no,e.position_no,e.password,e.emp_name,e.emp_tel,e.emp_sign,e.emp_path,d.dept_name,p.position_name
+	FROM employee e, position p, department d
+	where e.position_no=p.position_no and e.dept_no=d.dept_no 
+	and e.emp_no=#{value}
+	</select>
+	
+	<update id="updateSubstitute" parameterType="HashMap">
+	update employee set emp_substitute= #{subNo, jdbcType=VARCHAR}  where emp_no=#{empNo}
+	</update>
+	<update id="updateMyState" parameterType="HashMap">
+	update employee set emp_state= #{state}  where emp_no=#{empNo}
+	</update>
+	
+	<select id="getMyTeamList" resultMap="employeeMap" parameterType="int">
+		select emp_no, emp_name, emp_tel, emp_state, dept_no,position_no,emp_path, emp_memo
+		from employee
+		where dept_no=#{value}
+	</select>
 </mapper>
 
 

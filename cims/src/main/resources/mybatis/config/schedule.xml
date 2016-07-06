@@ -55,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM DUAL 
 		<![CDATA[ CONNECT BY LEVEL <7) ]]> d
 		where d.day=to_char(s.sch_day, 'YYYY-MM-DD') and s.emp_no=#{empNo}
+		order by s.sch_day 
 	</select>
 
 	<delete id="todayDelete" parameterType="scheduleVO">
@@ -62,18 +63,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		sch_no=#{schNo} and emp_no=#{empNo}
 	</delete>
 
-	<select id="getMonthSchedule" resultMap="scheduleMap">
-		select
-		sch_no,emp_no,sch_content,to_char(sch_day, 'YYYY-MM-DD') as sch_day
-		from SCHEDULE
-		where to_char(sch_day, 'MM')=#{value}
-		order by sch_day
-	</select>
+	   <select id="getMonthSchedule" resultMap="scheduleMap">
+      select
+      sch_no,emp_no,sch_content,to_char(sch_day, 'YYYY-MM-DD') as sch_day
+      from SCHEDULE
+      where to_char(sch_day, 'MM')=#{month} and emp_no=#{empNo}
+      order by sch_day
+   </select>
 
 	<update id="weeklyUpdateList" parameterType="HashMap">
 		update schedule set
 		sch_content=#{monCon} where sch_no=#{monNo} and emp_no=#{evoNo}
 	</update>
+	
+	<select id="countSch" resultType="int" parameterType="string">
+	  select count(sch_no) 
+	  from schedule 
+	  where emp_no=#{value} and  to_char(sch_day, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	
+	 <insert id="insertMonthWrite" parameterType="scheduleVO">
+      <selectKey keyProperty="schNo" order="BEFORE" resultType="int">
+         select schedule_seq.nextval from dual
+      </selectKey>
+         insert into schedule(sch_no,emp_no,sch_content,sch_day)
+         values(#{schNo} ,#{empNo},#{schContent},#{schDay})
+   </insert>
+   
+   <delete id="monthDelete">
+      delete SCHEDULE where sch_no=#{value}
+   </delete>
+   
+   <select id="findScheduleByNo" resultMap="scheduleMap">
+      select sch_no,emp_no,sch_content,to_char(sch_day,'YYYY-MM-DD')as sch_day from schedule
+      where sch_no=#{value}
+   </select>
+   
+   <update id="monthUpdate" parameterType="scheduleVO">
+      update schedule set sch_day=#{schDay}, sch_content=#{schContent} where sch_no=#{schNo}
+   </update>
 </mapper>
 
 

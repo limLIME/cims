@@ -103,5 +103,9 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return boardDAO.totalTitleContentCount(searchVar);
 	}
+	@Override
+	public Integer countBor() {
+		return boardDAO.countBor();
+	}
 	
 }

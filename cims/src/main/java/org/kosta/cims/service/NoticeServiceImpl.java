@@ -75,4 +75,9 @@ public class NoticeServiceImpl implements NoticeService {
 	public int totalContentByTitleContent(String searchVar){
 		return noticeDAO.totalContentByTitleContent(searchVar);
 	}
+
+	@Override
+	public Integer countNot() {
+		return noticeDAO.countNot();
+	}
 }

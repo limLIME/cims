@@ -10,20 +10,50 @@
 	$(document).ready(function() {
 		var monSize;
 		
+		//추가버튼 누를때 -> +뜸
 		$("#weeklyDiv").on("click", ".insertButton", function() {
-			 alert($(".mondayClass").html());
+			var insert = "<button type='button' class='btn btn-primary btn-sm insertSubmit'  style='float: right;'>+</button>";
+			$(".monName").next().html(insert);
+			$(".tuesName").next().html(insert);
+			$(".wedName").next().html(insert);
 		})
 		
+		//+버튼 눌렀을때
+		$("#weeklyDiv").on("click", ".insertSubmit", function() {
+			var day= $(this).parent().parent().children().eq(1).html();
+			if(day=="#Monday"){
+				$(this).parent().parent().after("<tr><td><input type='hidden' value='monday'></td><td></td><td><input type='text'>&nbsp;&nbsp;<button type='button' class='btn btn-success btn-xs insertSubmit2'><i class='fa fa-check'></i></button></td></tr>");
+			}
+			else if(day=="#Tuesday"){
+				$(this).parent().parent().after("<tr><td><input type='hidden' value='tuesday'></td><td></td><td><input type='text'>&nbsp;&nbsp;<button type='button' class='btn btn-success btn-xs insertSubmit2'><i class='fa fa-check'></i></button></td></tr>");
+			}
+			else if(day=="#Wednesday"){
+				$(this).parent().parent().after("<tr><td><input type='hidden' value='wednesday'></td><td></td><td><input type='text'>&nbsp;&nbsp;<button type='button' class='btn btn-success btn-xs insertSubmit2'><i class='fa fa-check'></i></button></td></tr>");
+			}
+		})
+		
+		//v 버튼 눌렀을때
+		$("#weeklyDiv").on("click", ".insertSubmit2", function() {
+			var day = $(this).parent().parent().find("input:hidden").val();
+			var con = $(this).parent().parent().find("input:text").val();
+			location.href="${initParam.root}di.do?day="+day+"&con="+con;
+		})
+		
+		
+		//수정 버튼 눌렀을시
 		$("#weeklyDiv").on("click", ".updeleteButton", function() {
-			/* alert($("#weekTable").html());
-			alert($(".mondayClass").html());
-			 */
-			var monValue="<td></td><td></td><td>";
+			var monValue="<td></td><td></td><td>"; 	
+			var tuesValue="<td></td><td></td><td>";
+			var wedValue="<td></td><td></td><td>";
+			
+			//버튼 모양 변경
 			var buttonChange="<button type='button' class='btn btn-primary submitButton'>완료</button>";
 			$("#chButton").html(buttonChange);
 			
-			//월요일 몇번도는지 확인
+			//요일별 몇번도는지 확인
 			var count=0;
+			
+			
 			
 			$.ajax({
 				type:"get",
@@ -40,22 +70,41 @@
 								count++;
 								monValue="<td></td><td></td><td>";
 								monSize = i;
+						 }// 월요일 if문 끝
+						 else if(jsonData[i].day=="화요일"){
+							 tuesValue +="<input type='hidden' name='hidden' value='"+ jsonData[i].schNo +"'>";
+							 tuesValue +="<input type='text' value=" + jsonData[i].schContent + " class='conVal'>";
+							 tuesValue += "</td>";
+							 $(".tuesdayClass").parent().children().eq(count+2).html(tuesValue);
+							 count++;
+							 tuesValue="<td></td><td></td><td>";
 						 }
+						 else if(jsonData[i].day=="수요일"){
+							 wedValue ="<td></td><td></td><td>";
+							 wedValue +="<input type='hidden' name='hidden' value='"+ jsonData[i].schNo +"'>"
+							 wedValue +="<input type='text' value=" + jsonData[i].schContent + " class='conVal'>";
+							 wedValue += "</td>";
+							 $(".wednesdayClass").parent().children().eq(count+3).html(wedValue);
+							 count++;
+							 wedValue="<td></td><td></td><td>";
+						 } 
 					} //for문 끝
 					/* $(".monNmae").html() */
-					alert($(".monName").parent().html("<td></td><td class='monName' style='font-size: 1.2em'>#Monday </td><td><button type='button' class='btn btn-primary btn-sm insertButton'  style='float: right;'>+</button></td>"))
+					/* alert($(".monName").parent().html("<td></td><td class='monName' style='font-size: 1.2em'>#Monday </td><td><button type='button' class='btn btn-primary btn-sm insertButton'  style='float: right;'>+</button></td>")) */
 					
 				}//sucess끝
 			})//ajax 
 		})//업데이트 버튼 끝
 		
 		
-		//썸잇버튼 시작
+		//수정 완료버튼 시작
 		$("#weeklyDiv").on("click", ".submitButton", function() {
 			/* alert($("#weekTable").html());
 			alert($(".mondayClass").html());
 			 */
 			var monValue="<td></td><td></td><td>";
+			var tuesValue="<td></td><td></td><td>";
+			var wedValue="<td></td><td></td><td>";
 			/* alert($("#input[name=conVal]").val()); */
 			
 			/* alert($(".mondayClass").children().eq(2).children().val()); */
@@ -75,26 +124,43 @@
 			var monCon = [];
 			 
 			//for 문에서 i역활과 같고 e는 this로 대신 쓸수 있음
-			$('#weeklyDiv').find("input:hidden").each(function(i, e){
-				/* alert($(this).parent().find(".conVal").val());
-				alert($(this).parent().find("input:hidden").val()); */
-			 	monNo.push($(this).parent().find("input:hidden").val());
-				monCon.push($(this).parent().find(".conVal").val());
+			$('#weeklyDiv').find(".mondayClass").each(function(i, e){
+			 	monNo.push($(this).find("input:hidden").val());
+				monCon.push($(this).find(".conVal").val());
 		 	});
+			
+			 //튜스데이 배열
+			var tuesNo = [];
+			var tuesCon = [];
 			 
-			alert(monCon);
-			alert(monNo); 
+			//for 문에서 i역활과 같고 e는 this로 대신 쓸수 있음
+			$('#weeklyDiv').find(".tuesdayClass").each(function(i, e){
+				tuesNo.push($(this).find("input:hidden").val());
+				tuesCon.push($(this).find(".conVal").val());
+		 	});
+			
+			//수요일 배열
+			var wedNo = [];
+			var wedCon = [];
+			 
+			//for 문에서 i역활과 같고 e는 this로 대신 쓸수 있음
+			$('#weeklyDiv').find(".wednesdayClass").each(function(i, e){
+				wedNo.push($(this).find("input:hidden").val());
+				wedCon.push($(this).find(".conVal").val());
+		 	});
 			
 			var count=0;
 			
-			var allData = { "monNo": monNo, "monCon": monCon, "evoNo": ${evo.empNo} }; 
+			var allData = { "monNo": monNo, "monCon": monCon,"tuesNo" : tuesNo, "tuesCon": tuesCon,  "wedNo": wedNo, "wedCon":wedCon, "evoNo": ${evo.empNo} }; 
 			var monValue="<td></td><td></td><td>";
+			var tuesNo ="<td></td><td></td><td>";
 			var monSize =0;
 		 	$.ajax({
 				type:"get",
 				data : allData, 
 				url:"sch_weeklyUpdateList.do",
 				dataType:"json",
+				context: this,
 				success:function(jsonData){
 					 for(var i=0; i<jsonData.length; i++){
 						 if(jsonData[i].day=="월요일"){
@@ -106,9 +172,28 @@
 							monValue="<td></td><td></td><td>";
 							monSize = i;
 						 }
+						 else if(jsonData[i].day=="화요일"){
+								tuesValue +="<input type='hidden' name='hidden' value='"+ jsonData[i].schNo +"'>";
+								tuesValue +=jsonData[i].schContent;
+								tuesValue +="</td>";
+								$(".tuesdayClass").parent().children().eq(count+2).html(tuesValue);
+								count++;
+								tuesValue="<td></td><td></td><td>";
+								
+						}else if(jsonData[i].day=="수요일"){
+							wedValue +="<input type='hidden' name='hidden' value='"+ jsonData[i].schNo +"'>";
+							wedValue +=jsonData[i].schContent;
+							wedValue +="</td>";
+							$(".wednesdayClass").parent().children().eq(count+3).html(wedValue);
+							count++;
+							wedValue="<td></td><td></td><td>";
+						}//if문 끝
 					} //for문 끝
+					 var test = "<Button type='button' class='btn btn-primary updeleteButton'>수정</button>";
+					$(this).parent().html(test); 
 				}//sucess끝
 			})//ajax  
+		
 		}) //썸잇 버튼 끝
 		
 	})
@@ -140,7 +225,7 @@
 
 							<tr>
 								<td></td>
-								<td class="monName" style="font-size: 1.2em">#Monday </td>
+								<td class="monName" style="font-size: 1.2em">#Monday</td>
 								<td></td>
 							</tr>
 
@@ -157,16 +242,16 @@
 
 							<tr>
 								<td></td>
-								<td>#Tuesday</td>
+								<td class="tuesName">#Tuesday</td>
 								<td></td>
 							</tr>
 
-
-							<c:forEach items="${wlist}" var="i">
+							<c:forEach items="${wlist}" var="i" varStatus="index">
 								<c:if test="${i.day eq '화요일'}">
-									<tr>
+									<tr class="tuesdayClass">
 										<td></td>
-										<td></td>
+										<td><input type="hidden" name="hidden"
+											value="${index.index}"></td>
 										<td>${i.schContent }</td>
 									</tr>
 								</c:if>
@@ -174,14 +259,15 @@
 
 							<tr>
 								<td></td>
-								<td>#Wednesday</td>
+								<td class="wedName">#Wednesday</td>
 								<td></td>
 
-								<c:forEach items="${wlist}" var="i">
+								<c:forEach items="${wlist}" var="i" varStatus="index">
 									<c:if test="${i.day eq '수요일'}">
-										<tr>
+										<tr class="wednesdayClass">
 											<td></td>
-											<td></td>
+											<td><input type="hidden" name="hidden"
+												value="${index.index}"></td>
 											<td>${i.schContent }</td>
 										</tr>
 									</c:if>
@@ -192,16 +278,16 @@
 								<td></td>
 							</tr>
 
-							<c:forEach items="${wlist}" var="i">
+							<c:forEach items="${wlist}" var="i" varStatus="index">
 								<c:if test="${i.day eq '목요일'}">
-									<tr>
+									<tr class="thursdayClass">
 										<td></td>
-										<td></td>
+										<td><input type="hidden" name="hidden"
+											value="${index.index}"></td>
 										<td>${i.schContent }</td>
 									</tr>
 								</c:if>
 							</c:forEach>
-
 
 							<tr>
 								<td></td>
@@ -209,11 +295,12 @@
 								<td></td>
 							</tr>
 
-							<c:forEach items="${wlist}" var="i">
+							<c:forEach items="${wlist}" var="i" varStatus="index">
 								<c:if test="${i.day eq '금요일'}">
-									<tr>
+									<tr class="FridayClass">
 										<td></td>
-										<td></td>
+										<td><input type="hidden" name="hidden"
+											value="${index.index}"></td>
 										<td>${i.schContent }</td>
 									</tr>
 								</c:if>
@@ -226,22 +313,23 @@
 								<td></td>
 							</tr>
 
-							<c:forEach items="${wlist}" var="i">
+							<c:forEach items="${wlist}" var="i" varStatus="index">
 								<c:if test="${i.day eq '토요일'}">
-									<tr>
+									<tr class="saturdayClass">
 										<td></td>
-										<td></td>
+										<td><input type="hidden" name="hidden"
+											value="${index.index}"></td>
 										<td>${i.schContent }</td>
 									</tr>
 								</c:if>
 							</c:forEach>
-
 						</tbody>
 					</table>
 
 					<br>
 					<div id=chButton>
-						<button type='button' class='btn btn-primary updeleteButton'>추가/수정</button>
+						<button type='button' class='btn btn-primary updeleteButton'>수정</button>
+						<button type='button' class='btn btn-primary insertButton'>추가</button>
 					</div>
 				</center>
 			</div>

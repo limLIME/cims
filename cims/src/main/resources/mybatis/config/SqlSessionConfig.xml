@@ -18,9 +18,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="org.kosta.cims.model.CommentVO" alias="commentVO" />
 		<typeAlias type="org.kosta.cims.model.RecommendVO" alias="recommendVO" />
 		<typeAlias type="org.kosta.cims.model.RecCommentVO" alias="recCommentVO" />
-		<typeAlias type="org.kosta.cims.model.MailVO" alias="mailVO"/>   
-   		<typeAlias type="org.kosta.cims.model.DocumentVO" alias="documentVO"/>
-   		<typeAlias type="org.kosta.cims.model.ApproverVO" alias="approverVO"/>
+		<typeAlias type="org.kosta.cims.model.MailVO" alias="mailVO" />
+		<typeAlias type="org.kosta.cims.model.DocumentVO" alias="documentVO" />
+		<typeAlias type="org.kosta.cims.model.ApproverVO" alias="approverVO" />
+		<typeAlias type="org.kosta.cims.model.ClubBoardVO" alias="clubBoardVO" />
+		<typeAlias type="org.kosta.cims.model.ClubVO" alias="clubVO" />
+		<typeAlias type="org.kosta.cims.model.ClubMemberVO" alias="clubMemberVO" />
+		<typeAlias type="org.kosta.cims.model.ClubApplicantVO"
+			alias="clubApplicantVO" />
+		<typeAlias type="org.kosta.cims.model.EvaluationVO" alias="evaluationVO"/>
 	</typeAliases>
 	<!-- mapper.xml 을 명시한다 -->
 	<mappers>
@@ -32,8 +38,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/config/comment.xml" />
 		<mapper resource="mybatis/config/recboard.xml" />
 		<mapper resource="mybatis/config/recComment.xml" />
-		<mapper resource="mybatis/config/document.xml"/>
-      	<mapper resource="mybatis/config/mail.xml"/>
+		<mapper resource="mybatis/config/document.xml" />
+		<mapper resource="mybatis/config/mail.xml" />
+		<mapper resource="mybatis/config/club.xml" />
+		<mapper resource="mybatis/config/clubBoard.xml" />
+		<mapper resource="mybatis/config/evaluation.xml" />
 	</mappers>
 </configuration>
 

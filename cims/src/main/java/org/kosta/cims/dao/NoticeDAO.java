@@ -19,4 +19,5 @@ public interface NoticeDAO {
 	int totalContentByTitleContent();
 	int totalContentBycontent(String searchVar);
 	int totalContentByTitleContent(String searchVar);
+	Integer countNot();
 }

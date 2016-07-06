@@ -28,5 +28,6 @@ public interface BoardDAO {
 	public abstract int totalTitleCount(String searchVar);
 	public abstract int totalContentCount(String searchVar);
 	public abstract int totalTitleContentCount(String searchVar);
+	public abstract Integer countBor();
 	
 }

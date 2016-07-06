@@ -55,13 +55,26 @@ public class MailDAOImpl implements MailDAO {
 	}
 	
 	@Override
-	public void deleteMail(int no){
-		template.delete("mail.deleteMail",no);
+	public void sDeleteMail(int no){
+		template.update("mail.sDeleteMail",no);
+	}
+	@Override
+	public void rDeleteMail(int no){
+		template.update("mail.rDeleteMail",no);
 	}
 	
 	@Override
 	public void sendMail(MailVO mailVO){
 		System.out.println(mailVO);
 		template.insert("mail.sendMail",mailVO);
+	}
+	
+	@Override
+	public Integer countMail(String empNo) {
+		return template.selectOne("mail.countMail", empNo);
+	}
+	@Override
+	public List<MailVO> getMyMailList(String empNo) {
+		return template.selectList("mail.getMyMailList", empNo);
 	}
 }

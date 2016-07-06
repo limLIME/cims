@@ -8,13 +8,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
 import org.kosta.cims.model.ListVO;
 import org.kosta.cims.model.MailVO;
 import org.kosta.cims.model.PagingBean;
+import org.kosta.cims.service.EmployeeService;
 import org.kosta.cims.service.MailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class MailController {
 	@Resource
 	private MailService mailService;
+	@Resource
+	private EmployeeService employeeService;
 	
 	@Resource(name="mailPath")
 	private String mailPath;
@@ -82,16 +87,22 @@ public class MailController {
 	
 	//메일 삭제
 	@RequestMapping("mail_deleteMail.do")
-	public ModelAndView deleteMail(int no){
-		mailService.deleteMail(no);
-		return new ModelAndView("redirect:mail.do?pageNo=1");
+	public ModelAndView deleteMail(HttpServletRequest request,String sender,int no){
+		HttpSession session = request.getSession(false);
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		if(evo.getEmpNo().equals(sender)){//보낸이가 나라면 sdelete
+			mailService.sDeleteMail(no);
+		}else{								//보낸이가 내가아니라면 rdelete
+			mailService.rDeleteMail(no);
+		}
+		
+		return new ModelAndView("mail_deleteResult");
 	}
 	
 	@RequestMapping("mail_sendMail.do")
 	public ModelAndView sendMail(MailVO mailVO,HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		mailVO.setEmployeeVO(evo);
 		mailVO.setMailSender(evo.getEmpNo());
 
 		MultipartFile file = mailVO.getFilePath(); // 파일
@@ -112,4 +123,28 @@ public class MailController {
 	}
 
 	
+	@RequestMapping("mail_popup.do")
+	public ModelAndView popup(HttpServletRequest request, String txt) {
+		List<DepartmentVO> list = employeeService.deptList();
+		ModelAndView mv = new ModelAndView();
+
+		mv.addObject("deptList", list);
+		mv.setViewName("mail/search");
+
+		return mv;
+	}
+
+	@RequestMapping("mail_seardBydeptName.do")
+	@ResponseBody
+	public List<EmployeeVO> seardBydeptName(String deptName) {
+		List<EmployeeVO> list = employeeService.seardBydeptName(deptName);
+		return list;
+	}
+
+	@RequestMapping("mail_findByName.do")
+	@ResponseBody
+	public List<EmployeeVO> findByName(String empName) {
+		List<EmployeeVO> list = employeeService.findByName(empName);
+		return list;
+	}
 }

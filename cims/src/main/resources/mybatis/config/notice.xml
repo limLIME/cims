@@ -96,6 +96,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from notice where notice_content like '%' || #{noticeTitle} || '%' or notice_title like '%' || #{noticeTitle} || '%'
 	</select>
 	
+	<select id="countNot" resultType="int">
+	select count(notice_no) 
+	from notice  
+	where
+	to_char(notice_date, 'YYYY-MM-DD')=to_char(sysdate, 'YYYY-MM-DD')
+	</select>
+	
 </mapper>
 
 

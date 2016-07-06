@@ -8,33 +8,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result property="mailDate" column="mail_date" />
       <result property="mailNo" column="mail_no" />
       <result property="mailTitle" column="mail_title" />
-      <result property="mailSender" column="mail_sender" />
+      <result property="mailSender" column="emp_no" />
       <result property="mailReceiver" column="mail_receiver" />
       <result property="mailContent" column="mail_content" />
       <result property="mailPath" column="mail_path" />
       <result property="mailConfirm" column="mail_confirm" />
-      <result property="mailState" column="mail_state" />
-      <result property="employeeVO.empNo" column="emp_no" />
-      <result property="employeeVO.empName" column="emp_name" />
+      <result property="mailsdelete" column="mail_sdelete" />
+       <result property="mailrdelete" column="mail_rdelete" />
    </resultMap>
    <select id="getReceiveMailList" resultMap="mailRM">
-   select pageNo,mail_no,mail_title,mail_sender,mail_receiver,mail_state,mail_confirm,mail_date,emp_name from(
-      select mail_no,mail_title,mail_sender,mail_receiver,mail_state,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
-      select m.mail_no,m.mail_title,m.mail_sender,m.mail_receiver,m.mail_state,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
-      mail m, employee e where m.emp_no=e.emp_no and m.mail_receiver=#{empNo} and m.mail_state!=1 order by m.mail_no desc)
+   select pageNo,mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,emp_name from(
+      select mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
+      select m.mail_no,m.mail_title,e.emp_no,m.mail_receiver,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
+      mail m, employee e 
+      where m.emp_no=e.emp_no and m.mail_receiver=#{empNo} and m.mail_rdelete!=1 order by m.mail_no desc)
       ) where pageNo=#{pageNo}
    </select>
    <select id="getSendMailList" resultMap="mailRM">
-   select pageNo,mail_no,mail_title,mail_sender,mail_receiver,mail_state,mail_confirm,mail_date,emp_name from(
-      select mail_no,mail_title,mail_sender,mail_receiver,mail_state,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
-      select m.mail_no,m.mail_title,m.mail_sender,m.mail_receiver,m.mail_state,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
-      mail m, employee e where m.emp_no=e.emp_no and m.mail_sender=#{empNo} and m.mail_state!=1 order by m.mail_no desc
-      )
+   select pageNo,mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,emp_name from(
+      select mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
+      select m.mail_no,m.mail_title,e.emp_no,m.mail_receiver,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
+      mail m, employee e
+       where  m.emp_no=e.emp_no and m.emp_no=#{empNo} and m.mail_sdelete!=1 order by m.mail_no desc)
       ) where pageNo=#{pageNo}
    </select>
    
    <select id="totalSendMailContent" resultType="int">
-      select count(*) from mail where mail_sender=#{value}
+      select count(*) from mail where emp_no=#{value}
    </select>
    
    
@@ -49,23 +49,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    <select id="showMailContent" resultMap="mailRM">
      select
-      m.mail_no,m.mail_title,m.mail_path,m.mail_content,m.mail_sender,m.mail_receiver,e.emp_no,e.emp_name,to_char(m.mail_date,'yyyy.mm.dd')
-      as mail_date
+      m.mail_no,m.mail_title,m.mail_path,m.mail_content,m.emp_no,m.mail_receiver,e.emp_name,to_char(m.mail_date,'yyyy.mm.dd')as mail_date
       from mail m,employee e
-      where m.emp_no=e.emp_no and m.mail_no =#{mailNo}
+      where m.emp_no=e.emp_no and m.mail_no=#{mailNo}
    </select>
    
-   <delete id="deleteMail">
-      delete mail where mail_no=#{value}
-   </delete>
+   <update id="sDeleteMail">
+      update mail  set mail_sdelete= 1  where mail_no=#{value}
+   </update>
+    
+    <update id="rDeleteMail">
+      update mail  set mail_rdelete = 1  where mail_no=#{value}
+   </update>
    
    <insert id="sendMail" parameterType="mailVO">
     <selectKey keyProperty="mailNo" order="BEFORE" resultType="int">
          select mail_seq.nextval from dual
       </selectKey>
-      insert into mail(mail_no,emp_no,mail_date,mail_title,mail_content,mail_sender,mail_receiver,mail_path) 
-      values(#{mailNo},#{employeeVO.empNo},sysdate,#{mailTitle},#{mailContent},#{mailSender},#{mailReceiver},#{mailPath})
+      insert into mail(mail_no,mail_date,mail_title,mail_content,emp_no,mail_receiver,mail_path) 
+      values(#{mailNo},sysdate,#{mailTitle},#{mailContent},#{mailSender},#{mailReceiver},#{mailPath})
    </insert>
+   
+   <select id="countMail" parameterType="string" resultType="int">
+   select count(mail_no) as count
+   from mail
+   where mail_receiver=#{value} and mail_confirm=0
+	</select>
+
+	<select id="getMyMailList" parameterType="string" resultMap="mailRM">
+		select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path, mail_receiver, mail_confirm
+		from mail
+		<![CDATA[ where mail_receiver=#{value} and mail_confirm=0 and rownum <=5]]>
+		order by mail_date desc
+   </select>
 </mapper>
 
 

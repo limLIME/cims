@@ -32,11 +32,11 @@ public class EmployeeController {
 	@Resource(name = "signPath")
 	private String signPath;
 	
-	@RequestMapping("emp_deleteform.do")
+	@RequestMapping("emp_updateSearch.do")
 	public String deleteform(HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		session.setAttribute("left", 17);
-		return "emp_deleteform";
+		return "emp_updateSearch";
 	}
 	
 	
@@ -119,12 +119,10 @@ public class EmployeeController {
 	      return "../../index2";
 	   } 
 	
-	  @RequestMapping("emp_deleteEmp.do")
-      @ResponseBody
-      public List<EmployeeVO> delete(int empNo, String empName){
+	  @RequestMapping("emp_adminDeleteEmp.do")
+       public String deleteEmp(String empNo){
          service.deleteEmp(empNo);
-         List<EmployeeVO> list = service.findByName(empName);
-         return list;
+         return "emp_updateSearch";
       }
 
 	  @RequestMapping("emp_findByName.do")
@@ -139,7 +137,7 @@ public class EmployeeController {
 		  EmployeeVO vo = service.findByNo(empNo);
 		return new ModelAndView("emp_adminUpdateEmp","vo",vo);
 	  }
-	  
+	   
 	  @RequestMapping("emp_adminUpdate.do")
 	  public String adminUpdateResult(EmployeeVO vo ,int deptNo, int positionNo) {
 			EmployeeVO evo = service.findByNo(vo.getEmpNo());
@@ -180,6 +178,29 @@ public class EmployeeController {
 			service.adminUpdate(vo);
 			return "emp_adminUpdateEmp_result";
 		}
+	  
+	  @RequestMapping("emp_updateMyState.do")
+	  public String updateMyState(HttpServletRequest request,int state) {
+		HttpSession session = request.getSession(false);
+		EmployeeVO vo =(EmployeeVO) session.getAttribute("evo");
+		String empNo=vo.getEmpNo();
+		service.updateMyState(empNo,state);
+		vo.setEmpState(state);
+		return "redirect:home.do";
+	  }
+	   @RequestMapping("emp_searchemp.do")
+	     public ModelAndView searchemp(){
+	        List<DepartmentVO> list = service.deptList();
+	        return new ModelAndView("emp_searchemp","deptList",list);
+	     }
+	     
+	     
+	     @RequestMapping("emp_seardBydeptName.do")
+	      @ResponseBody
+	     public List<EmployeeVO> seardBydeptName(String deptName){
+	        List<EmployeeVO> list = service.seardBydeptName(deptName);
+	        return list;
+	     }
 	  }
 	  
 	  

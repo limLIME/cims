@@ -26,9 +26,9 @@ public class DocumentDAOImpl implements DocumentDAO {
 		list.add(app2);
 		list.add(app3);
 		list.add(app4);
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("docNo", "" + dvo.getDocNo());
-		map.put("empNo", "" + dvo.getEmployeeVO().getEmpNo());
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("docNo",  dvo.getDocNo());
+		map.put("empNo", dvo.getEmployeeVO().getEmpNo());
 		
 
 		for (int i = 0; i <4; i++) {
@@ -80,31 +80,23 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public void docReturn(int docNo,EmployeeVO evo) {
-		HashMap<String,String> map = new HashMap<String, String>();
-		map.put("docNo", ""+docNo);
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("docNo", docNo);
 		map.put("empNo", evo.getEmpNo());
 		template.update("document.docReturn", map);
-		
-
 	}
 
 	
 	@Override
 	public void  docSign(int docNo,String empNo,String empSign){
-		HashMap<String, String> map = new HashMap<String, String>();
-
-		map.put("docNo", ""+docNo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("docNo",docNo);
 		map.put("empNo",empNo);
 		map.put("empSign",empSign );
-		
 		template.update("document.docSign", map);
-		System.out.println("내결재 ok");
 		int x=template.selectOne("document.docCheck",docNo);
-		System.out.println("전부다 결재했는지확인");
 		if(x==0){
-			//사인이 다되어있으면 결재완료로 상태변경
 			template.update("document.docEnd", docNo);
-		System.out.println("결재완료로 상태변경");
 		}
 
 	}
@@ -112,8 +104,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 	// 반려----------------------------------------
 	@Override
 	public List<Object> returnMain(int page, String empNo, String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
 		return template.selectList("document.returnMain", map);
@@ -121,8 +113,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> returnList(int page, String empNo, String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
 		
@@ -131,8 +123,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> returnSign(int page, String empNo,String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" +page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo",empNo);
 		map.put("empSign", empSign);
 		return template.selectList("document.returnSign", map);
@@ -140,15 +132,15 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> returnMy(int page, String empNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		return template.selectList("document.returnMy", map);
 	}
 
 	@Override
 	public int getReturnSignTotalPage(String empNo,String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empSign", empSign);
 		map.put("empNo", empNo);
 		return template.selectOne("document.getReturnSignTotalPage", map);
@@ -161,7 +153,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getReturnListTotalPage( String empNo,String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
 		return template.selectOne("document.getReturnListTotalPage", map);
@@ -169,7 +161,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getReturnMainTotalPage(String empNo,String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo",  empNo);
 		map.put("empSign", empSign);
 		return template.selectOne("document.getReturnMainTotalPage", map);
@@ -178,35 +170,35 @@ public class DocumentDAOImpl implements DocumentDAO {
 	// 결재완료---------------------------
 	@Override
 	public List<Object> completeMain(int page, String empNo, String empSign,int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
-		map.put("positionNo",""+positionNo);
+		map.put("positionNo",positionNo);
 		return template.selectList("document.completeMain", map);
 	}
 
 	@Override
 	public List<Object> completeMy(int page, String empNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		return template.selectList("document.completeMy", map);
 	}
 
 	@Override
 	public List<Object> completeSign(int page,String empNo, String empSign,int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page",  page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectList("document.completeSign", map);
 	}
 
 	@Override
 	public List<Object> complete(int page,int positionNo) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
 		map.put("positionNo",positionNo);
 		return template.selectList("document.complete", map);
@@ -219,26 +211,26 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getCompleteSignTotalPage(String empNo,String empSign,int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empSign", empSign);
 		map.put("empNo", empNo);
-		map.put("positionNo",""+positionNo);
+		map.put("positionNo",positionNo);
 		return template.selectOne("document.getCompleteSignTotalPage", map);
 	}
 
 	@Override
 	public int getCompleteMainTotalPage(String empNo, String empSign,
 			int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empSign", empSign);
 		map.put("empNo", empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectOne("document.getCompleteMainTotalPage", map);
 	}
 
 	@Override
 	public int getCompleteTotalPage(int positionNo) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("positionNo",positionNo);
 		return template.selectOne("document.getCompleteTotalPage", map);
 	}
@@ -246,25 +238,25 @@ public class DocumentDAOImpl implements DocumentDAO {
 	// 결재중---------------------------------
 	@Override
 	public List<Object> waitingMain(int page, String empNo, String empSign,int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo",empNo);
 		map.put("empSign", empSign);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectList("document.waitingMain", map);
 	}
 
 	public List<Object> waitingMy(int page, String empNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		return template.selectList("document.waitingMy", map);
 	}
 
 	@Override
 	public List<Object> waiting(int page, String empNo, String empSign) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
 			return template.selectList("document.waiting", map);
@@ -272,10 +264,10 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> waitingMySign(int page, String empNo, int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo",empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectList("document.waitingMySign", map);
 	}
 
@@ -285,10 +277,10 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getWaitingMainTotalPage(String empNo, String empSign, int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empSign", empSign);
-		map.put("empNo", "" + empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("empNo", empNo);
+		map.put("positionNo", positionNo);
 		return template.selectOne("document.getWaitingMainTotalPage", map);
 	}
 
@@ -301,19 +293,44 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	public int getWaitingMySignTotalPage(String empNo,int positionNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectOne("document.getWaitingMySignTotalPage", map);
 	}
+	
+	public List<Object> waitingSubstitute(int page, String empNo,int positionNo){
+		List<EmployeeVO> list = template.selectList("document.findMySubstitute",empNo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("sub", empNo);
+		List<Object> list3 = new ArrayList<Object>();
 
+		for(int i=0;i<list.size();i++){
+			map.put("empNo",list.get(i).getEmpNo());
+			map.put("positionNo", list.get(i).getPositionVO().getPositionNo());
+			List<Object> list2=template.selectList("document.waitingSubstitute", map);
+			for(int j=0;j<list2.size();j++){
+				list3.add(list2.get(j));
+			}
+		
+		}
+		return  list3;
+	}
 
+	public  int getWaitingSubstituteTotalPage(String empNo,int positionNo){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("empNo", empNo);
+		map.put("positionNo", positionNo);
+		return template.selectOne("document.getWaitingSubstituteTotalPage", map);
+		
+	}
 
 	//------------반려 검색----------------
 	@Override
 	public List<Object> returnMainSearch(int page,String empNo,String empSign,String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("data", data);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
@@ -321,7 +338,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 	@Override
 	public int getReturnMainSearchTotalPage(String empNo,String empSign,String data) {
-		HashMap<String, String> map = new HashMap<String, String>();		
+		HashMap<String, Object> map = new HashMap<String, Object>();		
 		map.put("data", data);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
@@ -330,8 +347,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> returnMySearch(int page, String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("data", data);
 		map.put("empNo", empNo);
 		return template.selectList("document.returnMySearch", map);
@@ -339,7 +356,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getReturnMySearchTotalPage(String empNo, String data) {
-	HashMap<String, String> map = new HashMap<String, String>();		
+	HashMap<String, Object> map = new HashMap<String, Object>();		
 	map.put("data", data);
 	map.put("empNo", empNo);
 	return template.selectOne("document.getReturnMySearchTotalPage", map);
@@ -347,8 +364,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> returnSignSearch(int page, String empNo, String empSign, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("data", data);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
@@ -357,7 +374,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getReturnSignSearchTotalPage(String empNo, String empSign, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();		
+		HashMap<String, Object> map = new HashMap<String, Object>();		
 		map.put("data", data);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
@@ -366,8 +383,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> returnListSearch(int page, String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("data", data);
 		map.put("empNo", empNo);
 		return template.selectList("document.returnListSearch", map);
@@ -375,7 +392,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getReturnListSearchTotalPage(String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();		
+		HashMap<String, Object> map = new HashMap<String, Object>();		
 		map.put("data", data);
 		map.put("empNo", empNo);
 		return template.selectOne("document.getReturnListSearchTotalPage", map);
@@ -383,29 +400,29 @@ public class DocumentDAOImpl implements DocumentDAO {
 	// 완료 검색--------------------------------------------------------------------------
 	@Override
 	public List<Object> completeSearch(int page, String empNo, int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("data", data);
 		map.put("empNo", empNo);
-		map.put("positionNo", ""+ positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectList("document.completeSearch", map);
 	}
 
 	@Override
 	public int getCompleteSearchTotalPage(String empNo,int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();		
+		HashMap<String, Object> map = new HashMap<String, Object>();		
 		map.put("data", data);
 		map.put("empNo", empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectOne("document.getCompleteSearchTotalPage", map);
 	}
 
 	@Override
 	public List<Object> completeMainSearch(int page, String empNo, String empSign, int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();		
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();		
+		map.put("page", page);
 		map.put("empNo", empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		map.put("empSign", empSign);
 		map.put("data", data);
 		return template.selectList("document.completeMainSearch", map);
@@ -413,9 +430,9 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getCompleteMainSearchTotalPage(String empNo, String empSign, int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();				
+		HashMap<String, Object> map = new HashMap<String, Object>();				
 		map.put("empNo", empNo);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		map.put("empSign", empSign);
 		map.put("data", data);
 		return template.selectOne("document.getCompleteMainSearchTotalPage", map);
@@ -423,30 +440,28 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> completeSignSearch(int page, String empNo,String empSign,int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo",positionNo);
 		map.put("data", data);
-		System.out.println(map);
-		System.out.println(template.selectList("document.completeSignSearch", map));
 		return template.selectList("document.completeSignSearch", map);
 	}
 	@Override
 	public int getCompleteSignSearchTotalPage(String empNo, String empSign, int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empSign", empSign);
 		map.put("empNo", empNo);
-		map.put("positionNo",""+positionNo);
+		map.put("positionNo",positionNo);
 		map.put("data", data);
 		return template.selectOne("document.getCompleteSignSearchTotalPage", map);
 	}
 
 	@Override
 	public List<Object> completeMySearch(int page, String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", ""+page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("data", data);
 		return template.selectList("document.completeMySearch", map);
@@ -454,7 +469,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getCompleteMySearchTotalPage(String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
 		map.put("data", data);
 		return template.selectOne("document.getCompleteMySearchTotalPage", map);
@@ -464,8 +479,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 	
 	@Override
 	public List<Object> waitingListSearch(int page, String empNo,String empSign, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page",  page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
 		map.put("data", data);
@@ -474,8 +489,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> waitingMySearch(int page, String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("data", data);
 		return template.selectList("document.waitingMySearch", map);
@@ -483,28 +498,28 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public List<Object> waitingMainSearch(int page, String empNo,String empSign, int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
 		map.put("empSign", empSign);
-		map.put("positionNo", "" + positionNo);
+		map.put("positionNo", positionNo);
 		map.put("data", data);
 		return template.selectList("document.waitingMainSearch", map);
 	}
 
 	@Override
 	public List<Object> waitingMySignSearch(int page, String empNo,int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("page", "" + page);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
 		map.put("empNo", empNo);
-		map.put("positionNo", "" + positionNo);
+		map.put("positionNo",  positionNo);
 		map.put("data", data);
 		return template.selectList("document.waitingMySignSearch", map);
 	}
 
 	@Override
 	public int getWaitingListSearchTotalPage(String empNo, String empSign,String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
 		map.put("data", data);
 		map.put("empSign", empSign);
@@ -513,7 +528,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getWaitingMySearchTotalPage(String empNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
 		map.put("data", data);
 		return template.selectOne("document.getWaitingMySearchTotalPage", map);
@@ -521,22 +536,25 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public int getWaitingMainSearchTotalPage(String empNo, String empSign,int positionNo, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
 		map.put("data", data);
 		map.put("empSign", empSign);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo",positionNo);
 		return template.selectOne("document.getWaitingMainSearchTotalPage", map);
 	}
 
 	@Override
 	public int getWaitingMySignSearchTotalPage(String empNo, int positionNo,String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("empNo", empNo);
 		map.put("data", data);
-		map.put("positionNo", ""+positionNo);
+		map.put("positionNo", positionNo);
 		return template.selectOne("document.getWaitingMySignSearchTotalPage", map);
 	}
 	
-
+	@Override
+	public Integer countDoc(EmployeeVO vo) {
+		return template.selectOne("document.countDoc", vo);
+	}
 }

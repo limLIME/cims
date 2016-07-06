@@ -17,6 +17,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="returner" column="doc_returner" />
 		<result property="approver" column="doc_approver" />
 	</resultMap>
+<resultMap type="employeeVO" id="employeeMap">
+		<id property="empNo" column="emp_no" />
+		<result property="empName" column="emp_name" />
+		<result property="password" column="password" />
+		<result property="empTel" column="emp_tel" />
+		<result property="empSign" column="emp_sign" />
+		<result property="empPath" column="emp_path" />
+		<result property="substitute" column="emp_substitute" />
+		<result property="empState" column="emp_state" />
+		<result property="positionVO.positionName" column="position_name" />
+		<result property="positionVO.positionNo" column="position_no" />
+		<result property="departmentVO.deptName" column="dept_name" />
+		<result property="departmentVO.deptNo" column="dept_no" />
+	</resultMap>
 
 	<!-- 공문보기 ******************************************************************* -->
 	<select id="showdocument" resultMap="documentMap">
@@ -232,7 +246,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where e.emp_no=d.emp_no and d.doc_state='결재중' 
 		and (d.emp_no=#{empNo} 
 		or	(select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-		or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo} ) order by d.doc_no desc 
+		or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo} 
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0'and position_no=#{positionNo} )=#{empNo} ) order by d.doc_no desc 
+	
 		)
 		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
 	</select>
@@ -259,7 +275,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where e.emp_no=d.emp_no  and d.doc_state='결재중' 
 		and (d.emp_no=#{empNo} 
 		or	(select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-		or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo}      
+		or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} 
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0'and position_no=#{positionNo} ) =#{empNo}
 		)
 	</select>
 	
@@ -270,24 +287,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 내가 사인해야하는 공문 -->
-	<select id="waitingMySign" resultMap="documentMap">
+	<select id="waitingMySign" resultMap="documentMap" parameterType="HashMap">
 		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
 		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
 		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' and
-		(select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo} order by d.doc_no desc
+		from employee e, document d
+		where e.emp_no=d.emp_no and d.doc_state='결재중' 
+		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  order by d.doc_no desc 
 		)
-		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+		)where page=#{page} group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
 	</select>
 	
 	<select id="getWaitingMySignTotalPage" resultType="int">
 		select count(*) from document d,employee e
 		where e.emp_no=d.emp_no and d.doc_state='결재중' and
-		(select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo}
+		 ((select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo} 
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0'and position_no=#{positionNo} )=#{empNo} )
+	</select>
+	
+	<select id="findMySubstitute" resultMap="employeeMap">
+		select emp_no,position_no from employee where emp_substitute=#{value}
 	</select>
 
+<!-- 결재대행해야할 공문 -->
+	<select id="waitingSubstitute" resultMap="documentMap" parameterType="HashMap">
+		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
+		from employee e, document d
+		where e.emp_no=d.emp_no and d.doc_state='결재중' 
+		and (select emp_state from employee where emp_no=#{empNo})!=1
+		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  order by d.doc_no desc 
+		)
+	</select>
 
+	<select id="getWaitingSubstituteTotalPage" resultType="int">
+		select count(*) from document d,employee e
+		where e.emp_no=d.emp_no and d.doc_state='결재중' 
+		and (select emp_state from employee where emp_no=#{empNo})!=1
+		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  order by d.doc_no desc 
+		
+	</select>
 
 	<!-- 반려검색*************************************************** -->
 	<!-- returnMain -->
@@ -439,7 +481,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where e.emp_no=d.emp_no and d.doc_state='결재중' 
       and (d.emp_no=#{empNo} 
       or   (select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-      or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo} ) and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc 
+      or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} ) and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc 
       )
       )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
    </select>
@@ -466,7 +508,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where e.emp_no=d.emp_no  and d.doc_state='결재중' 
       and (d.emp_no=#{empNo} 
       or   (select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-      or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo}      
+      or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo}      
       ) and d.doc_title like '%' || #{data} || '%' 
    </select>
    
@@ -482,7 +524,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
       from employee e, document d ,approver a
       where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' and
-      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
+      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
       )
       )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
    </select>
@@ -490,9 +532,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="getWaitingMySignSearchTotalPage" resultType="int">
       select count(*) from document d,employee e
       where e.emp_no=d.emp_no and d.doc_state='결재중' and
-      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionNo} and d.doc_title like '%' || #{data} || '%' 
+      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} and d.doc_title like '%' || #{data} || '%' 
    </select>
 
+	<select id="countDoc" resultType="int" parameterType="employeeVO">
+	 select count(*) from document d,employee e
+      where e.emp_no=d.emp_no and d.doc_state='결재중' and
+      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionVO.positionNo}
+	</select>
 
 
 

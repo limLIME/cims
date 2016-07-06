@@ -42,28 +42,28 @@
         운영시 경로는 C:\\java-kosta\\WAS\\spring-tomcat\\webapps\\springmvc26\\upload\\
    -->
    <bean id="uploadPath" class="java.lang.String">
-   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\noticeimg\\"></constructor-arg>
+   <constructor-arg value="C:\\Users\\KOSTA\\git\\cims\\cims\\src\\main\\webapp\\upload\\noticeimg\\"></constructor-arg>
    </bean>
    
    <!-- 자유게시판 // 건의사항 업로드 -->
     <bean id="boardUploadPath" class="java.lang.String">
-   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\boardimg\\"></constructor-arg>
+   <constructor-arg value="C:\\Users\\KOSTA\\git\\cims\\cims\\src\\main\\webapp\\upload\\boardimg\\"></constructor-arg>
    </bean>
    
    
    <!-- 공문 첨부파일 업로드 -->
    <bean id="documentPath" class="java.lang.String">
-   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\document\\"></constructor-arg>
+   <constructor-arg value="C:\\Users\\KOSTA\\git\\cims\\cims\\src\\main\\webapp\\upload\\document\\"></constructor-arg>
    </bean>
    
    <!-- 회원 등록시, 회원 서명 업로드 -->
    <bean id="signPath" class="java.lang.String">
-   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\sign\\"></constructor-arg>
+   <constructor-arg value="C:\\Users\\KOSTA\\git\\cims\\cims\\src\\main\\webapp\\upload\\sign\\"></constructor-arg>
    </bean>
    
    <!-- 메일 첨부 파일 저장 -->
    <bean id="mailPath" class="java.lang.String">
-   <constructor-arg value="C:\\Users\\kosta\\git\\cims\\cims\\src\\main\\webapp\\upload\\mail\\"></constructor-arg>
+   <constructor-arg value="C:\\Users\\KOSTA\\git\\cims\\cims\\src\\main\\webapp\\upload\\mail\\"></constructor-arg>
    </bean>
    
    

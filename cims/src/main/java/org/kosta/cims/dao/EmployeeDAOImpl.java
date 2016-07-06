@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -36,11 +37,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public void deleteEmp(int empNo) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("empNo", "0" + empNo);
-		System.out.println(map.toString());
-		template.update("employee.deleteEmp", map);
+	public void deleteEmp(String empNo) {
+			template.update("employee.deleteEmp", empNo);
 	}
 
 	@Override
@@ -92,5 +90,53 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		List<EmployeeVO> list = null;
 		list = template.selectList("employee.findMaster", map);
 		return list;
+	}
+	
+	   @Override
+	   public List<DepartmentVO> deptList() {
+	      return template.selectList("employee.deptList");
+	   }
+
+	   @Override
+	   public List<EmployeeVO> seardBydeptName(String deptName) {
+	      return template.selectList("employee.seardBydeptName", deptName);
+	   }
+	   @Override
+		public List<EmployeeVO> findSubstitute(String empNo,int deptNo,int positionNo){
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("deptNo", ""+deptNo);
+			map.put("positionNo", ""+positionNo);
+			map.put("empNo", empNo);
+			
+			
+			return template.selectList("employee.findSubstitute",map);
+		}
+	@Override
+		public EmployeeVO getMySubstitute(String empNo){
+			String subNo = template.selectOne("employee.getMySubstitute",empNo);
+			if(subNo==null){
+				return null;
+			}else{
+				return template.selectOne("employee.subInfo",subNo);
+			}
+
+		}
+	@Override
+		public  void updateSubstitute(String empNo, String subNo){
+			HashMap<String,String> map = new HashMap<String, String>();
+			map.put("empNo",empNo);
+			map.put("subNo",subNo);
+			template.update("employee.updateSubstitute",map);
+		}
+	@Override
+	public void updateMyState(String empNo,int state){
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("state", ""+state);
+		map.put("empNo", empNo);
+		template.update("employee.updateMyState",map);
+	}
+	@Override
+	public List<EmployeeVO> getMyTeamList(int deptNo) {
+		return template.selectList("employee.getMyTeamList", deptNo);
 	}
 }

@@ -13,9 +13,6 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
     
-<section id="main-content">
-          <section class="wrapper">
-<h3>&nbsp;<i class="fa fa-angle-right"></i> Waiting Document Main</h3><hr><br>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -28,6 +25,9 @@
 		$("#waitingMySignBtn").click(function(){
 			location.href="${initParam.root}doc_waitingMySign.do?page=1";
 		});
+		 $("#waitingSubstituteBtn").click(function(){
+			location.href="${initParam.root}doc_waitingSubstitute.do?page=1";
+		}); 
 		$("#waitingMainBtn").click(function(){
 			location.href="${initParam.root}doc_waitingMain.do?page=1";
 		});
@@ -38,7 +38,12 @@
 	     });//click
 	});
 </script>
+<section id="main-content">
+          <section class="wrapper">
+		<h3><i class="fa fa-angle-right"></i> Waiting Document Main</h3><hr><br>
       <div class="marginMain">
+	<div class="content-panel" align="center">
+	<div align="left">&nbsp;&nbsp;&nbsp;
 <!-- 내가 쓴것중 아직결제중 -->
 <button class="btn btn-primary" id="myDocBtn">
 <i class="fa fa-user" ></i>
@@ -51,10 +56,15 @@
 <button class="btn btn-success" id="waitingMySignBtn" >
 <i class="fa fa-spinner" ></i>
 </button> 
+<!-- 내가 결재대행해야할 목록 -->
+<button class="btn btn-info" id="waitingSubstituteBtn" >
+<i class="fa  fa-plane" ></i> 
 
-<br><br>  
+</button>                        
+</div>
 
-<div class="content-panel" align="center">
+<br> 
+
 <table class="table table-striped table-advance table-hover">
 	<thead>
 		<tr>
@@ -81,13 +91,9 @@
 </table>
 <br>
 <div align="right">
-	<input type="button" id="waitingMainBtn" class="btn btn-primary" value="main page">
+	<input type="button" id="waitingMainBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
-<div align="center">
-	<input type="text"  id="waitingMainSearchText" class="form-control" placeholder="Enter your search word" style="width: 400px">
-	<button class="btn btn-primary" id="waitingMainSearchBtn" value="Search" style="width: 50px; height: 32px">
-	<i class="fa fa-search"></i></button>
-</div>
+
 <br>
 	<c:choose >
 	<c:when test="${waitingMain.pagingBean.previousPageGroup==true}">
@@ -102,6 +108,13 @@
 		<a href="${initParam.root}doc_waitingMain.do?page=${waitingMain.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">다음</a>
 		</c:when>
 	</c:choose>
-	<br><br>	
+	<br>
+	<br>
+	<div align="center">
+	<input type="text"  id="waitingMainSearchText"  placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="waitingMainSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<i class="fa fa-search"></i></button>
+</div>
+	<br>	
 	</div></div>
 </section></section>

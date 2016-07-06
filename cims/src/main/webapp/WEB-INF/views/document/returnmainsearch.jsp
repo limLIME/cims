@@ -13,12 +13,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
     
-<section id="main-content">
-          <section class="wrapper">
-    
-<!-- 내가 관련된 반려문서 전부 -->
-<h3><i class="fa fa-angle-right"></i> Returned Docunemt Main</h3><hr><br>
-       <div class="marginMain">
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#myDocBtn").click(function(){
@@ -40,6 +35,13 @@
 	     });//click 
 	});	
 </script>
+
+<section id="main-content">
+          <section class="wrapper">
+<h3><i class="fa fa-angle-right"></i> Returned Docunemt Main</h3><hr><br>
+       <div class="marginMain">
+       <div class="content-panel" align="center"> 
+       <div align="left">&nbsp;&nbsp;&nbsp;
 <!-- 내가쓴것중 반려된 -->
 <button class="btn btn-primary" id="myDocBtn">
 <i class="fa fa-user" ></i>
@@ -52,9 +54,9 @@
 <button class="btn btn-danger" id="myReturnBtn" >
 <i class="fa fa-times" ></i>
 </button> 
+</div>
+<br> 
 
-<br><br>  
-<div class="content-panel" align="center"> 
 <table class="table table-striped table-advance table-hover">
 	<thead>
 		<tr>
@@ -79,13 +81,9 @@
 </table>
 <br>
 <div align="right">
-	<input type="button" id="returnMainBtn" class="btn btn-primary" value="main page">
+	<input type="button" id="returnMainBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
-<div align="center">
-	<input type="text"  id="returnMainSearchText" class="form-control" placeholder="Enter your search word" style="width: 400px">
-	<button class="btn btn-primary" id="returnMainSearchBtn" value="Search" style="width: 50px; height: 32px">
-	<i class="fa fa-search"></i></button>
-</div>
+
 <br>	
 	<c:choose >
 	<c:when test="${returnMainSearchList.pagingBean.previousPageGroup==true}">
@@ -100,7 +98,13 @@
 		<a href="${initParam.root}doc_returnMainSearch.do?page=${returnMainSearchList.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">다음</a>
 		</c:when>
 	</c:choose>
-	<br><br>	
+	<br>	<br>
+	<div align="center">
+	<input type="text"  id="returnMainSearchText" placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="returnMainSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<i class="fa fa-search"></i></button>
+</div>
+	<br>	
 </div>
 </div>
 

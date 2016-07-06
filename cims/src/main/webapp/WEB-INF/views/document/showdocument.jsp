@@ -6,6 +6,13 @@
           <div class="showDocMargin" >
 	<script type="text/javascript" >
 	$(document).ready(function(){
+		$("#btnForm").hide();
+		if(${sessionScope.flag==null}){
+					
+		}else{
+			$("#btnForm").show();
+		}
+		
 		$("#sign").click(function() {
 			if(confirm("결재하시겠습니까?")){
 				location.href="${initParam.root}doc_sign.do?docNo=${dvo.docNo}";
@@ -102,11 +109,11 @@
  </div>
  <br><br>
 	<center>
-	<form id="btnForm" >
-			<input type="button" id="sign" class="btn btn-primary" value="결재">&nbsp;&nbsp;&nbsp;
-			<input type="button" id="return" class="btn btn-danger" value="반려">	
-			</form>
-			</center>
+		<form id="btnForm" >
+				<input type="button" id="sign" class="btn btn-primary" value="결재">&nbsp;&nbsp;&nbsp;
+				<input type="button" id="return" class="btn btn-danger" value="반려">	
+		</form>
+	</center>
 
 
 	</div>

@@ -34,12 +34,13 @@ public interface DocumentDAO {
 	public abstract List<Object> waitingMain(int page,String empNo,String empSign,int positionNo);
 	public abstract List<Object> waiting(int page,String empNo,String empSign);
 	public abstract List<Object> waitingMySign(int page, String empNo,int positionNo);
-	
+	public abstract List<Object> waitingSubstitute(int page, String empNo,int positionNo);
+
 	public abstract int getWaitingMyTotalPage(String empNo);
 	public abstract int getWaitingMainTotalPage(String empNo,String empSign,int positionNo);
 	public abstract int getWaitingTotalPage(String empNo,String empSign);
 	public abstract int getWaitingMySignTotalPage(String empNo,int positionNo);
-	
+	public abstract int getWaitingSubstituteTotalPage(String empNo,int positionNo);
 	//결제완료-----------
 	public abstract List<Object> completeMy(int page,String empNo);
 	public abstract List<Object> completeSign(int page,String empNo,String empSign,int positionNo);
@@ -82,4 +83,7 @@ public interface DocumentDAO {
 	public abstract int getWaitingMySearchTotalPage(String empNo,String data);
 	public abstract int getWaitingMainSearchTotalPage(String empNo, String empSign, int positionNo,String data);
 	public abstract int getWaitingMySignSearchTotalPage(String empNo, int positionNo,String data);
+	
+	//메인 페이지 갯수
+	public abstract Integer countDoc(EmployeeVO vo);
 }

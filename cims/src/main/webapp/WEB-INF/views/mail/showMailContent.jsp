@@ -2,16 +2,20 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script type="text/javascript">
-$(document).ready(function() {
 
-	$("#DeleteBtn").click(function() {
-		Location.href="${initParam.root}mail_delete.do?mailNo=${requestScope.mailVO.mailNo}";
-	});
-	
-	
-});
+ <script type="text/javascript">
+    $(document).ready(function(){
+    	$("#listImg").click(function(){    		
+    		location.href="mail.do";
+    	});
+    	$("#deleteBtn").click(function(){ 
+    		if(confirm("메일을 삭제하시겠습니까?"))
+    			location.href="${initParam.root}mail_deleteMail.do?sender=${requestScope.mailVO.mailSender}&no=${requestScope.mailVO.mailNo}";
+    	});
+    
+    });	
 </script>
+
 <section id="main-content">
           <section class="wrapper">
 
@@ -20,25 +24,6 @@ $(document).ready(function() {
 <h3>&nbsp;<i class="fa fa-angle-right"></i>Mail Content</h3>
 <center>
 
-
-    <script type="text/javascript">
-    $(document).ready(function(){
-    	$("#listImg").click(function(){    		
-    		location.href="mail.do";
-    	});
-    	$("#deleteImg").click(function(){ 
-    		if(confirm("메일을 삭제하시겠습니까?"))
-    			location.href="deleteMail.do?no=${requestScope.mailVO.mailNo}";
-    	});
-    	$("#resendImg").click(function(){  
-    		if(confirm("답장하시겠습니까?"))
-    		location.href="resend.do?no=${requestScope.mailVO.mailNo }";
-    	});
-    });	
-</script>
-
-<body>
-	<%-- <jsp:include page="/member/login.jsp"></jsp:include> --%>
 	<table class="table table-striped table-advance table-hover">
 		<tr>
 			<td colspan="2">Title : ${requestScope.mailVO.mailTitle} </td>
@@ -72,10 +57,10 @@ $(document).ready(function() {
 		<tr>
 			<td valign="middle" align="center" colspan="3">
 			
-   			  <input type="reset"  id="deleteBtn" class="btn btn-danger" value="Delete">
+   			  <input type="button"  id="deleteBtn" class="btn btn-danger" value="Delete">
 			 <br><br>			
 			 </td>
 		</tr>
 	</table>
-</body>
+
 </center></div></div></section></section>

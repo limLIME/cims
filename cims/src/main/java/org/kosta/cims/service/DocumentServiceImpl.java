@@ -118,15 +118,24 @@ public class DocumentServiceImpl implements DocumentService {
 		return lvo;
 	}
 	@Override
-	public ListVO waitingMySign(int page, String empNo,int positionNo) {
+	public ListVO waitingMySign(int page,String empNo,int positionNo) {
 	      int getWaitingMySignTotalPage = dao.getWaitingMySignTotalPage(empNo,positionNo);
-	            List<Object> list =dao.waitingMySign(page,empNo, positionNo);
-	            PagingBean pb=new PagingBean(getWaitingMySignTotalPage, page);
+	            List<Object> list = dao.waitingMySign(page,empNo,positionNo);
+	            PagingBean pb = new PagingBean(getWaitingMySignTotalPage, page);
 	            ListVO lvo = new ListVO(list,pb);
+	
 	      return lvo;
 	   }
-
-
+	
+	@Override
+	public ListVO waitingSubstitute(int page, String empNo,int positionNo){
+	      int getWaitingSubstituteTotalPage = dao.getWaitingSubstituteTotalPage(empNo,positionNo);
+	            List<Object> list = dao.waitingSubstitute(page,empNo,positionNo);
+	            PagingBean pb = new PagingBean(getWaitingSubstituteTotalPage, page);
+	            ListVO lvo = new ListVO(list,pb);
+	
+	      return lvo;
+	   }
 	
 	//결재완료--------------------------------------------------
 	
@@ -283,6 +292,11 @@ public class DocumentServiceImpl implements DocumentService {
           PagingBean pb=new PagingBean(getWaitingMySignSearchTotalPage, page);
           ListVO lvo = new ListVO(list,pb);
     return lvo;
+	}
+	
+	@Override
+	public Integer countDoc(EmployeeVO vo) {
+		return dao.countDoc(vo);
 	}
 
 }

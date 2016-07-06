@@ -104,18 +104,26 @@
 			 	&nbsp;<input type = "button" id = "index" value = "List" class="btn btn-warning" ><br>
 			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
 			 </div>
+			 <br><br>
 	<table class = "table table-striped table-advance table-hover" >
-	
 	<c:forEach items = "${requestScope.list}" var = "l">
 		<tr>
+		<c:choose>
+			<c:when test="${l.employeeVO.empNo == evo.empNo}">
 			<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
-			<c:if test="${l.employeeVO.empNo == evo.empNo}">
 				<td> 
+				<div align="right">
 				     <input type = "button" value = "Delete" class="btn btn-danger"  onclick="commentCancel(${l.commentNo})" >  
-				
+				</div>
 				  </td>
-
-			</c:if>
+			</c:when>
+			<c:otherwise>
+				<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
+				<td>
+					&nbsp;
+				</td>
+			</c:otherwise>
+			</c:choose>
 		</tr>
 	</c:forEach>
 	</table>

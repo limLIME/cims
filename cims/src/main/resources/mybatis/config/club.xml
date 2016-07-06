@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club">
+	<resultMap type="clubVO" id="clubRM">
+		<id property="clubNo" column="club_no" />
+		<result property="clubName" column="club_name" />
+		<result property="clubContent" column="club_content" />
+		<result property="clubConfirm" column="club_confirm" />
+		<result property="employeeVO.empNo" column="emp_no" />
+		<result property="employeeVO.empName" column="emp_name" />
+	</resultMap>
+
+	<resultMap type="clubMemberVO" id="clubMemberRM">
+		<result property="clubNo" column="club_no" />
+		<result property="empNo" column="emp_no" />
+	</resultMap>
+
+	<select id="getPostingList" resultMap="clubRM">
+		select
+		pageNo,club_no,club_name,emp_name,club_confirm from(
+		select
+		club_no,club_confirm,club_name,ceil(rownum/5) as pageNo, emp_name
+		from(
+		select b.club_no,b.club_name,b.club_confirm, e.emp_name
+		from club
+		b, employee e where b.emp_no=e.emp_no and club_confirm=1 order by
+		club_no desc)
+		) where pageNo=#{value}
+	</select>
+
+	<select id="getPostingList2" resultMap="clubRM">
+		select
+		club_no,club_name,emp_name,club_confirm from(
+		select
+		club_no,club_confirm,club_name, emp_name
+		from(
+		select
+		b.club_no,b.club_name,b.club_confirm, e.emp_name
+		from club b, employee
+		e where b.emp_no=e.emp_no order by club_no desc)
+		) where club_confirm =
+		0
+	</select>
+
+	<select id="clubTotalCount" resultType="int">
+		select count(*) from club
+		where club_confirm=1
+	</select>
+
+	<select id="clubShowContent" resultMap="clubRM">
+		select
+		b.club_no,b.club_name,b.club_content,b.club_confirm,e.emp_no,e.emp_name
+		from club b,employee e
+		where b.emp_no=e.emp_no and b.club_no =
+		#{clubNo}
+	</select>
+
+	<insert id="clubWriter" parameterType="clubVO">
+		<selectKey keyProperty="clubNo" order="BEFORE" resultType="int">
+			select club_seq.nextval from dual
+		</selectKey>
+		insert into club(club_no,emp_no,club_name,club_content)
+		values(#{clubNo},#{employeeVO.empNo},#{clubName},#{clubContent})
+	</insert>
+
+	<update id="clubUpdate">
+		update club set club_name = #{clubName},
+		club_content =
+		#{clubContent} where club_no = #{clubNo}
+	</update>
+
+	<delete id="clubDelete">
+		delete from club where club_no=#{value}
+	</delete>
+
+	<update id="clubApproval" parameterType="int">
+		update club set club_confirm=1 where club_no= #{value}
+	</update>
+
+	<update id="clubReject" parameterType="int">
+		update club set club_confirm=2 where club_no= #{value}
+	</update>
+
+	<select id="findByClubName" resultType="string" parameterType="int">
+		select club_name from club where club_no=#{value}
+	</select>
+
+	<insert id="clubRegister">
+		insert into club_member(club_no,emp_no)
+		values(#{clubNo},#{employeeVO.empNo})
+	</insert>
+
+	<select id="clubCheck" parameterType="clubMemberVO" resultType="int">
+		select count(*) from club_member where club_no= #{clubNo} and
+		emp_no=#{employeeVO.empNo}
+	</select>
+
+	<delete id="clubMemberDelete">
+		delete from club_member where club_no=#{value}
+	</delete>
+
+	<select id="searchClubName" resultMap="clubRM">
+		select c.club_name
+		from
+		club c, club_member cm , employee e
+		where c.club_no = cm.club_no and
+		cm.emp_no=e.emp_no and cm.emp_no=#{value}
+	</select>
+
+	<select id="checkClubCreate" resultType="int">
+		select count(*) from club where emp_no=#{value}
+	</select>
+
+	<select id="findClubNoByempNo" resultMap="clubRM">
+		select club_no from club where emp_no=#{value}
+	</select>
+
+	<delete id="clubResign">
+		delete from club_member where emp_no=#{employeeVO.empNo} and
+		club_no=#{clubNo}
+	</delete>
+
+	<delete id="clubBoardDelete" parameterType="int">
+		delete club_board where club_board_no=#{value}
+	</delete>
+</mapper>
+
+
+
+

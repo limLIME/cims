@@ -76,8 +76,26 @@
     <script>
         $.backstretch("assets/img/login-bg.jpg", {speed: 500});
     </script>
+    
 
+
+     <script type="text/javascript" src="assets/js//backfix.min.js"></script>
      <script type="text/javascript">
+  	bajb_backdetect.OnBack = function(){
+			alert("패스워드를 입력하세요!!");
+		window.history.back=function(){
+			document.location="${initParam.root}lock_lock_screen.do";
+		}
+	};
+     </script>
+     <script type="text/javascript">
+     $(document).keydown(function(e){   
+         if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+             if(e.keyCode === 8){   
+             return false;
+             }
+         }
+     });
     $(document).ready(function(){
     	$(".modal-footer").on("click", "#button",function(){
     		var pass = $("#pass").val();

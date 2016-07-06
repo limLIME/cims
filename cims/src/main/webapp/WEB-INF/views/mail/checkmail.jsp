@@ -21,7 +21,7 @@
 		</thead>
 		<tbody>			
 		<c:if test="${requestScope.lvo.list.size()==0}">
-		<tr><td colspan="5"><center>메시지가 존재하지 않습니다</center></td></tr>
+		<tr><td colspan="6"><center>Not Exist Message</center></td></tr>
 		</c:if>
 		<c:forEach var="mailVO" items="${requestScope.lvo.list}">				
 			<tr>
