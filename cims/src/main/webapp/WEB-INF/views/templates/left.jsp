@@ -8,104 +8,100 @@
 		<ul class="sidebar-menu" id="nav-accordion">
 
 			<p class="centered">
-				<a href="profile.html"><img src="assets/img/ui-sam.jpg"
-					class="img-circle" width="60"></a>
+				<a href="${initParam.root}emp_updateform.do">
+				<img src="upload/sign/${evo.empPath }"class="img-circle"  height="100" width="100"></a>
 			</p>
+			<c:choose>
+			<c:when test="${evo.positionVO.positionNo==100}">
 			<h5 class="centered">${evo.empName}</h5>
+			</c:when>
+			<c:otherwise>
+			<h5 class="centered">${evo.departmentVO.deptName}  ${evo.positionVO.positionName}  ${evo.empName}</h5>
+			</c:otherwise>
+			</c:choose>
+			
 
-
+<!-- home 시작 -->
 			<li class="mt"><c:choose>
 					<c:when test="${left==1}">
-						<a class="active" href="${initParam.root}home.do"><i
-							class="fa fa-dashboard"></i> <span>MainPage</span> </a>
+						<a class="active" href="${initParam.root}home.do?pageNo=1"><i
+							class="fa fa-home"></i> <span>Home</span> </a>
 					</c:when>
 					<c:otherwise>
-						<a href="${initParam.root}home.do"><i class="fa fa-dashboard"></i>
-							<span>MainPage</span> </a>
+						<a href="${initParam.root}home.do?pageNo=1"><i class="fa fa-home"></i>
+							<span>Home</span> </a>
 					</c:otherwise>
 				</c:choose></li>
-
+<!-- home 끝-->
+<!-- 공지사항 시작 -->
 			<li class="sub-menu">
 			<c:choose>
 					<c:when test="${left==2}">
 					<a class="active" href="${initParam.root}notice_notice.do?pageNo=1"> 
-					<i class="fa fa-dashboard"></i> <span>Notice Board</span></a>
+					<i class="fa fa-bullhorn"></i> <span>Notice</span></a>
 					</c:when>
 					<c:otherwise>
 					<a href="${initParam.root}notice_notice.do?pageNo=1"> 
-					<i class="fa fa-dashboard"></i> <span>Notice Board</span></a>
+					<i class="fa fa-bullhorn"></i> <span>Notice</span></a>
 					</c:otherwise>
 				</c:choose></li>
-
+<!-- 공지사항 끝 -->
+<!-- 스케쥴 시작 -->
 			<li class="sub-menu">
 			<c:choose>
 			<c:when test="${left==3}">
 				<a class = "active" href="javascript:;"> 
-					<i class="fa fa-desktop"></i>
+					<i class="fa fa-calendar"></i>
 					<span>Schedule</span>
 				</a>
 					<ul class="sub">
 						<li class="active"><a href="${initParam.root}sch_home.do">Today</a></li>
-						<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
 						<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
 					</ul>
 				</c:when>
-				
-				<c:when test="${left==4}">
-					<a class = "active" href="javascript:;"> 
-					<i class="fa fa-desktop"></i>
-					<span>Schedule</span>
-				</a>
-					<ul class="sub">
-						<li><a href="${initParam.root}sch_home.do">Today</a></li>
-						<li class="active"><a href="${initParam.root}sch_week.do">Weekly</a></li>
-						<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
-					</ul>	
-				</c:when>
-				
+									
 				<c:when test="${left==5}">
 					<a class = "active" href="javascript:;"> 
-					<i class="fa fa-desktop"></i>
+					<i class="fa fa-calendar"></i>
 					<span>Schedule</span>
 				</a>
 					<ul class="sub">
 						<li><a href="${initParam.root}sch_home.do">Today</a></li>
-						<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
 						<li class="active"><a href="${initParam.root}sch_month.do">Monthly</a></li>
 					</ul>	
 				</c:when>	
 				<c:otherwise>
 				<a href="javascript:;"> 
-					<i class="fa fa-desktop"></i> 
+					<i class="fa fa-calendar"></i> 
 					<span>Schedule</span>
 				</a>
 					<ul class="sub">
-						<li ><a href="${initParam.root}sch_home.do">Today</a></li>
-						<li><a href="${initParam.root}sch_week.do">Weekly</a></li>
+						<li><a href="${initParam.root}sch_home.do">Today</a></li>
 						<li><a href="${initParam.root}sch_month.do">Monthly</a></li>
 					</ul>
 				</c:otherwise>
 			</c:choose>
 			</li>
-
+<!-- 스케쥴 끝-->
+<!-- 보드  시작 -->
 			<li class="sub-menu">
 				<c:choose>
 					<c:when test="${left==6}">
-					<a class = "active"  href="javascript:;"> <i class="fa fa-cogs"></i> <span>Board</span></a>
+					<a class = "active"  href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
 				<ul class="sub">
 					<li class = "active" ><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
 					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
 				</ul>
 					</c:when>
 					<c:when test="${left==7}">
-					<a class = "active"  href="javascript:;"> <i class="fa fa-cogs"></i> <span>Board</span></a>
+					<a class = "active"  href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
 				<ul class="sub">
 					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
 					<li class = "active" ><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
 				</ul>
 					</c:when>
 					<c:otherwise>
-						<a href="javascript:;"> <i class="fa fa-cogs"></i> <span>Board</span></a>
+						<a href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
 				<ul class="sub">
 					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
 					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
@@ -113,17 +109,17 @@
 					</c:otherwise>
 				</c:choose>
 				</li>
-				
-				
+<!-- 보드끝 -->		
+<!-- 전자결재 시작 -->				
 			<li class="sub-menu">
 			<c:choose>
 				<c:when test="${left==8 || left ==9|| left ==10 ||left ==11}">
 					<a class="active" href="javascript:;"> 
-					<i class="fa fa-book"></i> <span>Document</span></a>
+					<i class="fa fa-file-o"></i> <span>Document</span></a>
 				</c:when>
 				<c:otherwise>
 					<a href="javascript:;"> 
-					<i class="fa fa-book"></i> <span>Document</span></a>
+					<i class="fa fa-file-o"></i> <span>Document</span></a>
 				</c:otherwise>
 			</c:choose>
 			
@@ -168,18 +164,19 @@
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
 				</ul>
 				</c:otherwise>
-			</c:choose>
-				</li>
+				</c:choose>
 				
-			
+				</li>
+		<!-- 전자결재 끝-->		
+			<!-- 전자메일 시작 -->
 			<li class="sub-menu">
 			
 			<c:choose>
 			<c:when test="${left==12 || left==13 || left==14 || left==15}">
-			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Mail</span></a>
+			<a class="active" href="javascript:;"> <i class="fa fa-envelope-o"></i> <span>Mail</span></a>
 			</c:when>
 			<c:otherwise>
-			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Mail</span></a>
+			<a href="javascript:;"> <i class="fa fa-envelope-o"></i> <span>Mail</span></a>
 			</c:otherwise>
 			</c:choose>
 			
@@ -187,56 +184,186 @@
 				<c:when test="${left==12 }">
 				<ul class="sub">
 					<li class="active"><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==13 }">
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==14 }">
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
-					<li class="active"><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li class="active"><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==15 }">
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
-					<li class="active"><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li class="active"><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
 				</c:when>
 				<c:otherwise>
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">받은메일함</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">보낸메일함</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">수신확인</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
 				</c:otherwise>
 				</c:choose>	
 				</li>
-				<!-- 끝 -->
+	<!-- 전자메일끝 -->
 				
-			<!-- Employee시작 -->
+	<!-- 결산 시작 -->
+			<li class="sub-menu">
+           
+           
+            <c:choose>
+               <c:when test="${left==25}">
+               <a class = "active"  href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
+            <ul class="sub">
+               <c:choose>
+               <c:when test="${evo.positionVO.positionNo==5}">
+               <li class="active"><a href="${initParam.root}evaluation_evaluationListByDept.do?pageNo=1">Total Evaluation</a></li>
+               </c:when>
+               <c:otherwise>
+               <li><a href="${initParam.root}evaluation_todayEvaluationPage.do">Today's Evaluation</a></li>
+               <li><a href="${initParam.root}evaluation_evaluationList.do?pageNo=1">Evaluation Details</a></li>
+               </c:otherwise>
+               </c:choose>
+            </ul>
+               </c:when>
+               
+               <c:when test="${left==26}">
+               <a class = "active"  href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
+            <ul class="sub">
+               <c:choose>
+               <c:when test="${evo.positionVO.positionNo==5}">
+               <li><a href="${initParam.root}evaluation_evaluationListByDept.do?pageNo=1">Total Evaluation</a></li>
+               </c:when>
+               <c:otherwise>
+               <li class = "active" ><a href="${initParam.root}evaluation_todayEvaluationPage.do">Today's Evaluation</a></li>
+               <li><a href="${initParam.root}evaluation_evaluationList.do?pageNo=1">Evaluation Details</a></li>
+               </c:otherwise>
+               </c:choose>
+            </ul>
+               </c:when>
+               
+                <c:when test="${left==27}">
+               <a class = "active"  href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
+            <ul class="sub">
+               <c:choose>
+               <c:when test="${evo.positionVO.positionNo==5}">
+               <li><a href="${initParam.root}evaluation_evaluationListByDept.do?pageNo=1">Total Evaluation</a></li>
+               </c:when>
+               <c:otherwise>
+               <li><a href="${initParam.root}evaluation_todayEvaluationPage.do">Today's Evaluation</a></li>
+               <li class = "active"><a href="${initParam.root}evaluation_evaluationList.do?pageNo=1">Evaluation Details</a></li>
+               </c:otherwise>
+               </c:choose>
+            </ul>
+               </c:when>
+               
+               
+               
+               
+               <c:otherwise>
+                  <a href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
+            	<ul class="sub">
+               <c:choose>
+               <c:when test="${evo.positionVO.positionNo==5}">
+               <li><a href="${initParam.root}evaluation_evaluationListByDept.do?pageNo=1">Integrated Evaluation Details</a></li>
+               </c:when>
+               <c:otherwise>
+               <li><a href="${initParam.root}evaluation_todayEvaluationPage.do">Today's Evaluation</a></li>
+               <li><a href="${initParam.root}evaluation_evaluationList.do?pageNo=1">Evaluation Details</a></li>
+               </c:otherwise>
+               </c:choose>
+            </ul>
+               </c:otherwise>
+            </c:choose>
+            </li>
+			<!-- 결산 끝 -->
+			
+         		
+         	<!-- 조직도 시작 -->
+         <li class="sub-menu">
+			<c:choose>
+					<c:when test="${left==24}">
+					<a class="active" href="${initParam.root}emp_searchemp.do"> 
+					<i class="fa fa-group"></i> <span>Organization Chart</span></a>
+					</c:when>
+					<c:otherwise>
+					<a href="${initParam.root}emp_searchemp.do"> 
+					<i class="fa fa-group"></i> <span>Organization Chart</span></a>
+					</c:otherwise>
+				</c:choose>
+		 </li>
+				
+				
+				
+         	<!-- 조직도끝 -->
+         	        		
+         		
+         		
+         <!-- club의 시작 -->
+         <li class="sub-menu">
+         
+         <c:choose>
+         <c:when test="${left==19 || left==20 }">
+         <a class="active" href="javascript:;"> <i class="fa fa-dribbble"></i> <span>Club</span></a>
+         </c:when>
+         <c:otherwise>
+         <a href="javascript:;"> <i class="fa fa-dribbble"></i> <span>Club</span></a>
+         </c:otherwise>
+         </c:choose>
+         <c:choose>
+         <c:when test="${left==19}">
+            <ul class="sub">
+               <li class="active"><a href="${initParam.root}club_List.do?pageNo=1">ClubList</a></li>
+               <li><a href="${initParam.root}club_boardList.do?page=1">Club Board</a></li>         
+            </ul>
+            </c:when>
+            <c:when test="${left==20}">
+            <ul class="sub">
+               <li><a href="${initParam.root}club_List.do?pageNo=1">ClubList</a></li>
+               <li class="active"><a href="${initParam.root}club_boardList.do?page=1">Club Board</a></li>         
+            </ul>
+            </c:when>
+            <c:otherwise>
+            <ul class="sub">
+               <li><a href="${initParam.root}club_List.do?pageNo=1">ClubList</a></li>
+               <li><a href="${initParam.root}club_boardList.do?page=1">Club Board</a></li>
+            </ul>
+            </c:otherwise>
+            </c:choose>
+            </li><!-- club끝 -->
+            
+            
+                       		
+         		
+         <!-- Mangement시작 -->
+         <c:if test="${evo.positionVO.positionNo==100 }">
+
 			<li class="sub-menu">
 			
 			<c:choose>
 			<c:when test="${left==16 || left==17 || left==18}">
-			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Employee</span></a>
+			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Mangement</span></a>
 			</c:when>
 			<c:otherwise>
-			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Employee</span></a>
+			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Mangement</span></a>
 			</c:otherwise>
 			</c:choose>
 				
@@ -270,14 +397,16 @@
 				</ul>
 				</c:otherwise>
 				</c:choose>
-				</li>
-				
+				</li> 
+				</c:if>
+				  <!-- Mangement끝 -->
+				  	<!-- 화면잠금 시작 -->
             
-		         <li class="sub-menu"><a href="${initParam.root}lock_lock_screen.do"> <i
-               class="fa fa-desktop"></i> <span>Lock</span>
+		    <li class="sub-menu">
+		    <a href="${initParam.root}lock_lock_screen.do"> 
+		   	 <i class="fa  fa-lock"></i> <span>Lock</span>
             </a>
-         		</li>
-
+         	</li><!-- 화면잠금끝 -->
 		</ul>
 		<!-- sidebar menu end-->
 	</div>

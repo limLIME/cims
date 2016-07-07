@@ -50,11 +50,11 @@
    
       <header class="header black-bg">
               <div class="sidebar-toggle-box">
-                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="바보"></div>
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="toggle menu"></div>
               </div>
               
             <!--logo start-->
-            <a href="${initParam.root}home.do" class="logo"><b>CLASS:sexy</b></a>
+            <a href="${initParam.root}home.do?pageNo=1" class="logo"><b>CLASS:sexy</b></a>
       
        <div class="top-menu" >
                

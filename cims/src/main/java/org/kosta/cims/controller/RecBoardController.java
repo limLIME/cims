@@ -66,7 +66,6 @@ public class RecBoardController {
 				sList = service.searchTitleContentList(searchVar,pageNo);
 				count = service.totalTitleContentCount(searchVar);
 			}
-			System.out.println(sList);
 			PagingBean pb = new PagingBean(count, pageNo);
 			ListVO list = new ListVO(sList,pb);
 			mv.addObject("list",list);
@@ -97,13 +96,22 @@ public class RecBoardController {
 		}
 	 @RequestMapping("recUpdate_result.do")
 	 public String recUpdateResult(RecommendVO recommendVO){
-		 MultipartFile file  = recommendVO.getRecUploadFile();
 		 RecommendVO vo = service.recShowContent(recommendVO.getRecNo());
+		 System.out.println(vo);
+		 MultipartFile file  = recommendVO.getRecUploadFile();
 		 if(file.isEmpty()){
+			 System.out.println("일루들오냐?");
 			 recommendVO.setRecPath(vo.getRecPath());
 		 }else{
+			 File uploadFile = new File(uploadPath+file.getOriginalFilename());
+				try{
+					file.transferTo(uploadFile);
+				}catch (IllegalStateException | IOException e){
+					e.printStackTrace();
+				}
 			 recommendVO.setRecPath(file.getOriginalFilename());
 		 }
+		 System.out.println(recommendVO);
 		 service.recUpdate(recommendVO);
 			return("redirect:rec_showContent.do?no="+recommendVO.getRecNo());
 	 }
@@ -115,7 +123,6 @@ public class RecBoardController {
 	 
 	 @RequestMapping("recWriter_result.do")
 		public ModelAndView recWriterResult(RecommendVO vo, HttpSession session){
-			System.out.println("여긴 들어와?");
 		 EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			vo.setEmployeeVO(evo);
 			//이미지 업로드
@@ -141,7 +148,6 @@ public class RecBoardController {
 		 	HttpSession session = request.getSession();
 			EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			commentVO.setEmployeeVO(evo);
-			System.out.println(commentVO);
 			service.recCommentRegister(commentVO);
 			return "good";
 		}

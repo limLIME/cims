@@ -2,11 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
+
     <script type="text/javascript">
     $(document).ready(function(){
     	$("#listImg").click(function(){    		
@@ -25,18 +23,17 @@
     	});
     });	
 </script>
-</head>
-<body>
+
 <section id="main-content">
 <section class="wrapper">
  <div class="marginMain2">	
  <div class="content-panel">
   <h3>&nbsp;<i class="fa fa-angle-right"></i> ShowContent</h3>
-	<table class="table table-hover">
+	<table class="table table-hover" >
 	
 	<tbody>
 		<tr>
-			<td>No : ${requestScope.nvo.noticeNo} </td>
+			<td colspan="2">No : ${requestScope.nvo.noticeNo} </td>
 		</tr>
 		<tr>
 			<td colspan="2">Title : ${requestScope.nvo.noticeTitle} </td>
@@ -60,7 +57,7 @@
 		<c:choose>
 		<c:when test="${ fn:endsWith( requestScope.nvo.noticePath,'.jpg')}">
 		<tr>
-			<td align="center"><img width="300" height="300" src="${initParam.root}upload/noticeimg/${requestScope.nvo.noticePath }"></td>
+			<td align="center" colspan="2"><img width="300" height="300" src="${initParam.root}upload/noticeimg/${requestScope.nvo.noticePath }"></td>
 		</tr>
 		</c:when>
 		</c:choose>
@@ -84,5 +81,3 @@
 	</div>
 	</div>
 	</section></section>
-</body>
-</html>

@@ -42,5 +42,7 @@ public interface EmployeeService {
 
 	public abstract void updateMyState(String empNo,int state);
 	
-	public abstract List<EmployeeVO> getMyTeamList(int deptNo);
+	public abstract List<Object> getMyTeamList(int deptNo,int pageNo);
+	
+	public abstract int getTeamCount(int deptNo);
 }

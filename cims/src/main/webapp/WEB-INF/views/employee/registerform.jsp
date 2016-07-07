@@ -1,20 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-			$("#Btn2").click(function(){
-				location.href="${initParam.root}home.do";				
+			$("#cancelBtn").click(function(){
+				location.href="${initParam.root}home.do";
 			});
+			
+			$("#registerBtn").click(function(){
+				if($("#deptNo").val()==""){
+					alert("부서를 선택하세요");
+				}else if($("#positionNo").val()==""){
+					alert("직책을 선택하세요");
+				}else if($("#empNo").val()==""){
+					alert("사원번호를 입력하세요");
+				}else if($("#name").val()==""){
+					alert("이름을 입력하세요");
+				}else if($("#password").val()==""){
+					alert("password를 입력하세요");
+				}else if($("#empTel").val()==""){
+					alert("전화번호를 입력하세요");
+				}else{
+					$("#registerForm").submit();
+				}
+				
+			});
+			
 	});
 </script>
-</head>
-<body>
+
 <section id="main-content">
 	<section class="wrapper">
 	<div class="marginMain">
@@ -25,43 +40,43 @@
 			<i class="fa fa-angle-right"></i> Register Information of Employees
 		</h3>
 	<hr><br>
-					<form action="${initParam.root }emp_register.do"
+					<form id="registerForm" action="${initParam.root }emp_register.do"
 						class="form-horizontal style-form" method="post"
 						enctype="multipart/form-data">
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Department Number</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="deptNo">
+								<input type="text" class="form-control" name="deptNo" id="deptNo">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Position Number</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="positionNo">
+								<input type="text" class="form-control" name="positionNo" id="positionNo">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Employee Number</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="empNo">
+								<input type="text" class="form-control" name="empNo" id="empNo">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="empName">
+								<input type="text" class="form-control" name="empName" id="name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Password</label>
 							<div class="col-sm-10">
-								<input type="password" class="form-control" name="password">
+								<input type="password" class="form-control" name="password" id="password">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Telephone Number</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="empTel">
+								<input type="text" class="form-control" name="empTel" id="empTel">
 							</div>
 						</div>
 						<div class="form-group">
@@ -77,9 +92,9 @@
 							</div>
 						</div>						
 				<center>
-						<input type="submit" value="Register" class="btn btn-primary">&nbsp;
+						<input type="button" value="Register" class="btn btn-primary" id="registerBtn">&nbsp;
 						<input type="reset" value="Reset" class="btn btn-warning">&nbsp;
-						<input type="button" value="Cancle" class="btn btn-danger" id="Btn2">
+						<input type="button" value="Cancel" class="btn btn-danger" id="cancelBtn">
 				</center>						
 					</form>
 				</div>
@@ -88,8 +103,7 @@
 		</div>
 	</section>
 </section>
-</body>
-</html>
+
 
 
 

@@ -33,7 +33,7 @@
 				  });//ajax 				
 		});
 		$("#comment").click(function() {
-			$("#commentWrite").html("<input type ='text' name = 'content'> <input type = 'button' id = 'submitContent' value = '입력'>");
+			$("#commentWrite").html("<input type ='text' name = 'content'> <input type = 'button' id = 'submitContent' value = '	RE' class='btn btn-info' style='width: 55px; height: 25px'>");
 		$("#submitContent").on("click",function(){
 			var text = $(":input[name=content]").val(); 
 			var boardNo = ${vo.boardNo};
@@ -61,11 +61,10 @@
      <div class = "marginMain3">
           <div class = "content-panel">
      <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>ShowContent</h3>
-     <hr>
 
       	<table class = "table table-hover" >
 		<tr>
-			<td colspan="2"><h4>No : ${vo.boardNo} </h4> </td>
+			<td colspan="2">No : ${vo.boardNo}  </td>
 		</tr>
 		<tr>
 			<td colspan="2">Title: ${vo.boardTitle }</td>
@@ -91,7 +90,7 @@
 		</tr>
 	</table>  
 
-		<button  id = "boardlike" class = "btn btn-primary"  >
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button  id = "boardlike" class = "btn btn-primary"  >
 		<i class="fa fa-thumbs-up" ></i>
 		</button>
 		<span id = "like">Like </span><br><br>
@@ -101,10 +100,10 @@
 					&nbsp; <input type = "button" value = "Update" class="btn btn-info" id = "update" >
 			 </c:if>
 			 	&nbsp;<input type = "button" id = "comment" value = "Comment" class="btn btn-success" >
-			 	&nbsp;<input type = "button" id = "index" value = "List" class="btn btn-warning" ><br>
+			 	&nbsp;<input type = "button" id = "index" value = "List" class="btn btn-warning" ><br><br>
 			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
 			 </div>
-			 <br><br>
+			 <br>
 	<table class = "table table-striped table-advance table-hover" >
 	<c:forEach items = "${requestScope.list}" var = "l">
 		<tr>

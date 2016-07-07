@@ -136,7 +136,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		template.update("employee.updateMyState",map);
 	}
 	@Override
-	public List<EmployeeVO> getMyTeamList(int deptNo) {
-		return template.selectList("employee.getMyTeamList", deptNo);
+	public List<Object> getMyTeamList(int deptNo,int pageNo) {
+		EmployeeVO evo = new EmployeeVO(new DepartmentVO(deptNo),pageNo);
+		return template.selectList("employee.getMyTeamList", evo);
 	}
+	   @Override
+	   public int getTeamCount(int deptNo) {
+	       return template.selectOne("employee.getTeamCount",deptNo);
+	   }
 }

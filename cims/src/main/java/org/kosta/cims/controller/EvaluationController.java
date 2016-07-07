@@ -26,7 +26,7 @@ public class EvaluationController {
 	public ModelAndView getEvaluationList(int pageNo,HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
-		session.setAttribute("left", 2);
+		session.setAttribute("left", 27);
 		session.setAttribute("map", null);
 		int deptNo = evo.getDepartmentVO().getDeptNo();
 		EvaluationVO evalVo = new EvaluationVO(new DepartmentVO(evo.getDepartmentVO().getDeptNo()),pageNo);
@@ -81,7 +81,7 @@ public class EvaluationController {
 	public ModelAndView getDayEvaluationList(int pageNo,HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
-		session.setAttribute("left", 2);
+		session.setAttribute("left", 26);
 		session.setAttribute("map", null);
 		int deptNo = evo.getDepartmentVO().getDeptNo();
 		List<Object> eList = evaluationService.getDayEvaluationList(pageNo);
@@ -126,7 +126,7 @@ public class EvaluationController {
 	public ModelAndView getEvaluationListByDept(int pageNo,HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
-		session.setAttribute("left", 2);
+		session.setAttribute("left", 25);
 		session.setAttribute("map", null);
 		List<Object> eList = evaluationService.getEvaluationListByDept(pageNo); 
 		int totalContent = evaluationService.totalContentByDept();
@@ -154,6 +154,7 @@ public class EvaluationController {
 	@RequestMapping("evaluation_todayEvaluationPage.do")
 	public ModelAndView getTodayEvaluationPage(HttpServletRequest request){
 		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 26);
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 		int deptNo=evo.getDepartmentVO().getDeptNo();
 		int positionNo = evo.getPositionVO().getPositionNo();

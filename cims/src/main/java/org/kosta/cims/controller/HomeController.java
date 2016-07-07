@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kosta.cims.model.EmployeeVO;
+import org.kosta.cims.model.ListVO;
 import org.kosta.cims.model.MailVO;
+import org.kosta.cims.model.PagingBean;
 import org.kosta.cims.service.BoardService;
 import org.kosta.cims.service.DocumentService;
 import org.kosta.cims.service.EmployeeService;
@@ -55,27 +57,30 @@ public class HomeController {
 		return viewId;
 	}
 	
-	@RequestMapping("home.do")
-	public String home(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.setAttribute("left", 1);
-		EmployeeVO vo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = vo.getEmpNo();
-		int deptNo = vo.getDepartmentVO().getDeptNo();
-		List<EmployeeVO> tlist = empService.getMyTeamList(deptNo);
-		List<MailVO> list = mailService.getMyMailList(empNo);
-		ArrayList<Integer> list2 = new ArrayList<Integer>();
-		list2.add(0, mailService.countMail(empNo));
-		list2.add(1, schService.countSch(empNo));
-		list2.add(2, docService.countDoc(vo));
-		list2.add(3, notService.countNot());
-		list2.add(4, borService.countBor());
-		session.setAttribute("mainList", list2);
-		session.setAttribute("mlist", list);
-		session.setAttribute("tlist", tlist);
-		return "home";
-	}
-	
+	  @RequestMapping("home.do")
+	   public String home(HttpServletRequest request, int pageNo) {
+	      HttpSession session = request.getSession();
+	      session.setAttribute("left", 1);
+	      EmployeeVO vo = (EmployeeVO) session.getAttribute("evo");
+	      String empNo = vo.getEmpNo();
+	      int deptNo = vo.getDepartmentVO().getDeptNo();
+	      List<Object> tlist = empService.getMyTeamList(deptNo,pageNo);
+	      int count = empService.getTeamCount(deptNo);
+	      PagingBean pb = new PagingBean(count, pageNo);
+	      ListVO lvo = new ListVO(tlist,pb);
+	      System.out.println(pageNo);
+	      List<MailVO> list = mailService.getMyMailList(empNo);
+	      ArrayList<Integer> list2 = new ArrayList<Integer>();
+	      list2.add(0, mailService.countMail(empNo));
+	      list2.add(1, schService.countSch(empNo));
+	      list2.add(2, docService.countDoc(vo));
+	      list2.add(3, notService.countNot());
+	      list2.add(4, borService.countBor());
+	      session.setAttribute("mainList", list2);
+	      session.setAttribute("mlist", list);
+	      session.setAttribute("lvo", lvo);
+	      return "home";
+	   }
 	   @RequestMapping(value = "homeCheck.do", method = RequestMethod.POST)
 	   public ModelAndView homeView(EmployeeVO vo, HttpServletRequest request, HttpServletResponse response) {
 	      HttpSession session = request.getSession();
@@ -89,7 +94,7 @@ public class HomeController {
 	            kc.setMaxAge(0) ;
 	            response.addCookie(kc) ;
 	           session.setAttribute("evo", evo);
-	            return new ModelAndView("redirect:home.do");
+	            return new ModelAndView("redirect:home.do?pageNo=1");
 	         }
 	   }
 	   

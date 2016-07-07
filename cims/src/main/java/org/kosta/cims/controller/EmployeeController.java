@@ -43,7 +43,7 @@ public class EmployeeController {
 	@RequestMapping("emp_update.do")
 	public String update(EmployeeVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 16);
+		session.setAttribute("left", 0);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		List<MultipartFile> list=vo.getFile();
 	      //view 화면에 업로드 된 파일 목록을 전달하기 위한 리스트 
@@ -72,7 +72,10 @@ public class EmployeeController {
 	      vo.setDepartmentVO(new DepartmentVO(evo.getDepartmentVO().getDeptNo()));
 	      vo.setPositionVO(new PositionVO(evo.getPositionVO().getPositionNo()));
 		service.update(vo);
-		session.setAttribute("evo", vo);
+		evo.setPassword(vo.getPassword());
+		evo.setEmpSign(vo.getEmpSign());
+		evo.setEmpPath(vo.getEmpPath());
+		
 		return "emp_update_result";
 	}
 	
@@ -182,25 +185,35 @@ public class EmployeeController {
 	  @RequestMapping("emp_updateMyState.do")
 	  public String updateMyState(HttpServletRequest request,int state) {
 		HttpSession session = request.getSession(false);
+
 		EmployeeVO vo =(EmployeeVO) session.getAttribute("evo");
 		String empNo=vo.getEmpNo();
 		service.updateMyState(empNo,state);
 		vo.setEmpState(state);
-		return "redirect:home.do";
+		return "redirect:home.do?pageNo=1";
 	  }
 	   @RequestMapping("emp_searchemp.do")
-	     public ModelAndView searchemp(){
+	     public ModelAndView searchemp(HttpServletRequest request){
+		   HttpSession session = request.getSession(false);
+		   session.setAttribute("left", 24);
 	        List<DepartmentVO> list = service.deptList();
 	        return new ModelAndView("emp_searchemp","deptList",list);
 	     }
-	     
-	     
+
+	   @RequestMapping("emp_updateform.do")
+	     public String emp_updateform(HttpServletRequest request){
+		   HttpSession session = request.getSession(false);
+		   session.setAttribute("left", 0);
+	        return "emp_updateform";
+	     }
 	     @RequestMapping("emp_seardBydeptName.do")
 	      @ResponseBody
 	     public List<EmployeeVO> seardBydeptName(String deptName){
 	        List<EmployeeVO> list = service.seardBydeptName(deptName);
 	        return list;
 	     }
+	     
+	     
 	  }
 	  
 	  

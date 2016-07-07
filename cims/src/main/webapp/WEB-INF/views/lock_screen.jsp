@@ -8,7 +8,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>DASHGUM - Bootstrap Admin Template</title>
+
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -48,12 +48,13 @@
 				                          <h4 class="modal-title">Welcome Back</h4>
 				                      </div>
 				                      <div class="modal-body">
-				                          <p class="centered"><img class="img-circle" width="80" src="assets/img/ui-sam.jpg"></p>
-				                          PASSWORD<input type="password" name="password" placeholder="Password" autocomplete="off" class="form-control placeholder-no-fix" id = "pass">				
+				                          <p class="centered"><img class="img-circle" width="100" height="100" src="upload/sign/${sessionScope.evo.empPath}"></p>
+				                          ${sessionScope.evo.departmentVO.deptName } ${sessionScope.evo.positionVO.positionName} ${sessionScope.evo.empName}
+				                          <input type="password" name="password" placeholder="Password" autocomplete="off" class="form-control placeholder-no-fix" id = "pass">				
 				                      </div>
 				                      <div class="modal-footer centered">
-				                          <button data-dismiss="modal" class="btn btn-theme04" type="button">Cancel</button>
-				                          <button class="btn btn-theme03" type="button" id ="button">Login</button>
+				                      	<button class="btn btn-theme03" type="button" id ="button">Login</button>
+				                        <button data-dismiss="modal" class="btn btn-theme04" type="button">Cancel</button>
 				                      </div>
 				                  </div>
 				              </div>
@@ -107,7 +108,7 @@
     				if(result=='fail'){
     					alert("비밀번호를 확인하세요");
     				}else{
-    					location.href = "${initParam.root}home.do";
+    					location.href = "${initParam.root}home.do?pageNo=1";
     				}
     			}// success
     		  });//ajax 

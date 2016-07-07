@@ -1,19 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script>
+
+
 <section id="main-content">
 	<section class="wrapper">
     <script type="text/javascript" >
    
    $(document).ready(function(){
 		$("#Btn2").click(function(){
-			location.href="${initParam.root}home.do";
+			location.href="${initParam.root}home.do?pageNo=1";
 		 });//취소 시 홈으로
 	   
    $("#Btn").click(function(){   
@@ -48,45 +46,12 @@
         });
      });//click
           
-			
-/*        $("#empView").on("click","#deleteBtn",function(){
-       if(confirm("Are you sure you want to delete?")){         
-            $.ajax({
-               type:"get",
-              url:"emp_deleteEmp.do",
-              data:"empName="+$(this).parent().parent().children().eq(3).text()+"&empNo="+$(this).parent().parent().children().eq(0).text(),
-              dataType:"json",
-              success:function(data){
-                 var str = "";
-                 var str2 = "";
-                    str2 += "<tr>";
-                    str2 += "<th>EmpNo</th>";
-                    str2 += "<th>DeptName</th>";
-                    str2 += "<th>PositionName</th>";
-                    str2 += "<th>EmpName</th>";
-                    str2 += "<th></th>";
-                    str2 += "</tr>";
-                 $("#thead").html(str2);   
-                  for(var i=0;i<data.length;i++){
-                    str += "<tr><td>"+data[i].empNo+"</td>";
-                    str += "<td>"+data[i].departmentVO.deptName+"</td>";
-                    str += "<td>"+data[i].positionVO.positionName+"</td>";
-                    str += "<td>"+data[i].empName+"</td>";
-                    str += "<td><input type='button' value='Update' id='updateBtn'></td>";
-                    str += "<td><input type='button' value='Delete' id='deleteBtn'></td>";
-                    str += "</tr>";
-                 }//for
-                  $("#empView").html(str);   
-              }//success
-              }); 
-       }
-         });//on       */
          
         $("#empView").on("click","#updateBtn",function(){
              if(confirm("수정하시겠습니까?")){         
                 location.href = "${initParam.root}emp_adminUpdateEmp.do?empNo="+$(this).parent().parent().children().eq(0).text();
 		$("#deleteBtn").click(function(){
-			location.href="${initParam.root}home.do";
+			location.href="${initParam.root}home.do?pageNo=1";
 		 });//취소 시 홈으로
              }
          });//on
@@ -134,8 +99,6 @@
 </div>
 </section>
 </section>
-</head>
-</html>
 
 
 

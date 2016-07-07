@@ -18,15 +18,16 @@
 		location.href = "${initParam.root }rec_writer.do";
 	}
 </script>
-  <body>  
+ 
   <section id="main-content">
   <section class="wrapper">
  <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>Recommendation Board</h3>
 <hr>
 <div class = "marginMain">
+<div class="content-panel" align="center">
 <table class = "table table-striped table-advance table-hover">
    <tr>
-      <th width = "15%">NO</th><th width = "25%">Title</th><th width = "15%">Writer</th><th width = "15%">Date</th>
+      <th width = "15%">#NO</th><th width = "25%">Title</th><th width = "15%">Writer</th><th width = "15%">Date</th>
    </tr>	
    <c:forEach items="${requestScope.list.list }" var="l">
       <tr>
@@ -39,9 +40,10 @@
       </tr>
    </c:forEach>
 </table>
+
 <br><br>
 <div align="right">
-	   <input type="button" class="btn btn-info" value="Write" onclick="recWrite()">
+	   <input type="button" class="btn btn-info" value="Write" onclick="recWrite()">&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
 <p class = "paging" align="center">
 
@@ -100,9 +102,9 @@
     	<input type = "text" id = "searchVar">
 	    <button class="btn btn-primary" id="button" value="Search" style="width: 50px; height: 25px">
 	    <i class="fa fa-search"></i></button>
-	</div>
-
+	</div><br>
+</div>
       </div>
 </section>
 </section>
-</body>
+

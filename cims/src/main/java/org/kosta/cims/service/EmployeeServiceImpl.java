@@ -95,7 +95,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		   dao.updateMyState(empNo,state);
 		   }
 	   @Override
-		public List<EmployeeVO> getMyTeamList(int deptNo) {
-			return dao.getMyTeamList(deptNo);
+		public List<Object> getMyTeamList(int deptNo,int pageNo) {
+			return dao.getMyTeamList(deptNo,pageNo);
 		}
+	   @Override
+	   public int getTeamCount(int deptNo) {
+	          return dao.getTeamCount(deptNo);
+	   }
+	   
 }

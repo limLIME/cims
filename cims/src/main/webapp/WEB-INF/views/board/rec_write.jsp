@@ -25,8 +25,8 @@ $(document).ready(function(){
      <section class="wrapper">
    <br>
       <div class = "marginMain3">
-      < <div class = "content-panel">
-         <caption><h3>&nbsp;<i class="fa fa-angle-right"></i>글쓰기</h3></caption>
+      <div class = "content-panel">
+         <caption><h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>글쓰기</h3></caption>
    <form  class = "form-horizontal style-form" action="${initParam.root}recWriter_result.do" method="post"  id="write_form" enctype="multipart/form-data">
       <table class = "table table-hover">
          <tbody>
@@ -36,10 +36,13 @@ $(document).ready(function(){
                   <input type="text" name="recTitle" size="48" id = "title">
                </td>
             </tr>
+            <tr>  
+          	  <td>글쓴이</td>
+               <td>${sessionScope.evo.empName }</td>
+            </tr>
             <tr>
-           
-               <td>${sessionScope.mvo.empName }</td>
-            	<td>파일첨부 </td><td><input type = "file" name = "recUploadFile"></td>
+            <td>파일첨부 </td>
+            <td><input type = "file" name = "recUploadFile"></td>
             </tr>
             <tr>
                <td colspan="4" align="left">&nbsp;&nbsp; 

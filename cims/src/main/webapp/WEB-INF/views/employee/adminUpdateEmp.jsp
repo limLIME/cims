@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 			$("#Btn2").click(function(){
-				location.href="${initParam.root}home.do";
+				location.href="${initParam.root}home.do?pageNo=1";
 			});
 	});
 </script>

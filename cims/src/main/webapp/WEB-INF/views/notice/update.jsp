@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>title: </title>
+
 <link rel="stylesheet" href="${initParam.root}css/board.css" type="text/css">
 <script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
@@ -26,26 +24,25 @@
     		location.href="${initParam.root}notice_notice.do?pageNo=1";
     }
 </script>
-</head>
-<body>
+
 <section id="main-content">
   <section class="wrapper">
    <div class="marginMain2">	
  <div class="content-panel">
  <h3>&nbsp;<i class="fa fa-angle-right"></i> Update</h3>
-<form method="post" id="update_form" action="${initParam.root}notice_updateContent.do" enctype="multipart/form-data">
+<form method="post" id="update_form" action="${initParam.root}notice_updateContent.do?no=${nvo.noticeNo }&time=${nvo.noticeDate }" enctype="multipart/form-data">
 	<table class="table table-hover">
 		<tbody>
 				<tr>
 					<td>
-					NO : <input type="text" name="noticeNo" value=${nvo.noticeNo } size="72" readonly></input>						
+					NO : ${nvo.noticeNo }				
 					</td>
 				</tr>
 				<tr>
-					<td>Title : <input type="text" id="noticeTitle" name="noticeTitle" size="71" value=${nvo.noticeTitle }></input></td>
+					<td>Title : <input type="text" id="noticeTitle" name="noticeTitle" size="100%" value="${nvo.noticeTitle }"></input></td>
 				</tr>
 				<tr>
-					<td>Date : <input type="text" id="noticeDate" name="noticeDate" size="71" value=${nvo.noticeDate } readonly="readonly"></input></td>
+					<td>Date : ${nvo.noticeDate }</td>
 				</tr>
 				
 				<tr>
@@ -80,8 +77,6 @@
 </form>	
 </div></div>
 </section></section>
-</body>
-</html>
 
 
 

@@ -1,20 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script>
+
+
 <script type="text/javascript">
 	$(document).ready(function(){
-			$("#Btn2").click(function(){
-				location.href="${initParam.root}home.do";
+			$("#cancelBtn").click(function(){
+				location.href="${initParam.root}home.do?pageNo=1";
 			});
+			
+			$("#updateBtn").click(function(){
+				if($("#password").val()==""){
+					alert("password를 입력하세요");
+				}else{
+					$("#updateForm").submit();
+				}
+				
+			});
+			
 	});
 </script>
-</head>
-<body>
+
 <section id="main-content">
 	<section class="wrapper">
 		<div class="marginMain">
@@ -26,7 +31,7 @@
 			<i class="fa fa-angle-right"></i> Update Information of Employees
 		</h3>
 	<hr><br>
-					<form action="${initParam.root }emp_update.do"
+					<form id="updateForm" action="${initParam.root }emp_update.do"
 						class="form-horizontal style-form" method="post"
 						enctype="multipart/form-data">
 						<div class="form-group">
@@ -56,7 +61,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Password</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="password">
+								<input type="text" class="form-control" name="password" id="password">
 							</div>
 						</div>
 						<div class="form-group">
@@ -79,9 +84,9 @@
 							</div>
 						</div>
 						<center>
-						<input type="submit" value="Update" class="btn btn-primary" id="Btn1">&nbsp;
+						<input type="button" value="Update" class="btn btn-primary" id="updateBtn" >&nbsp;
 						<input type="reset" value="Reset" class="btn btn-warning">&nbsp;
-						<input type="button" value="Cancle" class="btn btn-danger" id="Btn2">
+						<input type="button" value="Cancel" class="btn btn-danger" id="cancelBtn">
 						</center>
 					</form>
 				</div>
@@ -90,26 +95,8 @@
 		</div>
 	</section>
 </section>
-</body>
-</html>
 
 
 
 
 
-
-
-<%--     
-<form action="${initParam.root }emp_update.do" method="post" enctype="multipart/form-data" >
-   부서번호 <input type="text" name="deptNo" readonly="readonly" value="${sessionScope.evo.departmentVO.deptNo }"><br>
-   직급번호 <input type="text" name="positionNo" readonly="readonly" value="${sessionScope.evo.positionVO.positionNo }"><br>
-   사원번호 <input type="text" name="empNo" readonly="readonly" value="${sessionScope.evo.empNo }"><br>
-   이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="empName" readonly="readonly" value="${sessionScope.evo.empName }"><br>
-   비밀번호 <input type="text" name="password" value="${sessionScope.evo.password }"><br>
-   전화번호 <input type="text" name="empTel" value="${sessionScope.evo.empTel }"><br>
-   서명&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="file" name="multipartFile">
-<br><br>
-<input type="submit" value="정보수정">
-<input type="reset" value="리셋">
-</form>
---%>

@@ -2,6 +2,7 @@ package org.kosta.cims.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,9 +90,11 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("notice_updateContent.do")
-	public ModelAndView updateContent(NoticeVO nvo, HttpServletRequest request){
+	public ModelAndView updateContent(NoticeVO nvo,int no,String time, HttpServletRequest request){
 		HttpSession session = request.getSession();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		nvo.setNoticeNo(no);
+		nvo.setNoticeDate(time);
 		nvo.setEmployeeVO(evo);
 		NoticeVO nvo2 = noticeService.showContent(nvo.getNoticeNo());
 		MultipartFile file = nvo.getFilePath();

@@ -25,20 +25,20 @@ $(document).ready(function(){
          <tbody> 
          <tr>
          	<td>No</td>
-         	<td colspan="3"> <input name="recNo" value = "${vo.recNo}" readonly="readonly" class = "form-control"></td>
+         	<td colspan="2"> <input name="recNo" value = "${vo.recNo}" readonly="readonly" class = "form-control"></td>
          </tr>
             <tr>
                <td>Title</td>
-               <td colspan="3">
+               <td colspan="2">
                   <input type="text" id = "recTitle" name="recTitle" size="48" value = "${vo.recTitle}" class = "form-control">
                </td>
             </tr>
             <tr>
                <td>Writer</td>
-               <td>${sessionScope.mvo.empName }</td>
+               <td colspan="2">${vo.employeeVO.empName }</td>
             </tr>
             <tr>
-               <td colspan="4" align="left">&nbsp;&nbsp; 
+               <td colspan="3" align="left">
                   <textarea cols="53" rows="15" id = "recContent"name="recContent" class = "form-control">${vo.recContent} </textarea>
                </td>
             </tr>
@@ -52,7 +52,7 @@ $(document).ready(function(){
 								<c:otherwise>
 									<tr>
 										<td colspan="2">AttachedFile does not exist</td>
-										<td><input type="file" name="uploadFile"></td>
+										<td><input type="file" name="recUploadFile"></td>
 									</tr>
 								</c:otherwise>
 							</c:choose>

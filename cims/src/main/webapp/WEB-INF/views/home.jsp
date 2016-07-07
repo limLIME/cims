@@ -138,7 +138,7 @@
 							<div class="row">
 								<div class="col-sm-6 col-xs-6 goleft">
 									<p>
-										<i class="fa fa-bullhorn"></i> 122
+								
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -198,43 +198,76 @@
 					</div>
 				</div>
  -->
-				<!-- USERS ONLINE SECTION -->
-				<h3>TEAM MEMBERS</h3>
-				<!-- First Member -->
-				<c:forEach items="${tlist}" var="i">
-				<div class="desc">
-					<div class="thumb">
-						<img class="img-circle" src="" width="35px"
-							height="35px" align="">
-					</div>
-					<div class="details">
-						<p>
-							<a href="#">${i.empName }</a><br />
-							<muted><a href="#">${i.empState }</a>${i.empMemo}</muted>
-						</p>
-					</div>
-				</div>
-				</c:forEach>
+			            <!-- USERS ONLINE SECTION -->
+            <h3>TEAM MEMBERS</h3>
+            <!-- First Member -->
+            <c:forEach items="${lvo.list}" var="i">
+            <div class="desc">
+               <div class="thumb">
+                  <img class="img-circle" src="" width="35px"
+                     height="35px" align="">
+               </div>
+               <div class="details">
+                  <p>
+                     <a href="#">${i.empName }</a><br />
+                     <muted><a href="#">
+                     <c:choose>
+                        <c:when test="${i.empState == 1 }">
+                           (업무중)
+                        </c:when>
+                        <c:when test="${i.empState == 2 }">
+                            (출장)
+                        </c:when>
+                        <c:when test="${i.empState == 3 }">
+                            (휴가)
+                        </c:when>
+                        <c:when test="${i.empState == 4 }">
+                           (자리비움)
+                        </c:when>
+                     </c:choose>
+                     
+                     </a>${i.empMemo}</muted>
+                  </p>
+               </div>
+            </div>
+            </c:forEach>
 				
-				<!-- Fifth Member -->
-				<div class="desc">
-					<!-- <div class="thumb">
-						<img class="img-circle" src="assets/img/ui-sam.jpg" width="35px"
-							height="35px" align="">
-					</div> -->
-					
-						<p align="center" style="font-size: 1.5em;">
-							<!-- <a href="#">관리자</a> -->
-							1 2 3 4 5
-							<br/>
-						</p>
-					
-				</div>
+				      <!-- Fifth Member -->
+            <div class="desc">
+               <!-- <div class="thumb">
+                  <img class="img-circle" src="assets/img/ui-sam.jpg" width="35px"
+                     height="35px" align="">
+               </div> -->
+               
+                  <p align="center" style="font-size: 1.5em;">
+                     <!-- <a href="#">관리자</a> -->
+                        <c:if test="${lvo.pagingBean.previousPageGroup}">
+                        <a href="${initParam.root}home.do?pageNo=${lvo.pagingBean.startPageOfPageGroup-1}"><img src="${initParam.root }img/left_arrow_btn.gif"></a>  
+                     </c:if>
+   
+                     <c:forEach begin="${lvo.pagingBean.startPageOfPageGroup}" end="${lvo.pagingBean.endPageOfPageGroup}" var="i">
+                            <c:choose>
+                               <c:when test="${lvo.pagingBean.nowPage==i}">
+                                 ${i}
+                              </c:when>
+                              <c:otherwise>
+                                 <a href="${initParam.root}home.do?pageNo=${i}">${i}</a>
+                              </c:otherwise>
+                           </c:choose>
+                     </c:forEach>
+                  
+                        <c:if test="${lvo.pagingBean.nextPageGroup}">
+                           <a href="${initParam.root}home.do?pageNo=${lvo.pagingBean.endPageOfPageGroup+1}"><img src="img/right_arrow_btn.gif"></a>
+                        </c:if>
+                     <br/>
+                  </p>
+               
+            </div>
 
-			</div>
-			<!-- /col-lg-3 -->
-		</div>
-		<!--/row -->
-	</section>
+         </div>
+         <!-- /col-lg-3 -->
+      </div>
+      <!--/row -->
+   </section>
 </section>
 <!-- /MAIN CONTENT -->

@@ -16,7 +16,7 @@
 			location.href = "${initParam.root}rec_boardList.do?pageNo=1";
 		})
 		$("#comment").click(function() {
-			$("#commentWrite").html("<input type ='text' name = 'content'> <input type = 'button' id = 'submitContent' value = '입력'>");
+			$("#commentWrite").html("<input type ='text' name = 'content'> <input type = 'button' id = 'submitContent' value = '입력' class='btn btn-info' style='width: 55px; height: 25px'>");
 		$("#submitContent").on("click",function(){
 			var text = $(":input[name=content]").val(); 
 			var recNo = ${vo.recNo};
@@ -46,7 +46,7 @@
 
       	<table class="table table-hover">
 		<tr>
-			<td colspan="2"><h3>No : ${vo.recNo} </h3> </td>
+			<td colspan="2">No : ${vo.recNo} </td>
 		</tr>
 		<tr>
 			<td colspan="2">Title: ${vo.recTitle }</td>
@@ -81,17 +81,30 @@
 					
 			 </c:if>
 			 	&nbsp; <input type = "button" id = "comment" value = "Comment" class="btn btn-success" >
-		     	&nbsp;  <input type = "button" id = "index" value = "List" class="btn btn-warning" ><br>
+		     	&nbsp;  <input type = "button" id = "index" value = "List" class="btn btn-warning" ><br><br>
 			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
 			  </div>
+			  <br>
 			<table>
 	
 	<c:forEach items = "${requestScope.list}" var = "l">
 		<tr>
+		<c:choose>
+			<c:when test="${l.employeeVO.empNo == evo.empNo}">
 			<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
-			<c:if test="${l.employeeVO.empNo == sessionScope.mvo.empNo}">
-				<td>   <input type = "button" value = "Delete" onclick="commentCancel(${l.commentNo})" ></td> 
-			</c:if>
+				<td> 
+				<div align="right">
+				     <input type = "button" value = "Delete" class="btn btn-danger"  onclick="commentCancel(${l.commentNo})" >  
+				</div>
+				  </td>
+			</c:when>
+			<c:otherwise>
+				<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
+				<td>
+					&nbsp;
+				</td>
+			</c:otherwise>
+			</c:choose>
 		</tr>
 	</c:forEach>
 	</table>

@@ -117,11 +117,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	update employee set emp_state= #{state}  where emp_no=#{empNo}
 	</update>
 	
-	<select id="getMyTeamList" resultMap="employeeMap" parameterType="int">
-		select emp_no, emp_name, emp_tel, emp_state, dept_no,position_no,emp_path, emp_memo
-		from employee
-		where dept_no=#{value}
+	<select id="getMyTeamList" resultMap="employeeMap" parameterType="employeeVO">
+	select pageNo, emp_no, emp_name, emp_tel, emp_state, dept_no,position_no,emp_path, emp_memo
+      from (select emp_no, emp_name, emp_tel, emp_state, dept_no,position_no,emp_path, emp_memo, ceil(rownum/5)
+      as pageNo from employee) where dept_no = #{departmentVO.deptNo} and pageNo=#{pageNo}
 	</select>
+	
+	 <select id="getTeamCount" resultType="int" parameterType="int">
+      select count(*) from employee where dept_no=#{value}
+   </select>
 </mapper>
 
 

@@ -1,23 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="${initParam.root}css/home3.css" type="text/css">
-<script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
     	$("#listImg").click(function(){    		
     		location.href="notice_notice.do";
     	});
     	$("#deleteBtn").click(function(){ 
-    		if(confirm("Are you sure that delete this content?"))
+    		if(confirm("게시물을 삭제하시겠습니까?"))
     			location.href="${initParam.root}notice_deleteContent.do?no=${requestScope.nvo.noticeNo}";
     	});
     	$("#updateBtn").click(function(){  
-    		if(confirm("Do you want to update this content?"))
+    		if(confirm("게시물을 수정하시겠습니까?"))
     		location.href="${initParam.root}notice_update.do?no=${requestScope.nvo.noticeNo }";
     	});
     	$("#listBtn").click(function(){  
@@ -25,8 +21,7 @@
     	});
     });	
 </script>
-</head>
-<body>
+
  <section id="main-content">
   <section class="wrapper">
    <div class="marginMain2">	
@@ -73,5 +68,3 @@
 	</table>
 	</div></div>
 	</section></section>
-</body>
-</html>

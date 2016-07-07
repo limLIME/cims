@@ -9,8 +9,8 @@
 <center>
 
 <table class="table table-striped table-advance table-hover">
-		<thead >
-		<tr align="center">
+		<thead>
+		<tr>
 			<th class="no">#NO</th>
 			<th class="no"><i class="fa fa-envelope-o"></i></th>
 			<th class="title" >Title</th>
@@ -36,10 +36,7 @@
 				</c:otherwise>
 				</c:choose>
 			
-				<td>
-
-				
-				<a href="${initParam.root}mail_showMailContent.do?no=${mailVO.mailNo }">
+				<td><a href="${initParam.root}mail_showMailContent.do?no=${mailVO.mailNo }">
 				${mailVO.mailTitle}</a>
 				
 				</td>
@@ -64,6 +61,7 @@
 		<a href="${initParam.root}mail_getReceiveList.do?pageNo=${lvo.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">▶</a>
 		</c:when>
 	</c:choose>
+	<br><br>
 </center></div></div></section></section>
 
 

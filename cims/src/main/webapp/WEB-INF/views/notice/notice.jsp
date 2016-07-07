@@ -3,12 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <jsp:useBean id="now" class="java.util.Date" />
   <fmt:formatDate value="${now}" pattern="yyyy.MM.dd" var="today" />  
-    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>글목록</title>
+
 <script type="text/javascript">
 
 function noticeWrite(){
@@ -25,14 +22,13 @@ $("#searchButton").click(function(){
 });
 </script>
 
-</head>
-<body>
+
   <section id="main-content">
   <section class="wrapper">
    <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>Notice</h3>
   <hr>
   <div class="marginMain">
-	<%-- <jsp:include page=""></jsp:include> --%>
+  <div class="content-panel" align="center">
 	<table class="table table-striped table-advance table-hover">
 		<thead>
 		<tr>
@@ -128,7 +124,7 @@ $("#searchButton").click(function(){
 	
 	</c:choose>
 	</p>
-	</div>
+
 <div align="center">
 <select id = "search">
       <option value="title">제목</option>
@@ -137,12 +133,15 @@ $("#searchButton").click(function(){
  </select>
  <input type = "text" id = "searchVar">
  <button class="btn btn-primary" id="searchButton" value="Search" style="width: 50px; height: 25px"><i class="fa fa-search"></i></button>
-</div>
-	</section>
-	</section>
-</body>
-</html>
 
+</div>
+<br>
+</div>
+<br>
+</div>
+
+	</section>
+	</section>
 
 
 

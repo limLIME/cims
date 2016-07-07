@@ -66,7 +66,11 @@
 		<a href="${initParam.root}mail_getCheckList.do?pageNo=${lvo.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">▶</a>
 		</c:when>
 	</c:choose>
-</center></div></div></section></section>
+</center><br>
+</div>
+</div>
+</section>
+</section>
 
 
 

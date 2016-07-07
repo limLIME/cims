@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script>
+<%-- <script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script> --%>
 <style>
 .cursor{
       cursor: pointer;
@@ -110,6 +110,7 @@
               <th><center>EmpName</center></th>
 			</tr>
          </thead>         
+         
          <tbody id="empView">
             
          </tbody>		

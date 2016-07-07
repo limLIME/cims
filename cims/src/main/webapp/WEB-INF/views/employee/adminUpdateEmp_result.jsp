@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 	function gomain() {
-		location.href="${initParam.root}home.do";
+		location.href="${initParam.root}home.do?pageNo=1";
 	}
 </script>
 </head>

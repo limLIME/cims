@@ -18,16 +18,18 @@
 		location.href = "${initParam.root }free_writer.do";
 	}
 </script>
-<body>
+
 <section id="main-content">
      <section class="wrapper">
+
  <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>PopularityBoard</h3>
 <hr>
 <div class = "marginMain">
+     <div class="content-panel" align="center">
 <table class = "table table-striped table-advance table-hover" >
 
 	<tr>
-		<th width = "15%">Ranking</th><th width="15%">#NO</th><th width = "35%">Title</th><th width = "15%">Writer</th><th width="15%">Like</th>
+		<th width = "15%"><li class="fa fa-trophy"></li> Ranking</th><th width="15%">#NO</th><th width = "35%">Title</th><th width = "15%">Writer</th><th width="15%"><li class="fa  fa-thumbs-o-up"></li> Like</th>
 	</tr>
 	<c:forEach items = "${requestScope.popular}" var = "p">
 	<tr>
@@ -36,13 +38,15 @@
 	</c:forEach>
 </table>
 </div>
+</div>
 <br><br>
  <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>FreeBoard</h3>
  <hr>
 <div class = "marginMain">
+     <div class="content-panel" align="center">
 <table class = "table table-striped table-advance table-hover">
    <tr>
-      <th width = "15%">#NO</th><th width = "25%">Title</th><th width = "15%">Writer</th><th width = "15%">Date</th><th width = "10%">Like</th>
+      <th width = "15%">#NO</th><th width = "25%">Title</th><th width = "15%">Writer</th><th width = "15%">Date</th><th width = "10%"><li class="fa  fa-thumbs-o-up"></li> Like</th>
    </tr>
    <c:forEach items="${requestScope.list.list }" var="l">
       <tr>
@@ -57,7 +61,7 @@
 </table>
 <br><br>
 <div align="right">
-   <input type="button" class="btn btn-info" value="Write" onclick="freeWrite()">
+   <input type="button" class="btn btn-info" value="Write" onclick="freeWrite()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
 <p class = "paging" align="center">
 
@@ -117,6 +121,6 @@
 	</div>
 <br><br><br>
 </div>
+</div>
 </section>
 </section>
-</body>
