@@ -15,6 +15,21 @@
     
 <script type="text/javascript">
 	$(document).ready(function(){
+		$("#myDocBtn").mouseover(function(){
+			$("#myDocBtnSpan").html("내가 작성 한 공문");
+		}).mouseout(function(){
+			$("#myDocBtnSpan").html("");
+		});
+		$("#mySignBtn").mouseover(function(){
+			$("#mySignBtnSpan").html("내가 결제 한 공문");
+		}).mouseout(function(){
+			$("#mySignBtnSpan").html("");
+		});
+		$("#myCompleteBtn").mouseover(function(){
+			$("#myCompleteBtnSpan").html("내가 완료시킨 공문");
+		}).mouseout(function(){
+			$("#myCompleteBtnSpan").html("");
+		});
 		$("#myDocBtn").click(function(){
 			location.href="${initParam.root}doc_completeMy.do?page=1";
 		});
@@ -44,6 +59,9 @@
 <div class="marginMain">
 <div class="content-panel" align="center">
 <div align="left">&nbsp;&nbsp;&nbsp;
+             <span id = "myDocBtnSpan" class="label label-default"></span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "mySignBtnSpan"  class="label label-default"></span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "myCompleteBtnSpan"  class="label label-default"></span><br>
 <!-- 내가 작성했고 완료된공문" -->
 <button class="btn btn-primary" id="myDocBtn">
 <i class="fa fa-user" ></i>

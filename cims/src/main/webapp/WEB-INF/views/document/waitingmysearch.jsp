@@ -16,6 +16,26 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		$("#myDocBtn").mouseover(function(){
+			$("#myDocBtnSpan").html("내가 작성 한 공문");
+		}).mouseout(function(){
+			$("#myDocBtnSpan").html("");
+		});
+		$("#mySignBtn").mouseover(function(){
+			$("#mySignBtnSpan").html("내가 결제 한 공문");
+		}).mouseout(function(){
+			$("#mySignBtnSpan").html("");
+		});
+		$("#waitingMySignBtn").mouseover(function(){		
+			$("#waitingMySignBtnSpan").html("내가 결제 해야 될 것");
+		}).mouseout(function(){
+			$("#waitingMySignBtnSpan").html("");
+		});
+		$("#waitingSubstituteBtn").mouseover(function(){
+			$("#waitingSubstituteBtnSpan").html("내가 결제 대행해야 할 것");
+		}).mouseout(function(){
+			$("#waitingSubstituteBtnSpan").html("");
+		});
 		$("#myDocBtn").click(function(){
 				location.href="${initParam.root}doc_waitingMy.do?page=1";
 		});
@@ -44,8 +64,13 @@
       <div class="marginMain">
       <div class="content-panel" align="center">
       <div align="left">&nbsp;&nbsp;&nbsp;
+       <span id = "myDocBtnSpan" class="label label-default"></span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "mySignBtnSpan"  class="label label-default"></span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span id = "waitingMySignBtnSpan"  class="label label-default"></span>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "waitingSubstituteBtnSpan"  class="label label-default"></span><br>
+ 
 <!-- 내가 쓴것중 아직결제중 -->
-<button class="btn btn-primary" id="myDocBtn">
+&nbsp;&nbsp;<button class="btn btn-primary" id="myDocBtn">
 <i class="fa fa-user" ></i>
 </button>      
 <!-- 내가결재했는데 아직 결재중 -->

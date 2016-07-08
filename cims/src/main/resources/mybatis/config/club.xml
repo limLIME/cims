@@ -110,9 +110,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		cm.emp_no=e.emp_no and cm.emp_no=#{value}
 	</select>
 
-	<select id="checkClubCreate" resultType="int">
-		select count(*) from club where emp_no=#{value}
-	</select>
+	  <select id="checkClubCreate" resultType="int">
+      select count(*) from club where emp_no=#{value} and club_confirm = 1
+   </select>
 
 	<select id="findClubNoByempNo" resultMap="clubRM">
 		select club_no from club where emp_no=#{value}

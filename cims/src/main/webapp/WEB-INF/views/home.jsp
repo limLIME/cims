@@ -18,6 +18,9 @@
 		$(".board").click(function name() {
 				location.href="${initParam.root}free_boardList.do?pageNo=1";
 		})
+		$(".evaluation").click(function name() {
+				location.href="${initParam.root}evaluation_todayEvaluationPage.do";
+		})
 		
 	})
 </script>
@@ -35,9 +38,9 @@
 								<h5>Mail</h5>
 							</div>
 							<div class="row">
-								<div class="col-sm-6 col-xs-6 goleft">
+								<div class="col-sm-6 col-xs-6 goleft" style="font-size: 2em">
 									<p>
-										<i class="fa fa-envelope"></i>${mainList[0]}
+										<i class="fa fa-envelope" style="font-size: 1em"></i>${mainList[0]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -56,9 +59,9 @@
 								<h5>Document</h5>
 							</div>
 							<div class="row">
-								<div class="col-sm-6 col-xs-6 goleft">
+								<div class="col-sm-6 col-xs-6 goleft" style="font-size: 2em">
 									<p>
-										<i class="fa fa-file"></i> ${mainList[2]}
+										<i class="fa fa-file" style="font-size: 1em"></i> ${mainList[2]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -76,9 +79,9 @@
 								<h5>Schedule</h5>
 							</div>
 							<div class="row">
-								<div class="col-sm-6 col-xs-6 goleft">
+								<div class="col-sm-6 col-xs-6 goleft" style="font-size: 2em">
 									<p>
-										<i class="fa fa-calendar"></i> ${mainList[1]}
+										<i class="fa fa-calendar" style="font-size: 1em"></i> ${mainList[1]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -96,9 +99,9 @@
 								<h5>Notice</h5>
 							</div>
 							<div class="row">
-								<div class="col-sm-6 col-xs-6 goleft">
+								<div class="col-sm-6 col-xs-6 goleft" style="font-size: 2em">
 									<p>
-										<i class="fa fa-bullhorn"></i> ${mainList[3]}
+										<i class="fa fa-bullhorn" style="font-size: 1em"></i> ${mainList[3]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -116,9 +119,9 @@
 								<h5>Board</h5>
 							</div>
 							<div class="row">
-								<div class="col-sm-6 col-xs-6 goleft">
+								<div class="col-sm-6 col-xs-6 goleft" style="font-size: 2em">
 									<p>
-										<i class="fa fa-bullhorn"></i> ${mainList[4]}
+										<i class="fa  fa-comments-o" style="font-size: 1em"></i> ${mainList[4]}
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>
@@ -131,14 +134,14 @@
 					<!-- /col-md-4 -->
 
 					<div class="col-md-4 mb">
-						<div class="white-panel pn">
+						<div class="white-panel pn evaluation" >
 							<div class="white-header">
 								<h5>Evaluation</h5>
 							</div>
 							<div class="row">
-								<div class="col-sm-6 col-xs-6 goleft">
+									<div class="col-sm-6 col-xs-6 goleft" style="font-size: 2em">
 									<p>
-								
+										<i class="fa fa-asterisk" style="font-size: 1em"></i> 
 									</p>
 								</div>
 								<div class="col-sm-6 col-xs-6"></div>

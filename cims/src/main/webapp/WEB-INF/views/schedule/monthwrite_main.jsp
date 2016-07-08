@@ -70,7 +70,7 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<td><h3>&nbsp;<i class="fa fa-angle-right"></i> Month Write</h3></td>
+									<td colspan="2"><h3>&nbsp;<i class="fa fa-angle-right"></i> Month Write</h3></td>
 								</tr>
 							</thead>
 							<tbody>							
@@ -92,6 +92,7 @@
 							<input type="button" id="cancelBtn" class="btn btn-warning" value="cancel">
 						</div>
 					</form>
+					<br>
 			</div>
 		</div>
 	</section>

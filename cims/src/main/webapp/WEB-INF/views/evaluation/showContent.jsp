@@ -27,7 +27,7 @@
 	
 	<tbody>
 		<tr>
-			<td>No : ${requestScope.evalVo.evaluationNo} </td>
+			<td colspan="3">No : ${requestScope.evalVo.evaluationNo} </td>
 		</tr>
 		<tr>
 			<td colspan="2">Title : ${requestScope.evalVo.evaluationTitle} </td>

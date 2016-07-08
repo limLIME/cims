@@ -83,7 +83,7 @@
    </c:forEach>
 
       <c:if test="${list.pagingBean.nextPageGroup}">
-         <a href="${initParam.root}free_showList.do?pageNo=${list.pagingBean.endPageOfPageGroup+1}"><img src="img/right_arrow_btn.gif"></a>
+         <a href="${initParam.root}free_boardList.do?pageNo=${list.pagingBean.endPageOfPageGroup+1}"><img src="img/right_arrow_btn.gif"></a>
       </c:if><br><br>
       	</c:when>
       	
