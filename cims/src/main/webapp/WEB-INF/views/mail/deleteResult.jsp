@@ -19,11 +19,12 @@
 
 <div class="marginMailWrite">
 <div class="content-panel">
-<center>
+
 <h3>&nbsp;<i class="fa fa-angle-right"></i> Delete Success !</h3>
+<center>
 <br>
-<input type="button"  id="send" class="btn btn-primary"  value="SendMail">
-<input type="button"  id="receive" class="btn btn-primary"  value="ReceivedMail">   
+<input type="button"  id="send" class="btn btn-primary"  value="Send Mail Box">
+<input type="button"  id="receive" class="btn btn-primary"  value="Receive Mail Box">   
 <input type="button" id="write" class="btn btn-success" value="Write Mail"> 
-</center>
+</center><br><br>
 </div></div></section></section>

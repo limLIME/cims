@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -45,14 +45,19 @@
 						enctype="multipart/form-data">
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Department Number</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="deptNo" id="deptNo">
+							<div class="col-sm-10" style="font-size: 1.3em">
+							
+							<c:forEach items="${deptList }" var="dept">
+								<input type="radio"  name="deptNo" value="${dept.departmentVO.deptNo }">${dept.departmentVO.deptName } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:forEach> 
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Position Number</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="positionNo" id="positionNo">
+							<div class="col-sm-10"  style="font-size: 1.3em">
+								<c:forEach items="${positionList }" var="position">
+								<input type="radio"  name="positionNo" value="${position.positionVO.positionNo }">${position.positionVO.positionName } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:forEach> 
 							</div>
 						</div>
 						<div class="form-group">

@@ -10,7 +10,7 @@
     	});
     	$("#deleteBtn").click(function(){ 
     		if(confirm("메일을 삭제하시겠습니까?"))
-    			location.href="${initParam.root}mail_deleteMail.do?sender=${requestScope.mailVO.mailSender}&no=${requestScope.mailVO.mailNo}";
+    			location.href="${initParam.root}mail_deleteMail.do?receiver=${requestScope.mailVO.mailReceiver}&sender=${requestScope.mailVO.mailSender}&no=${requestScope.mailVO.mailNo}";
     	});
     
     });	
@@ -21,7 +21,7 @@
 
 <div class="marginMailWrite">
 <div class="content-panel">
-<h3>&nbsp;<i class="fa fa-angle-right"></i>Mail Content</h3>
+<h3>&nbsp;<i class="fa fa-angle-right"></i> Mail Content</h3>
 <center>
 
 	<table class="table table-striped table-advance table-hover">

@@ -24,7 +24,7 @@ public class ScheduleController {
 	@RequestMapping("sch_home.do")
 	public ModelAndView sch_home(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 3);
+		session.setAttribute("left", 12);
 		System.out.println(session.getAttribute("left"));
 		EmployeeVO vo = (EmployeeVO) session.getAttribute("evo");
 		List<ScheduleVO> list = service.getTodaySchedule(vo);
@@ -80,14 +80,14 @@ public class ScheduleController {
 	@RequestMapping("sch_month.do")
 	public void sch_month(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 5);
+		session.setAttribute("left", 13);
 	}
 
 	@RequestMapping("sch_weeklyList.do")
 	@ResponseBody
 	public List<ScheduleVO> sch_weeklyList(EmployeeVO vo) {
 		List<ScheduleVO> list = service.getWeekSchedule(vo);
-		System.out.println(list);
+	
 		return list;
 	}
 

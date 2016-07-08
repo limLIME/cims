@@ -25,45 +25,41 @@ $(document).ready(function() {
 
 <div class="marginDocWrite">
 <div class="content-panel">
-<h3>&nbsp;<i class="fa fa-angle-right"></i>Document Write</h3>
+<h3>&nbsp;<i class="fa fa-angle-right"></i> Document Write</h3>
 <center>
 <form id="writeForm" action="${initParam.root }doc_write.do" enctype="multipart/form-data" method="post">
 
-<table class="table" >
+<table class="table">
 	<tr>
-		<td colspan="4">
+		<td colspan="6">
 			Document Title : <input size="50%" type="text" name="title" placeholder="Write Docunemt Title"></td>
 
 	</tr>
 	<tr>
-		<td colspan="4">Writter :  ${sessionScope.evo.departmentVO.deptName}  ${sessionScope.evo.positionVO.positionName}  ${sessionScope.evo.empName}</td>
+		<td colspan="6">Writter :  ${sessionScope.evo.departmentVO.deptName}  ${sessionScope.evo.positionVO.positionName}  ${sessionScope.evo.empName} (${sessionScope.evo.empNo})</td>
 	</tr>
 		 <tr>
-	 <td>Approver 1 :</td>
-	 <td colspan="3"> <input type="text" id="app1" name="approver1" ></td>
+	 <td colspan="6">Approver 1 : <input type="text" id="app1" name="approver1" size="30" readonly="readonly"></td>
 	 </tr>
 	 	 <tr>
-	 <td>Approver 2 :</td>
-	 <td colspan="3"><input type="text" id="app2" name="approver2"  ></td>
+	 <td colspan="6">Approver 2 : <input type="text" id="app2" name="approver2"  size="30" readonly="readonly"></td>
 	 </tr>
 	<tr>
-	<td>Approver 3 :</td>
-	 <td colspan="3"><input type="text" id="app3" name="approver3" readonly="readonly"></td>
+	<td colspan="6">Approver 3 : <input type="text" id="app3" name="approver3" size="30" readonly="readonly"></td>
 	 </tr>
 	<tr>
-	<td>Approver 4 :</td>
-	 <td colspan="3"><input type="text" id="app4" name="approver4" readonly="readonly"></td>
+	<td colspan="6">Approver 4 : <input type="text" id="app4" name="approver4" size="30" readonly="readonly"></td>
 	 </tr>
 	<tr>
-		<td colspan="4">
+		<td colspan="6">
 		<textarea style="width:100%;height:70;" name="content" rows="10" cols="70" placeholder="Write Docunemt Content"></textarea></td>
 	</tr>
 	<tr>
 		<td>Attached File</td>
-		<td colspan="3"><input type="file" name="multipartFile"></td>
+		<td colspan="5"><input type="file" name="multipartFile"></td>
 	</tr>
 	<tr>
-	<td colspan="4" align="center">
+	<td colspan="6" align="center">
 	<input type="submit" class ="btn btn-primary" value="Complete"> 
 	<input type="reset" class ="btn btn-warning" value="Reset">
 	</td>

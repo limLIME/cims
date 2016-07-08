@@ -40,21 +40,21 @@
 				<thead>
 				<tr>
 				<c:forEach items="${requestScope.positionList}" var="p">
-				<td width="50" align="center">${p}</td>
+				<td width="70" align="center">${p}</td>
 				</c:forEach>
 				</tr>
 				</thead>
 				<tbody>			
-					<tr height="50">
+					<tr height="70">
 						
 						<c:forEach items="${requestScope.signList}" var="s">
-							<td>
+							<td align="center">
 							<c:choose>
 							<c:when test="${s == '0'}">
 								&nbsp;
 							</c:when>
 							<c:otherwise>
-							 <img src="${initParam.root }upload/sign/${s}" height="30" width="30">
+							 <img src="${initParam.root }upload/sign/${s}" height="60" width="60">
 							</c:otherwise>
 							</c:choose>
 							</td>
@@ -96,7 +96,7 @@
 		<td colspan="4">작&nbsp;&nbsp;성&nbsp;&nbsp;일&nbsp; : ${requestScope.dvo.timePosted }</td>
 	</tr><tr><td>&nbsp;</td></tr>
 	<tr>
-	<td colspan="4">작&nbsp;&nbsp;성&nbsp;&nbsp;자&nbsp; : ${requestScope.dvo.employeeVO.empName }</td>
+	<td colspan="4">작&nbsp;&nbsp;성&nbsp;&nbsp;자&nbsp; :  ${requestScope.dvo.employeeVO.departmentVO.deptName} ${requestScope.dvo.employeeVO.positionVO.positionName} ${requestScope.dvo.employeeVO.empName } (${requestScope.dvo.employeeVO.empNo })</td>
 
 	</tr><tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>

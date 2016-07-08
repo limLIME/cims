@@ -2,6 +2,7 @@ package org.kosta.cims.dao;
 
 import java.util.List;
 
+import org.kosta.cims.model.EmployeeVO;
 import org.kosta.cims.model.MailVO;
 
 public interface MailDAO {
@@ -20,12 +21,14 @@ public interface MailDAO {
 
 	public abstract void sendMail(MailVO mailVO);
 
-	public abstract List<Object> getSendMailList(String empNo, int pageNo);
+	public abstract List<MailVO> getSendMailList(String empNo, int pageNo);
 
-	public abstract List<Object> getReceiveMailList(String empNo, int pageNo);
+	public abstract List<MailVO> getReceiveMailList(String empNo, int pageNo);
 
 	public abstract Integer countMail(String empNo);
 
 	public abstract List<MailVO> getMyMailList(String empNo);
+	
+	public abstract EmployeeVO findById(String empNo);
 
 }

@@ -32,7 +32,7 @@ public class RecBoardController {
 	 @RequestMapping("rec_boardList.do")
 		public ModelAndView showList(int pageNo,HttpServletRequest request){
 	  	   HttpSession session =request.getSession(false);
-	  	   session.setAttribute("left", 7);
+	  	   session.setAttribute("left", 37);
 	     	 session.setAttribute("map", null);
 			List<Object> paging = service.getPostingList(pageNo);
 			ModelAndView mv = new ModelAndView("board_rec_boardList");

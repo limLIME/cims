@@ -30,7 +30,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 		map.put("docNo",  dvo.getDocNo());
 		map.put("empNo", dvo.getEmployeeVO().getEmpNo());
 		
-
+System.out.println(list);
 		for (int i = 0; i <4; i++) {
 			if (!(list.get(i).equals(""))){
 				map.put("approver", list.get(i));

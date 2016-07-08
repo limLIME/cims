@@ -9,6 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="docNo" column="doc_no" />
 		<result property="employeeVO.empNo" column="emp_no" />
 		<result property="employeeVO.empName" column="emp_name" />
+		<result property="employeeVO.positionVO.positionName" column="position_name" />
+		<result property="employeeVO.positionVO.positionNo" column="position_no" />
+		<result property="employeeVO.departmentVO.deptName" column="dept_name" />
+		<result property="employeeVO.departmentVO.deptNo" column="dept_no" />
 		<result property="title" column="doc_title" />
 		<result property="content" column="doc_content" />
 		<result property="path" column="doc_path" />
@@ -34,9 +38,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 공문보기 ******************************************************************* -->
 	<select id="showdocument" resultMap="documentMap">
-		select d.doc_no,d.emp_no,d.doc_title,d.doc_content,d.doc_path,d.doc_time_posted,e.emp_name,d.doc_state
-		from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_no=#{docNo}
+		select d.doc_no,d.emp_no,d.doc_title,d.doc_content,dp.dept_name,p.position_name,d.doc_path,d.doc_time_posted,e.emp_name,d.doc_state
+		from document d,employee e,department dp, position p
+		where e.emp_no=d.emp_no and e.position_no=p.position_no and e.dept_no=dp.dept_no 
+		and d.doc_no=#{docNo}
 	</select>
 	
 	<!-- 결재대상자가 누구인지 찾기 -->

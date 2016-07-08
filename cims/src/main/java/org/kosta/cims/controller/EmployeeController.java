@@ -32,13 +32,30 @@ public class EmployeeController {
 	@Resource(name = "signPath")
 	private String signPath;
 	
+	@RequestMapping("emp_adminUpdateSearch.do")
+	public String adminUpdateSearch(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 51);
+		return "emp_adminUpdateSearch";
+	}
+	@RequestMapping("emp_registerform.do")
+	public ModelAndView registerform(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 52);
+		List<DepartmentVO> deptList = service.deptList();
+		List<PositionVO> positionList = service.positionList();
+		ModelAndView mv =new ModelAndView();
+		mv.addObject("deptList",deptList);
+		mv.addObject("positionList",positionList);
+		mv.setViewName("emp_registerform");
+		return mv;
+	}
+	
 	@RequestMapping("emp_updateSearch.do")
 	public String deleteform(HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 17);
 		return "emp_updateSearch";
 	}
-	
 	
 	@RequestMapping("emp_update.do")
 	public String update(EmployeeVO vo, HttpServletRequest request) {
@@ -195,7 +212,7 @@ public class EmployeeController {
 	   @RequestMapping("emp_searchemp.do")
 	     public ModelAndView searchemp(HttpServletRequest request){
 		   HttpSession session = request.getSession(false);
-		   session.setAttribute("left", 24);
+		   session.setAttribute("left", 43);
 	        List<DepartmentVO> list = service.deptList();
 	        return new ModelAndView("emp_searchemp","deptList",list);
 	     }

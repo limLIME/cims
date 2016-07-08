@@ -67,8 +67,8 @@
       });//click
        
       $("#empView").on("click",".empSearch",function(){   
-        if(confirm($(this).children().eq(1).text()+" "+$(this).children().eq(2).text()+" "+$(this).children().eq(3).text()+" ("+$(this).children().eq(0).text()+") "+" 님을 결재 대상자로 지정하시겠습니까?")){
-        	 var key =$(this).children().eq(0).text();
+        if(confirm($(this).children().eq(1).text()+" "+$(this).children().eq(2).text()+" "+$(this).children().eq(3).text()+" ("+$(this).children().eq(0).text()+")"+" 님을 결재 대상자로 지정하시겠습니까?")){
+        	 var key =$(this).children().eq(1).text()+" "+$(this).children().eq(2).text()+" "+$(this).children().eq(3).text()+" ("+$(this).children().eq(0).text()+")";
          	var app = "${requestScope.app}";
              $(app, opener.document).val(key);
              window.close();

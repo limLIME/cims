@@ -34,14 +34,14 @@ public class MailController {
 	@RequestMapping("mail_sendForm.do")
 	public String mail_sendForm(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
-		session.setAttribute("left", 12);
+		session.setAttribute("left", 3);
 		return "mail_sendForm";
 	}
 	//받은 메일리스트 받기
 	@RequestMapping("mail_getReceiveList.do")
 	public ModelAndView getReceiveList(int pageNo,HttpServletRequest request){
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 13);
+		session.setAttribute("left", 4);
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 		List<Object> list = mailService.getReceiveMailList(evo.getEmpNo(),pageNo);
 		int totalReceiveContent = mailService.totalReceiveMailContent(evo.getEmpNo());
@@ -53,7 +53,7 @@ public class MailController {
 		@RequestMapping("mail_getSendList.do")
 		public ModelAndView getSendList(int pageNo,HttpServletRequest request){
 			HttpSession session = request.getSession(false);
-			session.setAttribute("left", 14);
+			session.setAttribute("left", 5);
 			EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			List<Object> list = mailService.getSendMailList(evo.getEmpNo(),pageNo);
 			int totalSendContent = mailService.totalSendMailContent(evo.getEmpNo());
@@ -65,7 +65,7 @@ public class MailController {
 		@RequestMapping("mail_getCheckList.do")
 		public ModelAndView getCheckList(int pageNo,HttpServletRequest request){
 			HttpSession session = request.getSession(false);
-			session.setAttribute("left", 15);
+			session.setAttribute("left", 6);
 			EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			List<Object> list = mailService.getSendMailList(evo.getEmpNo(),pageNo);
 			int totalSendContent = mailService.totalSendMailContent(evo.getEmpNo());
@@ -87,12 +87,18 @@ public class MailController {
 	
 	//메일 삭제
 	@RequestMapping("mail_deleteMail.do")
-	public ModelAndView deleteMail(HttpServletRequest request,String sender,int no){
+	public ModelAndView deleteMail(HttpServletRequest request,String receiver,String sender,int no){
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		if(evo.getEmpNo().equals(sender)){//보낸이가 나라면 sdelete
+		sender=sender.substring(sender.indexOf("(")+1, sender.indexOf(")"));
+		receiver=receiver.substring(receiver.indexOf("(")+1, receiver.indexOf(")"));
+		
+		if(receiver.equals(sender)){//보낸이와 받은이가같다면 즉 내가보낸것이라면
 			mailService.sDeleteMail(no);
-		}else{								//보낸이가 내가아니라면 rdelete
+			mailService.rDeleteMail(no);
+		}else if(evo.getEmpNo().equals(sender)){//보낸이가 나라면 sdelete 보낸메시지함
+			mailService.sDeleteMail(no);
+		}else if(evo.getEmpNo().equals(receiver)){//받은이가 내가아니라면 rdelete 받은메시지함
 			mailService.rDeleteMail(no);
 		}
 		
@@ -103,6 +109,7 @@ public class MailController {
 	public ModelAndView sendMail(MailVO mailVO,HttpServletRequest request){
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		mailVO.setMailReceiver(mailVO.getMailReceiver().substring(mailVO.getMailReceiver().indexOf("(")+1, mailVO.getMailReceiver().indexOf(")")));
 		mailVO.setMailSender(evo.getEmpNo());
 
 		MultipartFile file = mailVO.getFilePath(); // 파일

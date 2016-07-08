@@ -66,6 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <select id="findByNo" resultMap="employeeMap">
       select * from employee where emp_no = #{value}
    </select>
+    <select id="findById" resultMap="employeeMap" >
+   select  e.emp_no, e.emp_name,p.position_name,d.dept_name 
+   from employee e, position p ,department d
+   where e.position_no=p.position_no and e.dept_no=d.dept_no and emp_no=#{value}
+   </select>
    
    <update id="deleteEmp" parameterType="String">
          update employee set position_no=0 where emp_no=#{value}
@@ -84,6 +89,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          select dept_no,dept_name from department
    </select>
    
+   <select id="positionList" resultMap="employeeMap">
+            select position_no, position_name from position
+    </select>
+    
    <select id="seardBydeptName" resultMap="employeeMap">
        select d.dept_name, p.position_name, e.emp_name, e.emp_no 
         from employee e, department d, position p 

@@ -13,7 +13,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
     
-<script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#noSubstitute").click(function() {
@@ -67,17 +67,17 @@ ${requestScope.mysub.positionVO.positionName} ${requestScope.mysub.empName}<br>
 &nbsp;<br>
 대행자 없음<br>
 &nbsp;
-</div>
+</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-<c:forEach items="${requestScope.sub}" var="subVO" >
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<c:forEach items="${requestScope.sub}" var="subVO" varStatus="i">
 
+<c:if test="${i.count%4==0 }"><br><br><br></c:if>
 <div class="btn btn-primary sss" >
 ${subVO.departmentVO.deptName } <br>
 ${subVO.positionVO.positionName } ${subVO.empName }  <br>
 ( ${subVO.empNo } ) 
-</div>
+</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 </c:forEach>

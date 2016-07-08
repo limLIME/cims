@@ -3,17 +3,16 @@
  <section id="main-content">
           <section class="wrapper">
 
-<div class="marginMailWrite">
+<div class="marginMain4">
 <div class="content-panel">
 <h3>&nbsp;<i class="fa fa-angle-right"></i> Send Mail</h3>
 <center>
  
-<table class="table table-striped table-advance table-hover">
-		<thead align="center">
+<table class="table table-striped table-advance table-hover" >
+		<thead>
 		<tr>
 			<th class="no">#NO</th>
-	
-			<th class="title">Title</th>
+			<th class="title" >Title</th>
 			<th class="name">Sender</th>
 			<th class="name">Receiver</th>
 			<th class="date">Date</th>
@@ -21,7 +20,7 @@
 		</thead>
 		<tbody>			
 		<c:if test="${requestScope.lvo.list.size()==0}">
-		<tr><td colspan="5"><center>Not Exist Message</center></td></tr>
+		<tr><td colspan="5"><center>Not Exist Mail</center></td></tr>
 		</c:if>
 		<c:forEach var="mailVO" items="${requestScope.lvo.list}">				
 			<tr>

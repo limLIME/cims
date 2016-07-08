@@ -61,7 +61,7 @@
 		                          <h4 class="modal-title">Forgot Password ?</h4>
 		                      </div>
 		                      <div class="modal-body" align="center">
-		                          <p>흥택찡한테 연락주세요 010-5114-0581</p>
+		                          <p>관리자에게 연락주세요 010-5114-0581</p>
 		
 		                      </div>
 		                      <div class="modal-footer">

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.cims.model.EmployeeVO;
 import org.kosta.cims.model.MailVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,14 +20,14 @@ public class MailDAOImpl implements MailDAO {
 	 * @see org.kosta.cims.model.MailDAO#getMailList(int)
 	 */
 	@Override
-	public List<Object> getSendMailList(String empNo,int pageNo){
+	public List<MailVO> getSendMailList(String empNo,int pageNo){
 		HashMap<String,String> map=new HashMap<String,String>();
 		map.put("empNo", empNo);
 		map.put("pageNo",""+pageNo);
 		return template.selectList("mail.getSendMailList",map);
 	}
 	@Override
-	public List<Object> getReceiveMailList(String empNo,int pageNo){
+	public List<MailVO> getReceiveMailList(String empNo,int pageNo){
 		HashMap<String,String> map=new HashMap<String,String>();
 		map.put("empNo", empNo);
 		map.put("pageNo",""+pageNo);
@@ -46,6 +47,7 @@ public class MailDAOImpl implements MailDAO {
 	public MailVO showMailContent(int no){
 		return template.selectOne("mail.showMailContent",no);
 	}
+	
 	public int checkMail(int no,String empNo){
 		HashMap<String,String> map = new HashMap<String, String>();
 		map.put("no", ""+no);
@@ -76,5 +78,9 @@ public class MailDAOImpl implements MailDAO {
 	@Override
 	public List<MailVO> getMyMailList(String empNo) {
 		return template.selectList("mail.getMyMailList", empNo);
+	}
+	@Override
+	public  EmployeeVO findById(String empNo){
+		return template.selectOne("employee.findById", empNo);
 	}
 }

@@ -3,7 +3,7 @@
 <section id="main-content">
           <section class="wrapper">
 
-<div class="marginMailWrite">
+<div class="marginMain4">
 <div class="content-panel">
 <h3>&nbsp;<i class="fa fa-angle-right"></i> Receive Mail</h3>
 <center>

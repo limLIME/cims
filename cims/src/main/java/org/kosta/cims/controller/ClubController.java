@@ -29,7 +29,7 @@ public class ClubController {
 		 	HttpSession session = request.getSession();
 		 	EmployeeVO evo=(EmployeeVO) session.getAttribute("evo");
 		 	String empNo=evo.getEmpNo();
-		 	session.setAttribute("left", 19);
+		 	session.setAttribute("left",44);
 		 	int check = clubService.checkClubCreate(empNo);
 			List<Object> paging = clubService.getPostingList(pageNo);
 			List<Object> paging2 = clubService.getPostingList2();
@@ -209,6 +209,7 @@ public class ClubController {
 	public ModelAndView clubBoardList(int page,HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("club_clubboardlist");
 		HttpSession session=request.getSession(false);
+		session.setAttribute("left", 45);
 		EmployeeVO evo =(EmployeeVO) session.getAttribute("evo");
 		String empNo=evo.getEmpNo();
 		List<ClubVO> clist = clubService.searchClubName(empNo);

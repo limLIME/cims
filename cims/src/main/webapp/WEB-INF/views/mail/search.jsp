@@ -68,7 +68,7 @@
        
       $("#empView").on("click",".empSearch",function(){   
         if(confirm($(this).children().eq(1).text()+" "+$(this).children().eq(2).text()+" "+$(this).children().eq(3).text()+" ("+$(this).children().eq(0).text()+") "+"님을 받는이로 지정하시겠습니까?")){
-        	 var key =$(this).children().eq(0).text();
+        	 var key =$(this).children().eq(1).text()+" "+$(this).children().eq(2).text()+" "+$(this).children().eq(3).text()+" ("+$(this).children().eq(0).text()+")";
        	     $("#receiver", opener.document).val(key);
              window.close();
         }

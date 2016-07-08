@@ -46,10 +46,68 @@
 					</c:otherwise>
 				</c:choose></li>
 <!-- 공지사항 끝 -->
+
+	<!-- 전자메일 시작 -->
+			<li class="sub-menu">
+			
+			<c:choose>
+			<c:when test="${left==3 || left==4 || left==5 || left==6}">
+			<a class="active" href="javascript:;"> <i class="fa fa-envelope-o"></i> <span>Mail</span></a>
+			</c:when>
+			<c:otherwise>
+			<a href="javascript:;"> <i class="fa fa-envelope-o"></i> <span>Mail</span></a>
+			</c:otherwise>
+			</c:choose>
+			
+				<c:choose>
+				<c:when test="${left==3 }">
+				<ul class="sub">
+					<li class="active"><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==4 }">
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==5 }">
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li class="active"><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==6 }">
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li class="active"><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
+				</ul>
+				</c:when>
+				<c:otherwise>
+				<ul class="sub">
+					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
+					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
+				</ul>
+				</c:otherwise>
+				</c:choose>	
+				</li>
+	<!-- 전자메일끝 -->
+
 <!-- 스케쥴 시작 -->
 			<li class="sub-menu">
 			<c:choose>
-			<c:when test="${left==3}">
+			<c:when test="${left==12}">
 				<a class = "active" href="javascript:;"> 
 					<i class="fa fa-calendar"></i>
 					<span>Schedule</span>
@@ -60,7 +118,7 @@
 					</ul>
 				</c:when>
 									
-				<c:when test="${left==5}">
+				<c:when test="${left==13}">
 					<a class = "active" href="javascript:;"> 
 					<i class="fa fa-calendar"></i>
 					<span>Schedule</span>
@@ -83,37 +141,11 @@
 			</c:choose>
 			</li>
 <!-- 스케쥴 끝-->
-<!-- 보드  시작 -->
-			<li class="sub-menu">
-				<c:choose>
-					<c:when test="${left==6}">
-					<a class = "active"  href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
-				<ul class="sub">
-					<li class = "active" ><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
-					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
-				</ul>
-					</c:when>
-					<c:when test="${left==7}">
-					<a class = "active"  href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
-				<ul class="sub">
-					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
-					<li class = "active" ><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
-				</ul>
-					</c:when>
-					<c:otherwise>
-						<a href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
-				<ul class="sub">
-					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
-					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
-				</ul>
-					</c:otherwise>
-				</c:choose>
-				</li>
-<!-- 보드끝 -->		
+
 <!-- 전자결재 시작 -->				
 			<li class="sub-menu">
 			<c:choose>
-				<c:when test="${left==8 || left ==9|| left ==10 ||left ==11}">
+				<c:when test="${left==19 || left ==20|| left ==21 ||left ==22 ||left==23 }">
 					<a class="active" href="javascript:;"> 
 					<i class="fa fa-file-o"></i> <span>Document</span></a>
 				</c:when>
@@ -124,36 +156,49 @@
 			</c:choose>
 			
 			<c:choose>
-			<c:when test="${left==8}">
+			<c:when test="${left==19}">
 				<ul class="sub">
 					<li class="active"><a href="${initParam.root}doc_writeForm.do">Write </a></li>
 					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
 					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
 				</ul>
 				</c:when>
-				<c:when test="${left==9}">
+				<c:when test="${left==20}">
 				<ul class="sub">
 					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
 					<li class="active"><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
 					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
 				</ul>
 				</c:when>
-				<c:when test="${left==10}">
+				<c:when test="${left==21}">
 				<ul class="sub">
 					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
 					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
 					<li class="active"><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
 				</ul>
 				</c:when>
-				<c:when test="${left==11}">
+				<c:when test="${left==22}">
 				<ul class="sub">
 					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
 					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
 					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
 					<li class="active"><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==23}">
+				<ul class="sub">
+					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
+					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li class="active"><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
 				</ul>
 				</c:when>
 				<c:otherwise>
@@ -162,75 +207,20 @@
 					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
 					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
 				</ul>
 				</c:otherwise>
 				</c:choose>
 				
 				</li>
-		<!-- 전자결재 끝-->		
-			<!-- 전자메일 시작 -->
-			<li class="sub-menu">
+		<!-- 전자결재 끝-->	
+		
 			
-			<c:choose>
-			<c:when test="${left==12 || left==13 || left==14 || left==15}">
-			<a class="active" href="javascript:;"> <i class="fa fa-envelope-o"></i> <span>Mail</span></a>
-			</c:when>
-			<c:otherwise>
-			<a href="javascript:;"> <i class="fa fa-envelope-o"></i> <span>Mail</span></a>
-			</c:otherwise>
-			</c:choose>
-			
-				<c:choose>
-				<c:when test="${left==12 }">
-				<ul class="sub">
-					<li class="active"><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
-				</ul>
-				</c:when>
-				<c:when test="${left==13 }">
-				<ul class="sub">
-					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
-				</ul>
-				</c:when>
-				<c:when test="${left==14 }">
-				<ul class="sub">
-					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
-					<li class="active"><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
-				</ul>
-				</c:when>
-				<c:when test="${left==15 }">
-				<ul class="sub">
-					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
-					<li class="active"><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
-				</ul>
-				</c:when>
-				<c:otherwise>
-				<ul class="sub">
-					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
-					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
-					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
-				</ul>
-				</c:otherwise>
-				</c:choose>	
-				</li>
-	<!-- 전자메일끝 -->
 				
 	<!-- 결산 시작 -->
 			<li class="sub-menu">
-           
-           
-            <c:choose>
-               <c:when test="${left==25}">
+              <c:choose>
+               <c:when test="${left==29}">
                <a class = "active"  href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
             <ul class="sub">
                <c:choose>
@@ -245,7 +235,7 @@
             </ul>
                </c:when>
                
-               <c:when test="${left==26}">
+               <c:when test="${left==30}">
                <a class = "active"  href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
             <ul class="sub">
                <c:choose>
@@ -260,7 +250,7 @@
             </ul>
                </c:when>
                
-                <c:when test="${left==27}">
+                <c:when test="${left==31}">
                <a class = "active"  href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
             <ul class="sub">
                <c:choose>
@@ -274,10 +264,6 @@
                </c:choose>
             </ul>
                </c:when>
-               
-               
-               
-               
                <c:otherwise>
                   <a href="javascript:;"> <i class="fa fa-asterisk"></i> <span>Evaluation</span></a>
             	<ul class="sub">
@@ -297,10 +283,39 @@
 			<!-- 결산 끝 -->
 			
          		
+<!-- 보드  시작 -->
+			<li class="sub-menu">
+				<c:choose>
+					<c:when test="${left==36}">
+					<a class = "active"  href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
+				<ul class="sub">
+					<li class = "active" ><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
+					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
+				</ul>
+					</c:when>
+					<c:when test="${left==37}">
+					<a class = "active"  href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
+				<ul class="sub">
+					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
+					<li class = "active" ><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
+				</ul>
+					</c:when>
+					<c:otherwise>
+						<a href="javascript:;"> <i class="fa  fa-comments-o"></i> <span>Board</span></a>
+				<ul class="sub">
+					<li><a href="${initParam.root}free_boardList.do?pageNo=1">FreeBoard</a></li>
+					<li><a href="${initParam.root}rec_boardList.do?pageNo=1">Recommendations</a></li>
+				</ul>
+					</c:otherwise>
+				</c:choose>
+				</li>
+<!-- 보드끝 -->		
+         		
+         		
          	<!-- 조직도 시작 -->
          <li class="sub-menu">
 			<c:choose>
-					<c:when test="${left==24}">
+					<c:when test="${left==43}">
 					<a class="active" href="${initParam.root}emp_searchemp.do"> 
 					<i class="fa fa-group"></i> <span>Organization Chart</span></a>
 					</c:when>
@@ -321,7 +336,7 @@
          <li class="sub-menu">
          
          <c:choose>
-         <c:when test="${left==19 || left==20 }">
+         <c:when test="${left==44 || left==45 }">
          <a class="active" href="javascript:;"> <i class="fa fa-dribbble"></i> <span>Club</span></a>
          </c:when>
          <c:otherwise>
@@ -329,13 +344,13 @@
          </c:otherwise>
          </c:choose>
          <c:choose>
-         <c:when test="${left==19}">
+         <c:when test="${left==44}">
             <ul class="sub">
                <li class="active"><a href="${initParam.root}club_List.do?pageNo=1">ClubList</a></li>
                <li><a href="${initParam.root}club_boardList.do?page=1">Club Board</a></li>         
             </ul>
             </c:when>
-            <c:when test="${left==20}">
+            <c:when test="${left==45}">
             <ul class="sub">
                <li><a href="${initParam.root}club_List.do?pageNo=1">ClubList</a></li>
                <li class="active"><a href="${initParam.root}club_boardList.do?page=1">Club Board</a></li>         
@@ -353,46 +368,38 @@
             
                        		
          		
-         <!-- Mangement시작 -->
+         <!-- Management시작 -->
          <c:if test="${evo.positionVO.positionNo==100 }">
 
 			<li class="sub-menu">
 			
 			<c:choose>
-			<c:when test="${left==16 || left==17 || left==18}">
-			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Mangement</span></a>
+			<c:when test="${left==51 || left==52 }">
+			<a class="active" href="javascript:;"> <i class="fa fa-th"></i> <span>Management</span></a>
 			</c:when>
 			<c:otherwise>
-			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Mangement</span></a>
+			<a href="javascript:;"> <i class="fa fa-th"></i> <span>Management</span></a>
 			</c:otherwise>
 			</c:choose>
 				
 				<c:choose>
-			<c:when test="${left==16}">
+				<c:when test="${left==51}">
 				<ul class="sub">
-					<li class="active"><a href="${initParam.root}emp_updateform.do">Update</a></li>
-              	 	<li><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+					
+              	 	<li class="active"><a href="${initParam.root}emp_adminUpdateSearch.do">Admin Update</a></li>
              	  	<li><a href="${initParam.root}emp_registerform.do">Register</a></li>
 				</ul>
 				</c:when>
-				<c:when test="${left==17}">
+				<c:when test="${left==52}">
 				<ul class="sub">
-					<li><a href="${initParam.root}emp_updateform.do">Update</a></li>
-              	 	<li class="active"><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
-             	  	<li><a href="${initParam.root}emp_registerform.do">Register</a></li>
-				</ul>
-				</c:when>
-				<c:when test="${left==18}">
-				<ul class="sub">
-					<li><a href="${initParam.root}emp_updateform.do">Update</a></li>
-              	 	<li><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+					
+              	 	<li><a href="${initParam.root}emp_adminUpdateSearch.do">Admin Update</a></li>
              	  	<li  class="active"><a href="${initParam.root}emp_registerform.do">Register</a></li>
              	  </ul>
 				</c:when>
 				<c:otherwise>
 				<ul class="sub">
-					<li><a href="${initParam.root}emp_updateform.do">Update</a></li>
-              	 	<li><a href="${initParam.root}emp_deleteform.do">Admin Update</a></li>
+              	 	<li><a href="${initParam.root}emp_adminUpdateSearch.do">Admin Update</a></li>
              	  	<li ><a href="${initParam.root}emp_registerform.do">Register</a></li>
 				</ul>
 				</c:otherwise>

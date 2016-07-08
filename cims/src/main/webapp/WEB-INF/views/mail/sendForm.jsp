@@ -6,7 +6,7 @@
 
 <div class="marginMailWrite">
 <div class="content-panel">
-<h3>&nbsp;<i class="fa fa-angle-right"></i>Mail Write</h3>
+<h3>&nbsp;<i class="fa fa-angle-right"></i> Mail Write</h3><hr>
 <div align="center">
 
 <script src="${initParam.root}resources/jquery-1.12.4.min.js"></script>
@@ -27,7 +27,7 @@
     	$("#my").click(function() {
     		if($(this).is(":checked")){
     		
-        		$("#receiver").val("${sessionScope.evo.empNo}");
+        		$("#receiver").val("${sessionScope.evo.departmentVO.deptName} ${sessionScope.evo.positionVO.positionName} ${sessionScope.evo.empName} (${sessionScope.evo.empNo})");
         	}else{
         		$("#receiver").val("");
         	}
@@ -39,19 +39,19 @@
 	
  <br>
   <form action="${initParam.root}mail_sendMail.do" method="post" id="write_form" enctype="multipart/form-data"  >
-   <table class="inputForm" >
+   <table class="inputForm">
 
     <tbody>
      <tr>
      <td>To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</td>
-     <td colspan="3"><input type="text" id="receiver" name="mailReceiver" value="${requestScope.asd }">
+     <td colspan="3"><input type="text" id="receiver" name="mailReceiver" size="30" value="${requestScope.asd }">
      <input type="checkbox"  id="my">내게쓰기
      </td>
     </tr>
     
       <tr>
      <td>From&nbsp;:</td>
-     <td colspan="3"><input type = "text" name = "mailSender" value = "${sessionScope.evo.departmentVO.deptName} ${sessionScope.evo.positionVO.positionName} ${sessionScope.evo.empName}" readonly="readonly"></td>     
+     <td colspan="3"><input type = "text" name = "mailSender" size="30"  value = "${sessionScope.evo.departmentVO.deptName} ${sessionScope.evo.positionVO.positionName} ${sessionScope.evo.empName}(${sessionScope.evo.empNo})" readonly="readonly"></td>     
     </tr>
     <tr>
     

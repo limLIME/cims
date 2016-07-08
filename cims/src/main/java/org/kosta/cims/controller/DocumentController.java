@@ -68,7 +68,7 @@ public class DocumentController {
 	@RequestMapping("doc_writeForm.do")
 	public String docWriteForm(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 8);
+		session.setAttribute("left", 19);
 		return "doc_write";
 	}
 
@@ -104,8 +104,13 @@ public class DocumentController {
 
 		for (int i = 0; i < 4; i++) {
 			if (!(list.get(i).equals(""))) {
-				dvo.setApprover(list.get(i));
+				dvo.setApprover(list.get(i).substring(list.get(i).indexOf("(")+1, list.get(i).indexOf(")")));
 				break;
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			if (!(list.get(i).equals(""))) {
+				list.set(i,list.get(i).substring(list.get(i).indexOf("(")+1, list.get(i).indexOf(")")));
 			}
 		}
 		// 공문작성하기 //결재 대상자 테이블에 결재 대상자 넣기
@@ -183,7 +188,7 @@ public class DocumentController {
 	@RequestMapping("doc_returnMain.do")
 	public ModelAndView returnMain(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 10);
+		session.setAttribute("left", 21);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
@@ -218,7 +223,7 @@ public class DocumentController {
 	@RequestMapping("doc_waitingMain.do")
 	public ModelAndView waitingMain(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 9);
+		session.setAttribute("left", 20);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
@@ -289,7 +294,7 @@ public class DocumentController {
 	@RequestMapping("doc_completeMain.do")
 	public ModelAndView completeMain(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 11);
+		session.setAttribute("left", 22);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		int positionNo = evo.getPositionVO().getPositionNo();
@@ -494,7 +499,7 @@ public class DocumentController {
 	@RequestMapping("doc_setSubstitute.do")
 	public ModelAndView setSubstitute(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 19);
+		session.setAttribute("left", 23);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		int deptNo = evo.getDepartmentVO().getDeptNo();

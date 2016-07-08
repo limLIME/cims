@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.kosta.cims.dao.EmployeeDAO;
 import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
+import org.kosta.cims.model.PositionVO;
 import org.springframework.stereotype.Service;
 
 
@@ -71,6 +72,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	   @Override
 	   public List<DepartmentVO> deptList() {
 	      return dao.deptList();
+	   }
+	   @Override
+	   public List<PositionVO> positionList() {
+	      return dao.positionList();
 	   }
 
 	   @Override

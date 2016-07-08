@@ -99,8 +99,10 @@ public class HomeController {
 	   }
 	   
 	@RequestMapping("lock_lock_screen.do")
-	   public String lockScreen(HttpServletResponse response){
-	       // 회원번호
+	   public String lockScreen(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session = request.getSession();
+	      session.setAttribute("left", 0);   
+		// 회원번호
 	       String memberNo = "1" ;
 
 	       Cookie c = new Cookie("memberNo", memberNo) ;

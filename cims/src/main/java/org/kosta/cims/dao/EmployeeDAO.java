@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
+import org.kosta.cims.model.PositionVO;
 
 public interface EmployeeDAO {
 
@@ -30,7 +31,9 @@ public interface EmployeeDAO {
 	public abstract List<EmployeeVO> findApprover4(int deptNo);
 
 	public abstract List<DepartmentVO> deptList();
-
+	
+	public abstract List<PositionVO> positionList();
+	
 	public abstract List<EmployeeVO> seardBydeptName(String deptName);
 
 	public abstract List<EmployeeVO> findSubstitute(String empNo, int deptNo,

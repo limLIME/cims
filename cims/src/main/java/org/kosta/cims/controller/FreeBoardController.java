@@ -62,7 +62,7 @@ public class FreeBoardController {
 	@RequestMapping("free_boardList.do")
 	public ModelAndView showList(int pageNo,HttpServletRequest request){
 		HttpSession session =request.getSession(false);
-		session.setAttribute("left", 6);
+		session.setAttribute("left", 36);
 		session.setAttribute("map", null);
 		List<Object> paging = boardService.getPostingList(pageNo);	
 		List<Object> lvo = boardService.popularList();

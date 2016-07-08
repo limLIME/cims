@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.kosta.cims.model.DepartmentVO;
 import org.kosta.cims.model.EmployeeVO;
+import org.kosta.cims.model.PositionVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -96,7 +97,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	   public List<DepartmentVO> deptList() {
 	      return template.selectList("employee.deptList");
 	   }
-
+	   @Override
+	   public List<PositionVO> positionList() {
+	      return template.selectList("employee.positionList");
+	   }
+	   
 	   @Override
 	   public List<EmployeeVO> seardBydeptName(String deptName) {
 	      return template.selectList("employee.seardBydeptName", deptName);

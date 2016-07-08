@@ -16,30 +16,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result property="mailsdelete" column="mail_sdelete" />
        <result property="mailrdelete" column="mail_rdelete" />
    </resultMap>
+  
+   
    <select id="getReceiveMailList" resultMap="mailRM">
    select pageNo,mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,emp_name from(
       select mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
       select m.mail_no,m.mail_title,e.emp_no,m.mail_receiver,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
-      mail m, employee e 
-      where m.emp_no=e.emp_no and m.mail_receiver=#{empNo} and m.mail_rdelete!=1 order by m.mail_no desc)
+      mail m, employee e
+      where m.emp_no=e.emp_no and m.mail_receiver=#{empNo} and m.mail_rdelete=0 order by m.mail_no desc)
       ) where pageNo=#{pageNo}
    </select>
+   
    <select id="getSendMailList" resultMap="mailRM">
    select pageNo,mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,emp_name from(
       select mail_no,mail_title,emp_no,mail_receiver,mail_confirm,mail_date,ceil(rownum/5) as pageNo, emp_name from(
       select m.mail_no,m.mail_title,e.emp_no,m.mail_receiver,m.mail_confirm,to_char(m.mail_date,'YYYY.MM.DD') as mail_date, e.emp_name from 
       mail m, employee e
-       where  m.emp_no=e.emp_no and m.emp_no=#{empNo} and m.mail_sdelete!=1 order by m.mail_no desc)
+       where  m.emp_no=e.emp_no and m.emp_no=#{empNo} and m.mail_sdelete=0 order by m.mail_no desc)
       ) where pageNo=#{pageNo}
    </select>
    
    <select id="totalSendMailContent" resultType="int">
-      select count(*) from mail where emp_no=#{value}
+      select count(*) from mail where emp_no=#{value} and mail_sdelete=0
    </select>
    
    
    <select id="totalReceiveMailContent" resultType="int">
-      select count(*) from mail where mail_receiver=#{value}
+      select count(*) from mail where mail_receiver=#{value} and mail_rdelete=0
    </select>
    
    <update id="checkMail" parameterType="HashMap">
