@@ -10,17 +10,17 @@
       <table class = "table table-hover">
          <tbody>
          <tr>
-         	<td>글번호</td>
+         	<td>No</td>
          	<td colspan="3"><input type = "text" name = "clubNo" value = "${vo.clubNo }"></td>
          </tr>
             <tr>
-               <td>동아리명</td>
+               <td>Club Name</td>
                <td colspan="3">
                   <input type="text" name="clubName" size="48" value = "${vo.clubName}" class = "form-control"  readonly="readonly">
                </td>
             </tr>
             <tr>
-               <td>작성자</td>
+               <td>User Name</td>
                <td>${evo.empName }</td>
             </tr>
             <tr>
@@ -31,7 +31,7 @@
          </tbody>
       </table>
       <br><br>
-      <input type = "submit" value = "수정하기" class="btn btn-success">
+      <input type = "submit" value = "Update" class="btn btn-success">
    </form>
    </div>
    </div>

@@ -4,6 +4,21 @@
    
 <script type="text/javascript">
 	$(document).ready(function(){
+		$("#myDocBtn").mouseover(function(){
+			$("#myDocBtnSpan").html("내가 쓴것 중 반려된 공문");
+		}).mouseout(function(){
+			$("#myDocBtnSpan").html("");
+		});
+		$("#mySignBtn").mouseover(function(){
+			$("#mySignBtnSpan").html("내가 결제 했는데 반려된 공문");
+		}).mouseout(function(){
+			$("#mySignBtnSpan").html("");
+		});
+		$("#myReturnBtn").mouseover(function(){
+			$("#myReturnBtnSpan").html("내가 반려 한 공문");
+		}).mouseout(function(){
+			$("#myReturnBtnSpan").html("");
+		});
 		$("#myDocBtn").click(function(){
 			location.href="${initParam.root}doc_returnMy.do?page=1";
 		});
@@ -30,8 +45,11 @@
        <div class="marginMain">
 <div class="content-panel" align="center">
 <div align="left">&nbsp;&nbsp;&nbsp;
-<!-- 내가쓴것중 반려된 -->
-<button class="btn btn-primary" id="myDocBtn">
+<span id = "myDocBtnSpan" class="label label-default"></span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "mySignBtnSpan"  class="label label-default"></span>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "myReturnBtnSpan"  class="label label-default"></span><br>
+<!-- 내가 쓴것중 반려된 것" -->
+&nbsp;&nbsp;<button class="btn btn-primary" id="myDocBtn">
 <i class="fa fa-user" ></i>
 </button>      
 <!-- 내가결재했는데 반려된 공문 -->

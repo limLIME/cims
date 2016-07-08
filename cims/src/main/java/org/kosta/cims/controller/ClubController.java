@@ -14,6 +14,7 @@ import org.kosta.cims.model.EmployeeVO;
 import org.kosta.cims.model.ListVO;
 import org.kosta.cims.model.PagingBean;
 import org.kosta.cims.service.ClubService;
+import org.kosta.cims.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ClubController {
 	@Resource
 	private ClubService clubService;
+	@Resource
+	private EmployeeService service;
 
 	 @RequestMapping("club_List.do")
 		public ModelAndView showList(int pageNo, HttpServletRequest request){
@@ -106,8 +109,11 @@ public class ClubController {
 	 }
 	 
 	 @RequestMapping("club_approval.do")
-	 public String clubApproval(int clubNo){
+	 public String clubApproval(int clubNo, String empNo){
 		 clubService.clubApproval(clubNo);
+		 EmployeeVO evo = service.findByNo(empNo);
+		 ClubMemberVO cvo = new ClubMemberVO(clubNo,evo);
+		 clubService.clubRegister(cvo);
 		 return "redirect:mail_sendForm.do";
 	 }
 	 

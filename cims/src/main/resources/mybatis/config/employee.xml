@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update" parameterType="employeeVO">
 		update employee set password=#{password}, emp_tel=#{empTel},
-		   emp_sign=#{empSign}, emp_path=#{empPath}
+		   emp_sign=#{empSign}, emp_path=#{empPath}, emp_memo=#{empMemo}
 		where emp_no=#{empNo}
 	</update>
 	

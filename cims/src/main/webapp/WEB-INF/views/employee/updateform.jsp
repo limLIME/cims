@@ -71,6 +71,12 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-2 col-sm-2 control-label">Memo</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="empMemo" value="${evo.empMemo}">
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">Sign</label>
 							<div class="col-sm-10">
 								<input type="file" name="file[0]" class="form-control" value = "${evo.empSign }">

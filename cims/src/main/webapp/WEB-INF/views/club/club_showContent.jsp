@@ -19,7 +19,7 @@
 		});
 		$("#approval").click(function(){
 			if(confirm("승인하시겠습니까?"))
-				location.href = "${initParam.root}club_approval.do?clubNo="+clubNo;
+				location.href = "${initParam.root}club_approval.do?clubNo="+clubNo+"&empNo="+${vo.employeeVO.empNo};
 		});
 		$("#reject").click(function(){
 			if(confirm("거절하시겠습니까?"))
@@ -41,14 +41,14 @@
      <section class="wrapper">
       <div class = "marginMain3">
        <div class = "content-panel">
-       <h3>&nbsp;<i class="fa fa-angle-right"></i>ShowContent</h3>
+       <h3>&nbsp;<i class="fa fa-angle-right"></i>&nbsp;ShowContent</h3>
 
       	<table class="table table-hover">
 		<tr>
-			<td colspan="2">클럽명: ${vo.clubName}</td>
+			<td colspan="2">Club Name: ${vo.clubName}</td>
 		</tr>
 		<tr>
-			<td colspan="2">작성자 :  ${vo.employeeVO.empName }</td>
+			<td colspan="2">User Name :  ${vo.employeeVO.empName }</td>
 		</tr>
 		<tr>
 			<td colspan="3">
@@ -59,6 +59,7 @@
 		</tr>
 	</table>  
 
+<div align="center">
 			<c:choose>
 			<c:when test="${evo.positionVO.positionNo == 100 }">
 			<c:choose>
@@ -76,23 +77,24 @@
 			<c:choose>
 			<c:when test="${vo.employeeVO.empNo == sessionScope.evo.empNo}">
 			 <br><br><br>
-					 <input type = "button" value = "수정" class="btn btn-info" id = "update" >
-					  <input type = "button" value = "동아리폐쇄" class="btn btn-danger" id = "delete" >
+					 <input type = "button" value = "Update" class="btn btn-info" id = "update" > &nbsp;
+					  <input type = "button" value = "Close" class="btn btn-danger" id = "delete" >&nbsp;
 			 </c:when>
 			 <c:otherwise>
 			 	<c:choose>
 			 	   <c:when test="${check == 0 }">
-			 		<input type = "button" value = "가입" class = "btn btn-success" id = "register">
+			 		<input type = "button" value = "Regist" class = "btn btn-success" id = "register">&nbsp;
 			 		</c:when>
 			 		<c:otherwise>
-			 		<input type = "button" value = "탈퇴" class = "btn btn-success" id = "resign">
+			 		<input type = "button" value = "Withdraw" class = "btn btn-success" id = "resign">&nbsp;
 			 		</c:otherwise>
 			 	</c:choose>
 			 </c:otherwise>
 			 </c:choose>
 			 </c:otherwise>
 			 </c:choose>
-			  <input type = "button" id = "index" value = "목록" class="btn btn-warning" ><br>
+			  <input type = "button" id = "index" value = "List" class="btn btn-warning" >&nbsp;<br><br>
+	 </div>
 	</div>
 	</div>
 	</section>

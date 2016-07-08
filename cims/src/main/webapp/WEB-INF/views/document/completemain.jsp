@@ -15,12 +15,12 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#myDocBtn").mouseover(function(){
-			$("#myDocBtnSpan").html("내가 작성 한 공문");
+			$("#myDocBtnSpan").html("내가 작성 한 공문 중 완료 된 것");
 		}).mouseout(function(){
 			$("#myDocBtnSpan").html("");
 		});
 		$("#mySignBtn").mouseover(function(){
-			$("#mySignBtnSpan").html("내가 결제 한 공문");
+			$("#mySignBtnSpan").html("내가 결제 한 공문 중 완료 된 것");
 		}).mouseout(function(){
 			$("#mySignBtnSpan").html("");
 		});

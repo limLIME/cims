@@ -42,16 +42,15 @@ $(document).ready(function(){
             </tr>
             <tr>
                <td colspan="4" align="left">&nbsp;&nbsp; 
-                  <textarea cols="53" rows="15" name="clubContent" class = "form-control" id = "content" >
-                  </textarea>
+                  <textarea cols="53" rows="15" name="clubContent" class = "form-control" id = "content" ></textarea>
                </td>
                <tr>
                	<td colspan="2">동아리 창설 목적을 자세히 적어 주시오.</td>
             </tr>
             <tr>
                <td colspan="4" align="center">
-            	   <button  type="button" id = "writeBtn" class="btn btn-success" >글입력</button>
-      				 <button type="button" id = "resetBtn" class="btn btn-danger"  >작성취소</button>
+            	   <button  type="button" id = "writeBtn" class="btn btn-success" >Input</button>
+      				 <button type="button" id = "resetBtn" class="btn btn-danger"  >Cancel</button>
                </td>
             </tr>
          </tbody>

@@ -46,7 +46,7 @@ values('1742',1,1,'1234','박병우','010-5114-0581','ok')
 
 insert into 
 employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
-values('9999',1,100,'1234','관리자','010-5114-0581','ok')
+values('9999',1,100,'1234','관리자','010-1234-5678','ok')
 
 insert into employee(emp_no,dept_no,position_no,password,emp_name,emp_tel,emp_sign) 
 values('0581',1,1,'1234','임흥택','010-5114-0581','임흥택사인');
