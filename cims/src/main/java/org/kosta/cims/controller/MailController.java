@@ -32,11 +32,20 @@ public class MailController {
 	private String mailPath;
 	
 	@RequestMapping("mail_sendForm.do")
-	public String mail_sendForm(HttpServletRequest request){
+	public String sendForm(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
 		session.setAttribute("left", 3);
 		return "mail_sendForm";
 	}
+	
+	//답장하기
+	@RequestMapping("mail_replyMail.do")
+	public ModelAndView replyMail(String receiver,HttpServletRequest request){
+		HttpSession session=request.getSession(false);
+		session.setAttribute("left", 3);
+		return new ModelAndView("mail_sendForm","receiver",receiver);
+	}
+	
 	//받은 메일리스트 받기
 	@RequestMapping("mail_getReceiveList.do")
 	public ModelAndView getReceiveList(int pageNo,HttpServletRequest request){
@@ -84,7 +93,15 @@ public class MailController {
 		MailVO mailVO = mailService.showMailContent(no,vo.getEmpNo());
 		return new ModelAndView("mail_showMailContent","mailVO",mailVO);
 	}
-	
+	//보낸메일함,수신확인 에서 메일보기
+	@RequestMapping("mail_showMailContent2.do")
+	public ModelAndView showMailContent2(int no, HttpServletRequest request){
+		HttpSession session=request.getSession(false);
+		EmployeeVO vo=(EmployeeVO)session.getAttribute("evo");
+		
+		MailVO mailVO = mailService.showMailContent(no,vo.getEmpNo());
+		return new ModelAndView("mail_showMailContent2","mailVO",mailVO);
+	}
 	//메일 삭제
 	@RequestMapping("mail_deleteMail.do")
 	public ModelAndView deleteMail(HttpServletRequest request,String receiver,String sender,int no){
@@ -118,7 +135,7 @@ public class MailController {
 			try {
 				file.transferTo(uploadFile); 
 				mailVO.setMailPath(file.getOriginalFilename());//케이윌
-			} catch (IllegalStateException | IOException e) { 
+			} catch (Exception e) { 
 				e.printStackTrace();
 			}
 		}else{
@@ -128,8 +145,8 @@ public class MailController {
 		mailService.sendMail(mailVO);
 		return new ModelAndView("mail_ok");
 	}
-
 	
+		
 	@RequestMapping("mail_popup.do")
 	public ModelAndView popup(HttpServletRequest request, String txt) {
 		List<DepartmentVO> list = employeeService.deptList();

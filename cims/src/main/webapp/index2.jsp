@@ -36,10 +36,10 @@
 	  	<div class="container">
 	  	
 	  
-		      <form class="form-login" method="post" action = "${initParam.root}homeCheck.do">
+		      <form class="form-login" method="post" action = "${initParam.root}login.do">
 		        <h2 class="form-login-heading">Login now</h2>
 		        <div class="login-wrap">
-		            <input type="text" class="form-control" placeholder="User ID"  name = "empNo">
+		            <input type="text" class="form-control" placeholder="User ID"  name = "id">
 		            <br>
 		            <input type="password" class="form-control" placeholder="Password" name = "password">
 		            <label class="checkbox">

@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	</select>
 
    <select id="findByName" resultMap="employeeMap">
-      select d.dept_name, p.position_name, e.emp_name, e.emp_no 
+      select d.dept_name, p.position_name, e.emp_name, e.emp_no,e.emp_tel
         from employee e, department d, position p 
         where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no >= 0 
         and (e.emp_name like  '%' || #{seach} || '%' or e.emp_no like '%' || #{seach} || '%' or p.position_name like '%' || #{seach} || '%') 
@@ -86,15 +86,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    
       <select id="deptList" resultMap="employeeMap">
-         select dept_no,dept_name from department
-   </select>
+         select dept_no,dept_name from department order by dept_no asc
+  	  </select>
    
    <select id="positionList" resultMap="employeeMap">
-            select position_no, position_name from position
+            select position_no, position_name from position order by position_no asc
     </select>
     
    <select id="seardBydeptName" resultMap="employeeMap">
-       select d.dept_name, p.position_name, e.emp_name, e.emp_no 
+       select d.dept_name, p.position_name, e.emp_name, e.emp_no,e.emp_tel
         from employee e, department d, position p 
         where e.dept_no=d.dept_no and e.position_no = p.position_no and e.position_no > 0 
         and d.dept_name=#{value}

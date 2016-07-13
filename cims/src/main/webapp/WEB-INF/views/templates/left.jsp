@@ -63,7 +63,7 @@
 				<c:when test="${left==3 }">
 				<ul class="sub">
 					<li class="active"><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Receive MailBox</a></li>
 					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
 					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
@@ -71,7 +71,7 @@
 				<c:when test="${left==4 }">
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li class="active"><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Receive MailBox</a></li>
 					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
 					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
@@ -79,7 +79,7 @@
 				<c:when test="${left==5 }">
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Receive MailBox</a></li>
 					<li class="active"><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
 					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
@@ -87,7 +87,7 @@
 				<c:when test="${left==6 }">
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Receive MailBox</a></li>
 					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
 					<li class="active"><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
@@ -95,7 +95,7 @@
 				<c:otherwise>
 				<ul class="sub">
 					<li><a href="${initParam.root}mail_sendForm.do">Mail Write</a></li>
-					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Recieve MailBox</a></li>
+					<li><a href="${initParam.root}mail_getReceiveList.do?pageNo=1">Receive MailBox</a></li>
 					<li><a href="${initParam.root}mail_getSendList.do?pageNo=1">Send MailBox</a></li>
 					<li><a href="${initParam.root}mail_getCheckList.do?pageNo=1">Reception Status</a></li>
 				</ul>
@@ -145,7 +145,7 @@
 <!-- 전자결재 시작 -->				
 			<li class="sub-menu">
 			<c:choose>
-				<c:when test="${left==19 || left ==20|| left ==21 ||left ==22 ||left==23 }">
+				<c:when test="${left==19 || left ==20|| left ==21 ||left ==22 ||left==23||left==24||left==25 }">
 					<a class="active" href="javascript:;"> 
 					<i class="fa fa-file-o"></i> <span>Document</span></a>
 				</c:when>
@@ -158,56 +158,90 @@
 			<c:choose>
 			<c:when test="${left==19}">
 				<ul class="sub">
-					<li class="active"><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
-					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li class="active"><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==20}">
 				<ul class="sub">
-					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li class="active"><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
-					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li class="active"><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==21}">
 				<ul class="sub">
-					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
-					<li class="active"><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li class="active"><a href="${initParam.root}doc_waitingMain.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==22}">
 				<ul class="sub">
-					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
-					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
-					<li class="active"><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li class="active"><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
+					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
 				</ul>
 				</c:when>
 				<c:when test="${left==23}">
 				<ul class="sub">
-					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
-					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
+					<li class="active"><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==24}">
+				<ul class="sub">
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-					<li class="active"><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+					<li class="active"><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
+				</ul>
+				</c:when>
+				<c:when test="${left==25}">
+				<ul class="sub">
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
+					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li class="active"><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
 				</ul>
 				</c:when>
 				<c:otherwise>
 				<ul class="sub">
-					<li><a href="${initParam.root}doc_writeForm.do">Write </a></li>
-					<li><a href="${initParam.root}doc_waitingMain.do?page=1 ">Waiting</a></li>
-					<li><a href="${initParam.root}doc_returnMain.do?page=1">Retrun</a></li>
+					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
+					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
+					<li><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
+					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
-					<li><a href="${initParam.root}doc_setSubstitute.do">Substitute</a></li>
+					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>
+					<li><a href="${initParam.root}doc_setSubstitute.do">Set Substitute</a></li>
 				</ul>
 				</c:otherwise>
 				</c:choose>

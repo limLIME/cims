@@ -25,21 +25,21 @@ $(document).ready(function(){
    <br>
    <div class = "marginMain3">
     <div class = "content-panel">
-         <caption><h3>&nbsp;<i class="fa fa-angle-right"></i>글쓰기</h3></caption>
+         <caption><h3>&nbsp;<i class="fa fa-angle-right"></i> Write</h3></caption>
    <form class = "form-horizontal style-form" action="${initParam.root}free_writer_result.do" id="write_form" method="post" enctype="multipart/form-data">
       <table class = "table table-hover">
          <tbody>
             <tr>
-               <td class = "form-control::-moz-placeholder">제목</td>
+               <td class = "form-control::-moz-placeholder">Title</td>
                <td colspan="3">
                   <input type="text" name="boardTitle" size="48" class = "form-control" id = "title">
                </td>
             </tr>
             <tr>           
-               <td>작성자</td><td>${evo.empName }</td>          	
+               <td>Writer</td><td>${evo.departmentVO.deptName } ${evo.positionVO.positionName } ${evo.empName } ( ${evo.empNo } )</td>          	
             </tr>
             <tr>
-            	<td>파일첨부 </td><td><input type = "file" name = "uploadFile" class = "form-control" ></td>
+            	<td>File </td><td><input type = "file" name = "uploadFile" class = "form-control" ></td>
             </tr>
             <tr>
                <td colspan="4" align="left">&nbsp;&nbsp; 
@@ -48,8 +48,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                <td colspan="4" align="center">
-            	   <button  type="button" id = "writeBtn" class="btn btn-success" >글입력</button>
-      				 <button type="button" id = "resetBtn" class="btn btn-danger"  >작성취소</button>
+            	   <button  type="button" id = "writeBtn" class="btn btn-success" >Write</button>&nbsp;&nbsp;
+      				 <button type="button" id = "resetBtn" class="btn btn-danger"  >Reset</button>
                </td>
             </tr>
          </tbody>

@@ -30,23 +30,23 @@
  <div class="content-panel">
  <h3>&nbsp;<i class="fa fa-angle-right"></i> Update</h3>
 <form method="post" id="update_form" action="${initParam.root}evaluation_updateContent.do">
-	<table class="table table-hover">
+	<table class="table table-hover" style="width: 100%">
 		<tbody>
 				<tr>
 					<td>
-					NO : <input type="text" name="evaluationNo" value=${evalVo.evaluationNo } size="72" readonly></input>						
+					NO : <input type="text" name="evaluationNo" value=${evalVo.evaluationNo } style="width: 90%" readonly></input>						
 					</td>
 				</tr>
 				<tr>
-					<td>Title : <input type="text" id="evaluationTitle" name="evaluationTitle" size="71" value=${evalVo.evaluationTitle }></input></td>
+					<td>Title : <input type="text" id="evaluationTitle" name="evaluationTitle" style="width: 90%" value="${evalVo.evaluationTitle }"></input></td>
 				</tr>
 				<tr>
-					<td>Date : <input type="text" id="evaluationDate" name="evaluationDate" size="71" value=${evalVo.evaluationDate } readonly="readonly"></input></td>
+					<td>Date : <input type="text" id="evaluationDate" name="evaluationDate" style="width: 70%" value="${evalVo.evaluationDate }" readonly="readonly"></input></td>
 				</tr>
 				
 				<tr>
 					<td>						
-						<textarea rows="15" cols="75" id="evaluationContent" name="evaluationContent">${evalVo.evaluationContent }</textarea>
+						<textarea rows="15" cols="75" style="width: 100%" id="evaluationContent" name="evaluationContent">${evalVo.evaluationContent }</textarea>
 					</td>
 				</tr>
 				

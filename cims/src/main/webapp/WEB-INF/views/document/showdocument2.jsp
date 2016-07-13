@@ -4,22 +4,6 @@
 	<section id="main-content">
           <section class="wrapper">
           <div class="showDocMargin" >
-	<script type="text/javascript" >
-	$(document).ready(function(){
-		$("#sign").click(function() {
-			if(confirm("결재하시겠습니까?")){
-				location.href="${initParam.root}doc_sign.do?docNo=${dvo.docNo}";
-			}
-		});
-		$("#return").click(function() {
-			if(confirm("반려하시겠습니까?")){
-			location.href="${initParam.root}doc_return.do?docNo=${dvo.docNo }";
-			}
-		});
-			
-	});
-	
-	</script>
 	
 <div class="content-panel" align="center">
 <table id="showDoc1" >
@@ -98,15 +82,6 @@
 
 </table>
  </div>
- <br><br>
-	<center>
-		<form id="btnForm" >
-				<input type="button" id="sign" class="btn btn-primary" value="결재">&nbsp;&nbsp;&nbsp;
-				<input type="button" id="return" class="btn btn-danger" value="반려">	
-		</form>
-	</center>
-
-
-	</div>
+ </div>
 	</section></section>
 

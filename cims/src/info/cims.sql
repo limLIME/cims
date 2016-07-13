@@ -94,8 +94,8 @@ insert into department(dept_no,dept_name) values(5,'지원과');
 
 select s.sch_no,s.emp_no,s.sch_content,s.sch_day,to_char(s.sch_day,'DAY') DAY
 from SCHEDULE s ,
-						(SELECT TO_char( TRUNC(SYSDATE, 'IW') + (LEVEL - 1 ), 'YYYY-MM-DD' ) day 
-						 FROM DUAL CONNECT BY LEVEL <7) d
+                  (SELECT TO_char( TRUNC(SYSDATE, 'IW') + (LEVEL - 1 ), 'YYYY-MM-DD' ) day 
+                   FROM DUAL CONNECT BY LEVEL <7) d
 where d.day=to_char(s.sch_day, 'YYYY-MM-DD') and s.emp_no='0581'
 
 --결재 
@@ -169,14 +169,14 @@ order by mail_date desc
 
 
 select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path,
-		mail_sender, mail_receiver, mail_confirm, mail_state
-		from
-		(select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path,
-		mail_sender, mail_receiver, mail_confirm, mail_state
-		from mail
-		order by rownum desc)
-		where mail_receiver='9999' and mail_confirm=0 and rownum <=5 
-		
+      mail_sender, mail_receiver, mail_confirm, mail_state
+      from
+      (select mail_no, emp_no, mail_title, mail_content, mail_date, mail_path,
+      mail_sender, mail_receiver, mail_confirm, mail_state
+      from mail
+      order by rownum desc)
+      where mail_receiver='9999' and mail_confirm=0 and rownum <=5 
+      
 --메인 페이지 메일 역순
 select *
 from
@@ -279,14 +279,14 @@ select (sysdate+7)-next_day(sysdate,1)+1 from dual;
 SELECT NEXT_DAY((TRUNC(SYSDATE,'MM')-1),'월') FROM DUAL
 
 SELECT TO_DATE( TRUNC(SYSDATE, 'IW') + ( LEVEL - 1 ) ) DD 
-FROM	DUAL 
+FROM   DUAL 
 CONNECT BY LEVEL < 7;
 
 /*요일별 쿼리*/
 select s.sch_no,s.emp_no,s.sch_content,s.sch_day,to_char(s.sch_day, 'DAY') DAY 
 from SCHEDULE s , 
 (SELECT TO_char( TRUNC(SYSDATE, 'IW') + ( LEVEL - 1 ), 'YYYY-MM-DD' ) day 
-FROM	DUAL 
+FROM   DUAL 
 CONNECT BY LEVEL < 7) d
 where d.day=to_char(s.sch_day, 'YYYY-MM-DD') order by s.sch_day 
 
@@ -299,7 +299,7 @@ select to_char(sysdate, 'D') from dual
 select to_char(sysdate - to_char(sysdate, 'D')+1, 'YYYYMMDD') from dual 
 
 SELECT TO_char( TRUNC(SYSDATE, 'IW') + ( LEVEL - 1 ), 'YYYY-MM-DD' ) day 
-FROM	DUAL 
+FROM   DUAL 
 CONNECT BY LEVEL < 7;
 
 /*주차뽑기*/
@@ -310,10 +310,10 @@ FROM dual CONNECT BY LEVEL <= 6
 /*월별 일정(6월)*/
 select * from SCHEDULE  where to_char(sch_day, 'MM')=6
 
-		select sch_no,emp_no,sch_content,sch_day
-		from SCHEDULE  
-		where to_char(sch_day, 'MM')=6
-		
+      select sch_no,emp_no,sch_content,sch_day
+      from SCHEDULE  
+      where to_char(sch_day, 'MM')=6
+      
 --월간 일정
 CREATE TABLE month(
 month number PRIMARY KEY,
@@ -381,10 +381,11 @@ create sequence recommend_seq nocache
 drop table RECOMMEND
 
 --좋아요
+drop table good
 CREATE TABLE GOOD(
 board_no number not null,
 emp_no varchar2(100) not null,
-constraint fk_GOOD_board_no foreign key(board_no) references board,
+constraint fk_GOOD_board_no foreign key(board_no) references board on delete cascade,
 constraint fk_GOOD_emp_no foreign key(emp_no) references employee,
 constraint pk_GOOD primary key(board_no,emp_no)
 )
@@ -421,7 +422,7 @@ create table club(
    club_name varchar2(100) not null,
    club_content clob not null,
    club_confirm number default 0,
-   constraint fk_club_emp_no foreign key(emp_no) references employee
+   constraint fk_club_emp_no foreign key(emp_no) references employee 
 )
 -- confirm 0 = 신청대기 , 1 = 개설 , 2 = 거절/폐설
 drop sequence club_seq
@@ -438,7 +439,7 @@ create table club_board(
    club_board_maxpeople number not null,
    club_board_date date not null,
    club_board_member number,
-   constraint fk_club_board_club_no foreign key(club_no) references club
+   constraint fk_club_board_club_no foreign key(club_no) references club on delete cascade
 )
 drop sequence club_board_seq
 create sequence club_board_seq nocache
@@ -449,7 +450,7 @@ drop table club_member
 create table club_member(
    club_no number not null,
    emp_no varchar2(100) not null,
-   constraint pk_club_member primary key(club_no,emp_no)
+   constraint pk_club_member primary key(club_no,emp_no) 
 )
 select * from club_member
 
@@ -477,3 +478,22 @@ position_no number,
 constraint fk_eval_dept_no foreign key(dept_no) references department,
 constraint fk_eval_position_no foreign key(position_no) references position
 )
+
+
+
+
+
+	select pageNo,evaluation_no,evaluation_title,evaluation_date,emp_name,dept_no,dept_name from(
+	select evaluation_no,evaluation_title,evaluation_date,ceil(rownum/9) as pageNo, emp_name, dept_no,dept_name from(
+	select ev.evaluation_no,ev.evaluation_title,to_char(ev.evaluation_date,'YYYY.MM.DD') as evaluation_date, e.emp_name, ev.dept_no,d.dept_name
+	from evaluation ev, employee e, department d where e.dept_no=d.dept_no and ev.emp_no=e.emp_no and ev.evaluation_title !=NULL and ev.dept_no=1 order by evaluation_no desc
+	)
+	) where pageNo=1
+		
+		
+		
+		
+		
+		
+		
+		

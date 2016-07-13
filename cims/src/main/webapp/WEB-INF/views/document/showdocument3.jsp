@@ -1,25 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<section id="main-content">
-          <section class="wrapper">
-          <div class="showDocMargin" >
+	
 	<script type="text/javascript" >
 	$(document).ready(function(){
-		$("#sign").click(function() {
-			if(confirm("결재하시겠습니까?")){
-				location.href="${initParam.root}doc_sign.do?docNo=${dvo.docNo}";
+			$("#sign").click(function() {
+			if(confirm("결재대행하시겠습니까?")){
+				location.href="${initParam.root}doc_substituteSign.do?docNo=${dvo.docNo}";
 			}
+			
 		});
 		$("#return").click(function() {
 			if(confirm("반려하시겠습니까?")){
 			location.href="${initParam.root}doc_return.do?docNo=${dvo.docNo }";
 			}
 		});
-			
+		
+		
 	});
 	
 	</script>
+	
+	<section id="main-content">
+          <section class="wrapper">
+          <div class="showDocMargin" >
 	
 <div class="content-panel" align="center">
 <table id="showDoc1" >
@@ -99,14 +103,13 @@
 </table>
  </div>
  <br><br>
-	<center>
+ 	<center>
 		<form id="btnForm" >
-				<input type="button" id="sign" class="btn btn-primary" value="결재">&nbsp;&nbsp;&nbsp;
+				<input type="button" id="sign" class="btn btn-primary" value="결재대행">&nbsp;&nbsp;&nbsp;
 				<input type="button" id="return" class="btn btn-danger" value="반려">	
 		</form>
 	</center>
-
-
-	</div>
-	</section></section>
+ </div>
+</section>
+</section>
 

@@ -44,7 +44,7 @@
     <tbody>
      <tr>
      <td>To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</td>
-     <td colspan="3"><input type="text" id="receiver" name="mailReceiver" size="30" value="${requestScope.asd }">
+     <td colspan="3"><input type="text" id="receiver" name="mailReceiver" size="30" value="${requestScope.receiver }">
      <input type="checkbox"  id="my">내게쓰기
      </td>
     </tr>

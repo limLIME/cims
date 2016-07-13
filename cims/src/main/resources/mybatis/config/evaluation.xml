@@ -33,8 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select
       ev.evaluation_no,ev.evaluation_title,ev.evaluation_content,e.emp_no,e.emp_name,ev.evaluation_date,ev.dept_no
       from evaluation ev ,employee e
-      where ev.emp_no=e.emp_no and ev.evaluation_no=
-      #{evaluationNo}
+      where ev.emp_no=e.emp_no and ev.evaluation_no=#{evaluationNo}
 	</select>
 	
 	<insert id="writeContent" parameterType="evaluationVO">
@@ -75,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from(
 		select ev.evaluation_no,ev.evaluation_title,ev.evaluation_content,to_char(ev.evaluation_date,'YYYY.MM.DD') as
 		evaluation_date, e.emp_name
-		from evaluation ev, employee e where ev.emp_no=e.emp_no and ev.evaluation_title like '%' || #{evaluationTitle} || '%' order by evaluation_no desc)
+		from evaluation ev, employee e where ev.emp_no=e.emp_no  and ev.evaluation_title like '%' || #{evaluationTitle} || '%' order by evaluation_no desc)
         ) where pageNo=#{pageNo}	
 	</select>
 	
@@ -94,7 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="totalContentBycontent" resultType="int" >
-		select count(*) from evaluation where evaluation_content like '%' || #{value} || '%'
+		select count(*) from evaluation where evaluation_content like '%' || #{value} || '%' 
 	</select>
 	
 	<select id="searchByTitleContent" resultMap="evaluationRM">

@@ -16,11 +16,11 @@
 			<div class="col-lg-12">
 				<div class="form-panel">
 					<h3>
-						<i class="fa fa-angle-right"></i> Register Information of Employees
+						<i class="fa fa-angle-right"></i> Employee Register 
 					</h3>
 					<hr>
 					<center>
-					<h3>사원 정보 등록 완료</h3>
+					<h3>Registration Success</h3>
 					<button  type="button" class="btn btn-success" onclick="gomain()">Go Main</button>
 					</center>
 				</div>

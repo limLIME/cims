@@ -35,9 +35,38 @@ public class DocumentController {
 
 	@Resource(name = "signPath")
 	private String signPath;
-
+	
+	//결재/반려 있는 공문보기
 	@RequestMapping("doc_showdocument.do")
 	public ModelAndView showdocument(int docNo, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		DocumentVO dvo = documentService.showdocument(docNo);
+		List<String> empNoList = documentService.findEmpNo(docNo);
+		List<String> positionList = documentService.findPosition(docNo);
+		List<String> signList = documentService.findSign(docNo, empNoList);
+		String flag = null;
+
+		for (int i = 0; i < empNoList.size(); i++) {
+			if (empNoList.get(i).equals(evo.getEmpNo())) {
+				flag = evo.getEmpNo();
+				break;
+
+			}
+		}
+		session.setAttribute("flag", flag);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("dvo", dvo);
+		mv.addObject("empNoList", empNoList);
+		mv.addObject("positionList", positionList);
+		mv.addObject("signList", signList);
+		mv.setViewName("doc_showdocument");
+		return mv;
+	}
+
+	//결재/반려 없는 공문보기
+	@RequestMapping("doc_showdocument2.do")
+	public ModelAndView showdocument2(int docNo, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		DocumentVO dvo = documentService.showdocument(docNo);
@@ -61,10 +90,42 @@ public class DocumentController {
 		mv.addObject("positionList", positionList);
 		mv.addObject("signList", signList);
 
-		mv.setViewName("doc_showdocument");
+		mv.setViewName("doc_showdocument2");
 		return mv;
 	}
+	
+	//결재대행 공문보기
+		@RequestMapping("doc_showdocument3.do")
+		public ModelAndView showdocument3(int docNo, HttpServletRequest request) {
+			HttpSession session = request.getSession(false);
+			EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+			DocumentVO dvo = documentService.showdocument(docNo);
+			List<String> empNoList = documentService.findEmpNo(docNo);
+			List<String> positionList = documentService.findPosition(docNo);
+			List<String> signList = documentService.findSign(docNo, empNoList);
+			String flag = null;
 
+			for (int i = 0; i < empNoList.size(); i++) {
+				if (empNoList.get(i).equals(evo.getEmpNo())) {
+					flag = evo.getEmpNo();
+					break;
+
+				}
+			}
+			session.setAttribute("flag", flag);
+
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("dvo", dvo);
+			mv.addObject("empNoList", empNoList);
+			mv.addObject("positionList", positionList);
+			mv.addObject("signList", signList);
+
+			mv.setViewName("doc_showdocument3");
+			return mv;
+		}
+
+	
+	//공문작성 폼으로 가기
 	@RequestMapping("doc_writeForm.do")
 	public String docWriteForm(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -72,11 +133,11 @@ public class DocumentController {
 		return "doc_write";
 	}
 
+	//공문작성 디비에 추가하기
 	@RequestMapping("doc_write.do")
 	public ModelAndView docWrite(HttpServletRequest request, DocumentVO dvo) {
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-
 		// 파일업로드---------------------------------------------
 		MultipartFile file = dvo.getMultipartFile();
 		if (file.isEmpty() == false) {
@@ -84,24 +145,21 @@ public class DocumentController {
 					+ file.getOriginalFilename());
 			try {
 				file.transferTo(uploadFile); // 실제 디렉토리로 파일을 저장한다
-				System.out.println(documentPath + "에 파일업로드");
+				//System.out.println(documentPath + "에 파일업로드");
 				dvo.setPath(file.getOriginalFilename());
-			} catch (IllegalStateException | IOException e) {
+			} catch (Exception e) {
 		
 				e.printStackTrace();
 			}
 		} else {
 			dvo.setPath("1");
 		}
-		// dvo에다 evo 넣어줌
 		dvo.setEmployeeVO(evo);
-		// ""이면 결재대상자 없음
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(request.getParameter("approver1"));
 		list.add(request.getParameter("approver2"));
 		list.add(request.getParameter("approver3"));
 		list.add(request.getParameter("approver4"));
-
 		for (int i = 0; i < 4; i++) {
 			if (!(list.get(i).equals(""))) {
 				dvo.setApprover(list.get(i).substring(list.get(i).indexOf("(")+1, list.get(i).indexOf(")")));
@@ -130,15 +188,17 @@ public class DocumentController {
 	}
 
 	// 반려하기 버튼눌렀을시
+	//공문 상태 '반려' 로 바구기
 	@RequestMapping("doc_return.do")
 	public ModelAndView docReturn(HttpServletRequest request, int docNo) {
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		documentService.docReturn(docNo, evo);
-		return new ModelAndView("redirect:doc_showdocument.do?docNo=" + docNo);
+		return new ModelAndView("redirect:doc_showdocument2.do?docNo=" + docNo);
 	}
 
 	// 결재 버튼눌렀을시
+	//정상결재시 doc 의 내 포지션에 내 사인 넣기
 	@RequestMapping("doc_sign.do")
 	public ModelAndView docSign(HttpServletRequest request, int docNo) {
 		HttpSession session = request.getSession(false);
@@ -146,49 +206,39 @@ public class DocumentController {
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
 		documentService.docSign(docNo, empNo, empSign);
-		return new ModelAndView("redirect:doc_showdocument.do?docNo=" + docNo);
+		return new ModelAndView("redirect:doc_showdocument2.do?docNo=" + docNo);
 	}
-
-	// 반려--------------------------------------------------
-	// 내가 쓴 공문중 반려된 리스트
-	@RequestMapping("doc_returnMy.do")
-	public ModelAndView returnMy(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO returnMy = documentService.returnMy(page, empNo);
-		return new ModelAndView("doc_returnmy", "returnMy", returnMy);
-	}
-
-	// 내가 반려 시킨 공문 리스트
-	@RequestMapping("doc_returnSign.do")
-	public ModelAndView returnSign(int page, HttpServletRequest request) {
+	
+	// 결재대행 버튼눌렀을시
+	//정상 결재시 doc 빈사인칸중 가장낮은것에 내 사인 넣기
+	@RequestMapping("doc_substituteSign.do")
+	public ModelAndView substituteSign(HttpServletRequest request, int docNo) {
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
-
-		ListVO returnSign = documentService.returnSign(page, empNo, empSign);
-		return new ModelAndView("doc_returnsign", "returnSign", returnSign);
+		documentService.substituteSign(docNo, empNo, empSign);
+		return new ModelAndView("redirect:doc_showdocument2.do?docNo=" + docNo);
 	}
-
-	// 반려된 공문중 내가 관련된 리스트
-	@RequestMapping("doc_returnList.do")
-	public ModelAndView returnList(int page, HttpServletRequest request) {
+	
+	
+//--------------------------게시판&검색-----------------------
+	//내가 쓴글 목록
+	@RequestMapping("doc_myDocument.do")
+	public ModelAndView myDocument(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 20);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		ListVO returnList = documentService.returnList(page, empNo, empSign);
-
-		return new ModelAndView("doc_returnlist", "returnList", returnList);
+		ListVO myDocument = documentService.myDocument(page, empNo);
+		return new ModelAndView("doc_myDocument", "myDocument", myDocument);
 	}
-
-	// 리턴 전체 리스트
+	
+	// 리턴
 	@RequestMapping("doc_returnMain.do")
 	public ModelAndView returnMain(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 21);
+		session.setAttribute("left", 22);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
@@ -196,105 +246,35 @@ public class DocumentController {
 		return new ModelAndView("doc_returnmain", "returnMain", returnMain);
 	}
 
-	// 결재중---------------------------------------------------
-
-	// 내가 사인했는데 아직결재중인문서
-	@RequestMapping("doc_waiting.do")
-	public ModelAndView waitingList(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		ListVO waiting = documentService.waiting(page, empNo, empSign);
-		return new ModelAndView("doc_waiting", "waiting", waiting);
-	}
-
-	// 내가쓴것중 결재중인문서
-	@RequestMapping("doc_waitingMy.do")
-	public ModelAndView myWaitingList(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO waitingMy = documentService.waitingMy(page, empNo);
-		return new ModelAndView("doc_waitingmy", "waitingMy", waitingMy);
-	}
-
-	// 결재중 메인 ( 나와관련된 모든 결재중문서)
-	@RequestMapping("doc_waitingMain.do")
-	public ModelAndView waitingMain(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 20);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO waitingMain = documentService.waitingMain(page, empNo, empSign,
-				positionNo);
-		return new ModelAndView("doc_waitingmain", "waitingMain", waitingMain);
-	}
-
 	// 결재대기중
 	@RequestMapping("doc_waitingMySign.do")
 	public ModelAndView waitingMySign(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		session.setAttribute("left", 21);
 		String empNo = evo.getEmpNo();
 		int positionNo = evo.getPositionVO().getPositionNo();
 		ListVO waitingMySign = documentService.waitingMySign(page,empNo,positionNo);
 		return new ModelAndView("doc_waitingmysign", "waitingMySign",waitingMySign);
 	}
 	
+	//결재대행
 	@RequestMapping("doc_waitingSubstitute.do")
-	public ModelAndView waitingSubstitute(int page, HttpServletRequest request) {
+	public ModelAndView waitingSubstitute(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		session.setAttribute("left", 24);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO waitingSubstitute = documentService.waitingSubstitute(page,empNo,positionNo);
-		return new ModelAndView("doc_waitingsubstitute", "waitingSubstitute",waitingSubstitute);
-	}
-	
-	// -----------결재완료-----------------------------------------------
-
-	// 내가 쓴 문서중 완료된것
-	@RequestMapping("doc_completeMy.do")
-	public ModelAndView completeMy(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO completeMy = documentService.completeMy(page, empNo);
-		return new ModelAndView("doc_completemy", "completeMy", completeMy);
-	}
-
-	// 내가결재했는데 완료된것
-	@RequestMapping("doc_complete.do")
-	public ModelAndView complete(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO complete = documentService.complete(page, positionNo);
-		return new ModelAndView("doc_complete", "complete", complete);
-	}
-
-	// 내가 결재완료한것(사장)
-	@RequestMapping("doc_completeSign.do")
-	public ModelAndView completeSign(int page, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empSign = evo.getEmpSign();
-		String empNo = evo.getEmpNo();
-		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO completeSign = documentService.completeSign(page, empNo,
-				empSign, positionNo);
-		return new ModelAndView("doc_completesign", "completeSign",
-				completeSign);
+		List<Object> waitingSubstitute = documentService.waitingSubstitute(empNo,positionNo);
+		return new ModelAndView("doc_waitingSubstitute", "waitingSubstitute",waitingSubstitute);
 	}
 
 	// 내가관련된 완료목록 전체
 	@RequestMapping("doc_completeMain.do")
 	public ModelAndView completeMain(int page, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 22);
+		session.setAttribute("left", 23);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		int positionNo = evo.getPositionVO().getPositionNo();
@@ -305,9 +285,24 @@ public class DocumentController {
 				completeMain);
 	}
 
-	// --------------------------반려
-	// 검색-------------------------------------------------
+	
+	//검색  
 
+	//내글검색
+		@RequestMapping("doc_myDocumentSearch.do")
+		public ModelAndView myDocumentSearch(String data, int page,HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		String empNo = evo.getEmpNo();
+		ListVO list = documentService.myDocumentSearch(page, empNo,data);
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("myDocumentSearchList",list);
+		mv.addObject("data",data);
+		mv.setViewName("doc_myDocumentSearch");
+		return mv;
+	}
+		
+	//반려검색
 	@RequestMapping("doc_returnMainSearch")
 	public ModelAndView returnMainSearch(String data, int page,
 			HttpServletRequest request) {
@@ -315,62 +310,17 @@ public class DocumentController {
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
-		ListVO list = documentService.returnMainSearch(page, empNo, empSign,
-				data);
-		return new ModelAndView("doc_returnmainsearch", "returnMainSearchList",
-				list);
+		ListVO list = documentService.returnMainSearch(page, empNo, empSign,data);
+		ModelAndView mv =new ModelAndView();
+		mv.setViewName("doc_returnmainsearch");
+		mv.addObject("data",data);
+		mv.addObject("returnMainSearchList",list);
+		return mv;
 	}
 
-	@RequestMapping("doc_returnMySearch")
-	public ModelAndView returnMySearch(String data, int page,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO list = documentService.returnMySearch(page, empNo, data);
-		return new ModelAndView("doc_returnmysearch", "returnMySearchList",
-				list);
-	}
 
-	@RequestMapping("doc_returnSignSearch.do")
-	public ModelAndView returnSignSearch(String data, int page,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		ListVO list = documentService.returnSignSearch(page, empNo, empSign,
-				data);
-		return new ModelAndView("doc_returnsignsearch", "returnSignSearchList",
-				list);
-	}
-
-	@RequestMapping("doc_returnListSearch.do")
-	public ModelAndView returnListSearch(String data, int page,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO list = documentService.returnListSearch(page, empNo, data);
-		return new ModelAndView("doc_returnlistsearch", "returnListSearchList",
-				list);
-	}
-
-	// --------------------------완료
-	// 검색-------------------------------------------------
-	@RequestMapping("doc_completeSearch.do")
-	public ModelAndView completeSearch(String data, int page,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO list = documentService.completeSearch(page, empNo, positionNo,
-				data);
-		return new ModelAndView("doc_completesearch", "completeSearchList",
-				list);
-	}
-
+	// --------------------------완료검색--------------
+	
 	@RequestMapping("doc_completeMainSearch.do")
 	public ModelAndView completeMainSearch(String data, int page,
 			HttpServletRequest request) {
@@ -379,81 +329,16 @@ public class DocumentController {
 		String empNo = evo.getEmpNo();
 		String empSign = evo.getEmpSign();
 		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO list = documentService.completeMainSearch(page, empNo, empSign,
-				positionNo, data);
-		return new ModelAndView("doc_completemainsearch",
-				"completeMainSearchList", list);
+		ListVO list = documentService.completeMainSearch(page, empNo, empSign,positionNo, data);
+		
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("doc_completemainsearch");
+		mv.addObject("data",data);
+		mv.addObject("completeMainSearchList",list);
+		return mv;
 	}
 
-	@RequestMapping("doc_completeSignSearch.do")
-	public ModelAndView completeSignSearch(String data, int page,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO list = documentService.completeSignSearch(page, empSign, empNo,
-				positionNo, data);
-
-		return new ModelAndView("doc_completesignsearch",
-				"completeSignSearchList", list);
-	}
-
-	@RequestMapping("doc_completeMySearch")
-	public ModelAndView completeMySearch(String data, int page,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO list = documentService.completeMySearch(page, empNo, data);
-		return new ModelAndView("doc_completemysearch", "completeMySearchList",
-				list);
-	}
-
-	// --------------------------결재중
-	// 검색-------------------------------------------------
-
-	// 내가 사인했는데 아직결재중인문서
-	@RequestMapping("doc_waitingSearch.do")
-	public ModelAndView waitingListSearch(int page, String data,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		ListVO list = documentService.waitingListSearch(page, empNo, empSign,
-				data);
-		return new ModelAndView("doc_waitingsearch", "waitingListSearchList",
-				list);
-	}
-
-	// 내가쓴것중 결재중인문서
-	@RequestMapping("doc_waitingMySearch.do")
-	public ModelAndView myWaitingListSearch(int page, String data,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		ListVO list = documentService.waitingMySearch(page, empNo, data);
-		return new ModelAndView("doc_waitingmysearch", "waitingMySearchList",
-				list);
-	}
-
-	// 결재중 메인 ( 나와관련된 모든 결재중문서)
-	@RequestMapping("doc_waitingMainSearch.do")
-	public ModelAndView waitingMainSearch(int page, String data,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
-		String empNo = evo.getEmpNo();
-		String empSign = evo.getEmpSign();
-		int positionNo = evo.getPositionVO().getPositionNo();
-		ListVO list = documentService.waitingMainSearch(page, empNo, empSign,
-				positionNo, data);
-		return new ModelAndView("doc_waitingmainsearch",
-				"waitingMainSearchList", list);
-	}
+	// --------------------------결재중검색-------------------------
 
 	// 결재대기중
 	@RequestMapping("doc_waitingMySignSearch.do")
@@ -466,11 +351,33 @@ public class DocumentController {
 		ListVO list = documentService.waitingMySignSearch(page, empNo,
 				positionNo, data);
 
-		return new ModelAndView("doc_waitingmysignsearch",
-				"waitingMySignSearchList", list);
-	}
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("doc_waitingmysignsearch");
+		mv.addObject("data",data);
+		mv.addObject("waitingMySignSearchList",list);
+		return mv;
 
-	@RequestMapping("doc_popup.do")
+	}
+//------------결재대행 검색----------------------------
+	@RequestMapping("doc_waitingSubstituteSearch.do")
+	public ModelAndView waitingSubstituteSearch(String data, int page,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
+		String empNo = evo.getEmpNo();
+		int positionNo = evo.getPositionVO().getPositionNo();
+		List<Object> list = documentService.waitingSubstituteSearch(empNo,positionNo,data);
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("doc_waitingSubstituteSearch");
+		mv.addObject("data",data);
+		mv.addObject("waitingSubstituteSearchList",list);
+		return mv;
+			
+	}
+	
+
+	//결재자 지정 팝업띄우기 
+		@RequestMapping("doc_popup.do")
 	public ModelAndView popup(HttpServletRequest request, String txt) {
 		List<DepartmentVO> list = employeeService.deptList();
 		ModelAndView mv = new ModelAndView();
@@ -482,6 +389,7 @@ public class DocumentController {
 		return mv;
 	}
 
+	
 	@RequestMapping("doc_seardBydeptName.do")
 	@ResponseBody
 	public List<EmployeeVO> seardBydeptName(String deptName) {
@@ -499,29 +407,25 @@ public class DocumentController {
 	@RequestMapping("doc_setSubstitute.do")
 	public ModelAndView setSubstitute(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		session.setAttribute("left", 23);
+		session.setAttribute("left", 25);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
 		int deptNo = evo.getDepartmentVO().getDeptNo();
 		int positionNo = evo.getPositionVO().getPositionNo();
-
-		List<EmployeeVO> list = employeeService.findSubstitute(empNo, deptNo,
-				positionNo);
+		List<EmployeeVO> list = employeeService.findSubstitute(empNo, deptNo,positionNo);
 		EmployeeVO mysub = employeeService.getMySubstitute(empNo);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("sub", list);
 		mv.addObject("mysub", mysub);
 		mv.setViewName("doc_substitute");
-
 		return mv;
 	}
-
+	//내결재대행 바꾸기
 	@RequestMapping("doc_updateSubstitute.do")
 	public String updateSubstitute(HttpServletRequest request,String subNo) {
 		HttpSession session = request.getSession(false);
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		String empNo = evo.getEmpNo();
-		System.out.println(subNo);
 		employeeService.updateSubstitute(empNo, subNo);
 
 		return "redirect:doc_setSubstitute.do";

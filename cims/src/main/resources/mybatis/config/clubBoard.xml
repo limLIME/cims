@@ -96,6 +96,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set club_board_title=#{clubBoardTitle}, club_board_content=#{clubBoardContent}, club_board_maxpeople=#{clubBoardMaxPeople}, club_board_date=#{clubBoardDate} 
 		where club_board_no = #{clubBoardNo}
 	</update>
+	<delete id="clubBoardDelete" parameterType="int">
+      delete club_board where club_board_no=#{value}
+   </delete>
 </mapper>
 
 

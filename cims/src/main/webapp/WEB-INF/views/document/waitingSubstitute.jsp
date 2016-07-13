@@ -15,13 +15,13 @@
     <link href="assets/css/style-responsive.css" rel="stylesheet">
     <script type="text/javascript">
 	$(document).ready(function(){
-		$("#waitingMySignBtn").click(function(){
-			location.href="${initParam.root}doc_waitingMySign.do?page=1";
+		$("#waitingSubstituteBtn").click(function(){
+			location.href="${initParam.root}doc_waitingSubstitute.do?page=1";
 		});
 		
-		$("#waitingMySignSearchBtn").click(function(){	
-	    	var data=$("#waitingMySignSearchText").val();
-	       location.href="${initParam.root}doc_waitingMySignSearch.do?page=1&data="+data;
+		$("#waitingSubstituteSearchBtn").click(function(){	
+	    	var data=$("#waitingSubstituteSearchText").val();
+	       location.href="${initParam.root}doc_waitingSubstituteSearch.do?page=1&data="+data;
 	     });//click
 	});	
 </script>
@@ -29,11 +29,10 @@
 
 <section id="main-content">
           <section class="wrapper">
-<h3><i class="fa fa-angle-right"></i> Waiting My Sign</h3><hr><br>
+<h3><i class="fa fa-angle-right"></i> Waiting Substitute Sign</h3><hr><br>
       <div class="marginMain">
       <div class="content-panel" align="center">
-      
-<table class="table table-striped table-advance table-hover">
+    <table class="table table-striped table-advance table-hover">
 	<thead>
 		<tr>
 			<th>#No</th>
@@ -44,10 +43,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${requestScope.waitingMySign.list}" var="dvo">
+		<c:forEach items="${requestScope.waitingSubstitute}" var="dvo">
 			<tr>
 				<td>${dvo.docNo}</td>
-				<td><a href="${initParam.root }doc_showdocument.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
+				<td><a href="${initParam.root }doc_showdocument3.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
 				<td>${dvo.employeeVO.empName }</td>
 				<td>${dvo.timePosted}</td>
 				<td style="font-weight: bold;">
@@ -69,28 +68,12 @@
 </table>
 <br>
 <div align="right">
-	<input type="button" id="waitingMySignBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
+	<input type="button" id="waitingSubstituteBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
-
 <br>
-	<c:choose >
-	<c:when test="${waitingMySign.pagingBean.previousPageGroup==true}">
-	<a href="${initParam.root}doc_waitingMySign.do?page=${waitingMySign.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}">이전</a>
-	</c:when>
-	</c:choose>
-	<c:forEach begin="${waitingMySign.pagingBean.startPageOfPageGroup}" 
-	end="${waitingMySign.pagingBean.endPageOfPageGroup}" var="pagelist" >	
-			<a href="${initParam.root}doc_waitingMySign.do?page=${pagelist}&empNo=${sessionScope.evo.empNo}">${pagelist} </a>
-	</c:forEach>
-	<c:choose>
-		<c:when test="${waitingMySign.pagingBean.nextPageGroup==true}">
-		<a href="${initParam.root}doc_waitingMySign.do?page=${waitingMySign.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">다음</a>
-		</c:when>
-	</c:choose>
-	<br>	<br>
 	<div align="center">
-	<input type="text"  id="waitingMySignSearchText"  placeholder="Enter your search word" style="width: 200px">
-	<button class="btn btn-primary" id="waitingMySignSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<input type="text"  id="waitingSubstituteSearchText"  placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="waitingSubstituteSearchBtn" value="Search" style="width: 50px; height: 25px">
 	<i class="fa fa-search"></i></button>
 </div>
 	<br>	

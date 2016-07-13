@@ -43,8 +43,8 @@ public class RecBoardController {
 			return mv;
 		}
 	 
-	 @RequestMapping("recBoardSearchList.do")
-		public ModelAndView searchList(String search, String searchVar,int pageNo,HttpServletRequest request){
+	 @RequestMapping("rec_BoardSearchList.do")
+		public ModelAndView searchList(String search,String data, String searchVar,int pageNo,HttpServletRequest request){
 		 	HttpSession session =request.getSession();
 			if(searchVar.equals("")){
 				session.setAttribute("map", null);
@@ -69,6 +69,7 @@ public class RecBoardController {
 			PagingBean pb = new PagingBean(count, pageNo);
 			ListVO list = new ListVO(sList,pb);
 			mv.addObject("list",list);
+			mv.addObject("data",data);
 			session.setAttribute("map", map);
 			return mv;
 		}
@@ -97,21 +98,19 @@ public class RecBoardController {
 	 @RequestMapping("recUpdate_result.do")
 	 public String recUpdateResult(RecommendVO recommendVO){
 		 RecommendVO vo = service.recShowContent(recommendVO.getRecNo());
-		 System.out.println(vo);
 		 MultipartFile file  = recommendVO.getRecUploadFile();
 		 if(file.isEmpty()){
-			 System.out.println("일루들오냐?");
+		
 			 recommendVO.setRecPath(vo.getRecPath());
 		 }else{
 			 File uploadFile = new File(uploadPath+file.getOriginalFilename());
 				try{
 					file.transferTo(uploadFile);
-				}catch (IllegalStateException | IOException e){
+				}catch (Exception e){
 					e.printStackTrace();
 				}
 			 recommendVO.setRecPath(file.getOriginalFilename());
 		 }
-		 System.out.println(recommendVO);
 		 service.recUpdate(recommendVO);
 			return("redirect:rec_showContent.do?no="+recommendVO.getRecNo());
 	 }
@@ -131,7 +130,7 @@ public class RecBoardController {
 				File uploadFile = new File(uploadPath+file.getOriginalFilename());
 				try{
 					file.transferTo(uploadFile);
-				}catch (IllegalStateException | IOException e){
+				}catch (Exception e){
 					e.printStackTrace();
 				}
 				vo.setRecPath(file.getOriginalFilename());

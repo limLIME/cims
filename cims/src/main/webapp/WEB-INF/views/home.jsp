@@ -173,8 +173,13 @@
 				<!--COMPLETED ACTIONS DONUTS CHART-->
 				<h3>Mail Box</h3>
 
-				 				<!-- 반복문 -->
-				<c:forEach items="${mlist}" var="i">
+			<!-- 반복문 -->
+			<c:choose>
+				 <c:when test="${mlist.size()==0}">
+				 <div class="desc"><center>Not Exist New Mail</center></div>
+				 </c:when>
+				 <c:otherwise>
+				 <c:forEach items="${mlist}" var="i">
 					<div class="desc">
 						<div class="thumb">
 							<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
@@ -182,54 +187,39 @@
 						<div class="details">
 						<p>
 							<muted>${i.mailDate}</muted>
-							<br />${i.mailSender}에게 <a href="${initParam.root}mail_showMailContent.do?no=${i.mailNo}">메일</a>이 도착했습니다.<br />
+							<br />${i.mailSender}에게 <br><a href="${initParam.root}mail_showMailContent.do?no=${i.mailNo}">메일</a>이 도착했습니다.<br />
 						</p>
 					</div>
 				</div>
 				</c:forEach>
-<!-- 
-				First Action
-				<div class="desc">
-					<div class="thumb">
-						<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-					</div>
-					<div class="details">
-						<p>
-							<muted>2 Minutes Ago</muted>
-							<br /> <a href="#">Allan</a> 님께서 <a href="#">메일</a>을 보내셨습니다.<br />
-						</p>
-					</div>
-				</div>
- -->
+				 				</c:otherwise>
+				 				</c:choose>
+		
 			            <!-- USERS ONLINE SECTION -->
             <h3>TEAM MEMBERS</h3>
             <!-- First Member -->
             <c:forEach items="${lvo.list}" var="i">
             <div class="desc">
                <div class="thumb">
-                  <img class="img-circle" src="" width="35px"
+                  <img class="img-circle" src="upload/sign/${i.empPath }" width="35px"
                      height="35px" align="">
                </div>
                <div class="details">
                   <p>
-                     <a href="#">${i.empName }</a><br />
-                     <muted><a href="#">
+                    <font color="blue" style="font-style: italic;">${i.empName }
+                     <muted>
                      <c:choose>
-                        <c:when test="${i.empState == 1 }">
-                           (업무중)
+                        <c:when test="${i.empState == 1 }">(업무중)
                         </c:when>
-                        <c:when test="${i.empState == 2 }">
-                            (출장)
+                        <c:when test="${i.empState == 2 }">(출장)
                         </c:when>
-                        <c:when test="${i.empState == 3 }">
-                            (휴가)
+                        <c:when test="${i.empState == 3 }">(휴가)
                         </c:when>
-                        <c:when test="${i.empState == 4 }">
-                           (자리비움)
+                        <c:when test="${i.empState == 4 }">(자리비움)
                         </c:when>
                      </c:choose>
-                     
-                     </a>${i.empMemo}</muted>
+                     </font> 
+                     <br>${i.empMemo}</muted>
                   </p>
                </div>
             </div>

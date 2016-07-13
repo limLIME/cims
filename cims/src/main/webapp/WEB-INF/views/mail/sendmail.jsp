@@ -29,7 +29,7 @@
 				
 		
 				<td>
-				<a href="${initParam.root}mail_showMailContent.do?no=${mailVO.mailNo }">
+				<a href="${initParam.root}mail_showMailContent2.do?no=${mailVO.mailNo }">
 				${mailVO.mailTitle}</a>
 				</td>
 				<td>${mailVO.mailSender}</td>

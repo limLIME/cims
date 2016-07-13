@@ -46,7 +46,7 @@ public class FreeBoardController {
 			File uploadFile = new File(boardUploadPath+file.getOriginalFilename());
 			try{
 				file.transferTo(uploadFile);
-			}catch (IllegalStateException | IOException e){
+			}catch (Exception e){
 				e.printStackTrace();
 			}
 			vo.setBoardPath(file.getOriginalFilename());
@@ -74,8 +74,8 @@ public class FreeBoardController {
 		mv.addObject("popular",lvo);
 		return mv;
 	}
-	@RequestMapping("freeBoardSearchList.do")
-	public ModelAndView searchList(String search, String searchVar,int pageNo,HttpServletRequest request){
+	@RequestMapping("free_BoardSearchList.do")
+	public ModelAndView searchList(String search, String data,String searchVar,int pageNo,HttpServletRequest request){
 		HttpSession session =request.getSession();
 		if(searchVar.equals("")){
 			session.setAttribute("map", null);
@@ -102,6 +102,7 @@ public class FreeBoardController {
 		ListVO list = new ListVO(sList,pb);
 		mv.addObject("list",list);
 		mv.addObject("popular",lvo);
+		mv.addObject("data",data);
 		session.setAttribute("map", map);
 		return mv;
 	}
@@ -135,7 +136,7 @@ public class FreeBoardController {
 			File uploadFile = new File(boardUploadPath+file.getOriginalFilename());
 			try{
 				file.transferTo(uploadFile);
-			}catch (IllegalStateException | IOException e){
+			}catch (Exception e){
 				e.printStackTrace();
 			}
 			vo.setBoardPath(file.getOriginalFilename());

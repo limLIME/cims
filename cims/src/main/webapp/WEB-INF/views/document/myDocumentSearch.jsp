@@ -12,25 +12,26 @@
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
-    
-<script type="text/javascript">
+     <script type="text/javascript">
 	$(document).ready(function(){
-		$("#completeMainBtn").click(function(){
-			location.href="${initParam.root}doc_completeMain.do?page=1";
+		$("#myDocumentBtn").click(function(){
+			location.href="${initParam.root}doc_myDocument.do?page=1";
 		});
 		
-		$("#completeMainSearchBtn").click(function(){	
-	    	var data=$("#completeMainSearchText").val();
-	       location.href="${initParam.root}doc_completeMainSearch.do?page=1&data="+data;
+		$("#myDocumentSearchBtn").click(function(){	
+	    	var data=$("#myDocumentSearchText").val();
+	       location.href="${initParam.root}doc_myDocumentSearch.do?page=1&data="+data;
 	     });//click
 	});	
 </script>
+
 <section id="main-content">
-          <section class="wrapper">
-<h3><i class="fa fa-angle-right"></i> Complete Document Main</h3><hr><br>
-<div class="marginMain">
-<div class="content-panel" align="center">
-<h4 align="left"> Search Result By  "<font color="red">${data }</font>"</h4>
+<section class="wrapper">
+ <h3><i class="fa fa-angle-right"></i> My Document </h3><hr><br>
+       <div class="marginMain">
+       		
+		<div class="content-panel" align="center">
+<h4 align="left"> Search Result By  "<font color="red">${requestScope.data }</font>"</h4>
 <table class="table table-striped table-advance table-hover">
 	<thead>
 		<tr>
@@ -42,7 +43,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${requestScope.completeMainSearchList.list}" var="dvo">
+		<c:forEach items="${requestScope.myDocumentSearchList.list}" var="dvo">
 			<tr>
 				<td>${dvo.docNo}</td>
 				<td><a href="${initParam.root }doc_showdocument2.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
@@ -67,29 +68,47 @@
 </table>
 <br>
 <div align="right">
-	<input type="button" id="completeMainBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
+	<input type="button" id="myDocumentBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
 
-<br>
+<div>	
 	<c:choose >
-	<c:when test="${completeMainSearchList.pagingBean.previousPageGroup==true}">
-	<a href="${initParam.root}doc_completeMainSearch.do?page=${completeMainSearchList.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}&data=${data}">◀</a>
+	<c:when test="${myDocumentSearchList.pagingBean.previousPageGroup==true}">
+	<a href="${initParam.root}doc_myDocumentSearch.do?page=${returnMyList.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}&data=${requestScope.data}">◀</a>
 	</c:when>
 	</c:choose>
-	<c:forEach begin="${completeMainSearchList.pagingBean.startPageOfPageGroup}" end="${completeMainSearchList.pagingBean.endPageOfPageGroup}" var="pagelist" >	
-			<a href="${initParam.root}doc_completeMainSearch.do?page=${pagelist}&empNo=${sessionScope.evo.empNo}&data=${data}">${pagelist} </a>
+	<c:forEach begin="${myDocumentSearchList.pagingBean.startPageOfPageGroup}" end="${myDocumentSearchList.pagingBean.endPageOfPageGroup}" var="pagelist" >	
+			<a href="${initParam.root}doc_myDocumentSearch.do?page=${pagelist}&empNo=${sessionScope.evo.empNo}&data=${requestScope.data}">${pagelist} </a>
 	</c:forEach>
 	<c:choose>
-		<c:when test="${completeMainSearchList.pagingBean.nextPageGroup==true}">
-		<a href="${initParam.root}doc_completeMainSearch.do?page=${completeMainSearchList.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}&data=${data}">▶</a>
+		<c:when test="${myDocumentSearchList.pagingBean.nextPageGroup==true}">
+		<a href="${initParam.root}doc_myDocumentSearch.do?page=${returnMain.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}&data=${requestScope.data}">▶</a>
 		</c:when>
 	</c:choose>
-	<br>	<br>
-	<div align="center">
-	<input type="text"  id="completeMainSearchText" placeholder="Enter your search word" style="width: 200px">
-	<button class="btn btn-primary" id="completeMainSearchBtn" value="Search" style="width: 50px; height: 25px">
-	<i class="fa fa-search"></i></button>
 </div>
+	<br><br>
+	<div align="center">
+	<input type="text"  id="myDocumentSearchText"  placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="myDocumentSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<i class="fa fa-search"></i></button>
 	<br>	
-	</div></div>
+</div>
+</div>
+</div>
+
+
 </section></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

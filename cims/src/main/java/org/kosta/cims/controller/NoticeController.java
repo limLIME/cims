@@ -66,7 +66,7 @@ public class NoticeController {
 			try {
 				file.transferTo(uploadFile); // 실제 디렉토리로 파일을 저장한다.
 				nvo.setNoticePath(file.getOriginalFilename());
-			} catch (IllegalStateException | IOException e) { 
+			} catch (Exception e) { 
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -105,7 +105,7 @@ public class NoticeController {
 			//uploadpath 끝에 \\가 붙어있어서 하위 경로 적용됨
 			try {
 				file.transferTo(uploadFile); // 실제 디렉토리로 파일을 저장한다.
-			} catch (IllegalStateException | IOException e) { 
+			} catch (Exception e) { 
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

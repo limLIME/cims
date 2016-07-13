@@ -27,47 +27,47 @@
 
 <section id="main-content">
   <section class="wrapper">
-   <div class="marginMain2">	
+   <div class="marginMain3">	
  <div class="content-panel">
  <h3>&nbsp;<i class="fa fa-angle-right"></i> Update</h3>
 <form method="post" id="update_form" action="${initParam.root}notice_updateContent.do?no=${nvo.noticeNo }&time=${nvo.noticeDate }" enctype="multipart/form-data">
-	<table class="table table-hover">
+	<table class="table table-hover" style="width: 100%;" >
 		<tbody>
 				<tr>
-					<td>
+					<td colspan="1" style="width: 100%;">
 					NO : ${nvo.noticeNo }				
 					</td>
 				</tr>
 				<tr>
-					<td>Title : <input type="text" id="noticeTitle" name="noticeTitle" size="100%" value="${nvo.noticeTitle }"></input></td>
+					<td style="width: 90%;">Title : <input type="text" id="noticeTitle" style="width: 90%;" name="noticeTitle"  value="${nvo.noticeTitle }"></input></td>
 				</tr>
 				<tr>
-					<td>Date : ${nvo.noticeDate }</td>
+					<td colspan="1">Date : ${nvo.noticeDate }</td>
 				</tr>
 				
 				<tr>
-					<td>						
-						<textarea rows="15" cols="75" id="noticeContent" name="noticeContent">${nvo.noticeContent }</textarea>
+					<td colspan="1" >						
+						<textarea rows="15" cols="75" style="width: 100%;" id="noticeContent" name="noticeContent">${nvo.noticeContent }</textarea>
 					</td>
 				</tr>
 				
 				<c:choose>
 		     	<c:when test="${'1' ne requestScope.nvo.noticePath}">
 				<tr>
-					<td colspan="2"> AttachedFile : <a href="${initParam.root}notice_fileDownload.do?fileName=${requestScope.nvo.noticePath}"><font color="blue">${requestScope.nvo.noticePath }</font></a>
+					<td colspan="1"> AttachedFile : <a href="${initParam.root}notice_fileDownload.do?fileName=${requestScope.nvo.noticePath}"><font color="blue">${requestScope.nvo.noticePath }</font></a>
 						<input type="file" name="filePath" id="noticePath">
 					</td>
 				</tr>
 				</c:when>
 				<c:otherwise>
 				<tr>
-				<td colspan="2">AttachedFile does not exist<input type="file" name="filePath" id="noticePath"></td>
+				<td colspan="1">AttachedFile does not exist<input type="file" name="filePath" id="noticePath"></td>
 				</tr>
 				</c:otherwise>	
 				</c:choose>
 			
 				<tr>
-				<td align="center">						
+				<td align="center" colspan="2">						
 					<input type="submit" value="Update" class="btn btn-info"/>&nbsp;	
 					<input type="button" value="Cancel" class="btn btn-warning" onclick="cancel()"/>			
 					</td>				

@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="returner" column="doc_returner" />
 		<result property="approver" column="doc_approver" />
 	</resultMap>
-<resultMap type="employeeVO" id="employeeMap">
+	<resultMap type="employeeVO" id="employeeMap">
 		<id property="empNo" column="emp_no" />
 		<result property="empName" column="emp_name" />
 		<result property="password" column="password" />
@@ -38,7 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 공문보기 ******************************************************************* -->
 	<select id="showdocument" resultMap="documentMap">
-		select d.doc_no,d.emp_no,d.doc_title,d.doc_content,dp.dept_name,p.position_name,d.doc_path,d.doc_time_posted,e.emp_name,d.doc_state
+		select d.doc_no,d.emp_no,d.doc_title,d.doc_content,dp.dept_name,p.position_name,
+		d.doc_path,d.doc_time_posted,e.emp_name,d.doc_state
 		from document d,employee e,department dp, position p
 		where e.emp_no=d.emp_no and e.position_no=p.position_no and e.dept_no=dp.dept_no 
 		and d.doc_no=#{docNo}
@@ -96,11 +97,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update document set doc_state = '결재완료'
 		where doc_no=#{value}
 	</update>
-
+	
 	<select id="docCheck" resultType="int">
 	select count(*) from approver where doc_no=#{value} and doc_sign='0'
 	</select>
 	
+	<update id="substituteSign" parameterType="HashMap">
+		update approver set doc_sign=#{empSign}
+		where doc_no=#{docNo} and position_no=(select MIN(position_no) from approver where doc_no=#{docNo} and doc_sign='0') 
+	</update>
+	
+	
+	
+	
+	
+	
+	<!-- 내공문*************************************************************** -->
+	<select id="myDocument" resultMap="documentMap">
+		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
+		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
+		from employee e, document d ,approver a
+		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.emp_no=#{empNo}
+		group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
+		)  
+		)where page=#{page}  
+	</select>
+	
+	<select id="getMyTotalPage" resultType="int">
+	select count(*) from document d,employee e
+		where e.emp_no=d.emp_no  and d.emp_no=#{empNo} 
+	
+	</select>
+	
+	<!-- 내글검색 -->
+	<select id="myDocumentSearch" resultMap="documentMap">
+     	select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
+		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
+		from employee e, document d ,approver a
+		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%'
+		group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
+		)  
+		)where page=#{page} 
+      </select>
+
+	<select id="getMyDocumentSearchTotalPage" resultType="int">
+      select count(*) from document d,employee e
+      where e.emp_no=d.emp_no and e.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%'
+	</select>
 	
 	<!-- 반려 ******************************************************************* -->
 	<select id="returnMain" resultMap="documentMap">
@@ -110,54 +155,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from employee e, document d ,approver a
 		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' 
 		and (d.emp_no=#{empNo} or d.doc_returner=#{empNo} or 
-		(select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  ) order by d.doc_no desc
+		(select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  )
+		group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
 		)
-		)where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+		)where page=#{page} 
 	</select>
-	<select id="returnMy" resultMap="documentMap">
-		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' and d.emp_no=#{empNo}  order by d.doc_no desc
-		)
-		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	<select id="returnSign" resultMap="documentMap">
-	select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' 
-		and ((select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  ) order by d.doc_no desc
-		)
-		)where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	<select id="returnList" resultMap="documentMap">
-		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' 
-		and d.doc_returner=#{empNo} order by d.doc_no desc
-		)
-		)where page=#{page}    
-	</select>
-	<select id="getReturnMyTotalPage" resultType="int">
-	select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='반려' and d.emp_no=#{empNo} 
-	
-	</select>
-	<select id="getReturnSignTotalPage" resultType="int">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='반려' 
-		and (select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign} 
-	</select>
-	<select id="getReturnListTotalPage" resultType="int">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and  d.doc_state='반려' 
-		and d.doc_returner=#{empNo} 
-	</select>
+		
 	<select id="getReturnMainTotalPage" resultType="int">
 		select count(*) from document d,employee e
 		where e.emp_no=d.emp_no and doc_state='반려' 
@@ -166,16 +169,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 결재완료******************************************************************* -->
-	<select id="completeMy" resultMap="documentMap">
-			select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
-		and d.emp_no=#{empNo} order by d.doc_no desc
-		)
-		)where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
+
 	<select id="completeMain" resultMap="documentMap">
 		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
 		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
@@ -183,113 +177,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from employee e, document d ,approver a
 		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
 		and (d.emp_no=#{empNo} or (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo})=#{empSign} 
-		or(select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} ) order by d.doc_no desc
+		or(select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} )
+		group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
 		)
-		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+		)where page=#{page}
 	</select>
-	<select id="complete" resultMap="documentMap">
-		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
-		and (select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} order by d.doc_no desc
-		)
-		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	<select id="completeSign" resultMap="documentMap">
-		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
-		and (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo} and emp_no=#{empNo})=#{empSign} order by d.doc_no desc
-		)
-		)where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	<select id="getCompleteMyTotalPage" resultType="int" parameterType="HashMap">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='결재완료' 
-		and d.emp_no=#{empNo} 
-		
-	</select>
+	
 	<select id="getCompleteMainTotalPage" resultType="int" parameterType="HashMap">
 		select count(*) from document d,employee e
 		where e.emp_no=d.emp_no and d.doc_state='결재완료' 
 		and (d.emp_no=#{empNo} or (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo})=#{empSign} 
 		or(select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} )
 	</select>
-	<select id="getCompleteTotalPage" resultType="int" parameterType="HashMap">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='결재완료' 
-		and (select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} 
-	</select>
-	<select id="getCompleteSignTotalPage" resultType="int" parameterType="HashMap">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='결재완료' 
-		and (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo} and emp_no=#{empNo})=#{empSign} 
-	</select>
+	
 
 
 	<!-- 결재중 ******************************************************************* -->
-	<select id="waitingMy" resultMap="documentMap">
-		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' 
-		and d.emp_no=#{empNo} order by d.doc_no desc
-		)
-		)where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	
-	<select id="waitingMain" resultMap="documentMap">
-		select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d
-		where e.emp_no=d.emp_no and d.doc_state='결재중' 
-		and (d.emp_no=#{empNo} 
-		or	(select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-		or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo} 
-		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0'and position_no=#{positionNo} )=#{empNo} ) order by d.doc_no desc 
-	
-		)
-		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-		
-	<select id="waiting" resultMap="documentMap">
-			select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-		from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' 
-		and (select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} order by d.doc_no desc
-		)
-		)where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	
-	<select id="getWaitingMyTotalPage" resultType="int">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='결재중' 
-		and d.emp_no=#{empNo} 
-	</select>
-	
-	<select id="getWaitingMainTotalPage" resultType="int" parameterType="HashMap">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no  and d.doc_state='결재중' 
-		and (d.emp_no=#{empNo} 
-		or	(select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-		or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} 
-		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0'and position_no=#{positionNo} ) =#{empNo}
-		)
-	</select>
-	
-	<select id="getWaitingTotalPage" resultType="int" parameterType="HashMap">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no  and d.doc_state='결재중' and
-		(select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-	</select>
 	
 	<!-- 내가 사인해야하는 공문 -->
 	<select id="waitingMySign" resultMap="documentMap" parameterType="HashMap">
@@ -299,9 +202,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from employee e, document d
 		where e.emp_no=d.emp_no and d.doc_state='결재중' 
 		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
-		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  order by d.doc_no desc 
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}
+		group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
 		)
-		)where page=#{page} group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+		)where page=#{page}
 	</select>
 	
 	<select id="getWaitingMySignTotalPage" resultType="int">
@@ -311,30 +215,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0'and position_no=#{positionNo} )=#{empNo} )
 	</select>
 	
+	
+
+<!-- 결재대행해야할 공문 -->
 	<select id="findMySubstitute" resultMap="employeeMap">
 		select emp_no,position_no from employee where emp_substitute=#{value}
 	</select>
-
-<!-- 결재대행해야할 공문 -->
+	
 	<select id="waitingSubstitute" resultMap="documentMap" parameterType="HashMap">
-		select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
+		select doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
 		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
 		from employee e, document d
 		where e.emp_no=d.emp_no and d.doc_state='결재중' 
 		and (select emp_state from employee where emp_no=#{empNo})!=1
 		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
-		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  order by d.doc_no desc 
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  
+		order by d.doc_no desc 
 		)
 	</select>
 
-	<select id="getWaitingSubstituteTotalPage" resultType="int">
-		select count(*) from document d,employee e
-		where e.emp_no=d.emp_no and d.doc_state='결재중' 
-		and (select emp_state from employee where emp_no=#{empNo})!=1
-		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
-		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}  order by d.doc_no desc 
-		
-	</select>
 
 	<!-- 반려검색*************************************************** -->
 	<!-- returnMain -->
@@ -345,9 +244,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       from employee e, document d ,approver a
       where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' 
       and (d.emp_no=#{empNo} or d.doc_returner=#{empNo} or 
-      (select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  ) and d.doc_title like '%' || #{data} || '%'  order by d.doc_no desc
+      (select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  ) and d.doc_title like '%' || #{data} || '%' 
+      group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
       )
-      )where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+      )where page=#{page}
 	</select>
 	<select id="getReturnMainSearchTotalPage" resultType="int">
       select count(*) from document d,employee e
@@ -355,69 +255,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       and (d.emp_no=#{empNo} or d.doc_returner=#{empNo} or 
       (select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  ) and d.doc_title like '%' || #{data} || '%'
 	</select>
-	<!-- returnMy -->
-	<select id="returnMySearch" resultMap="documentMap">
-      select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' and d.emp_no=#{empNo}  and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
-      )
-      )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>
-	<select id="getReturnMySearchTotalPage" resultType="int">
- 	   select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and d.doc_state='반려' and d.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%'
-	</select>
-	<!-- returnSign -->
-	<select id="returnSignSearch" resultMap="documentMap">
-		   select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' 
-      and ((select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign}  ) and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
-      )
-      )where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>	
-	<select id="getReturnSignSearchTotalPage" resultType="int">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and d.doc_state='반려' 
-      and (select doc_sign from approver where emp_no=#{empNo} and doc_no=d.doc_no )=#{empSign} and d.doc_title like '%' || #{data} || '%'
-	</select>	
-	<!-- returnList -->
-	<select id="returnListSearch" resultMap="documentMap">
-      select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='반려' 
-      and d.doc_returner=#{empNo} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
-      )
-      )where page=#{page}    
-	</select>	
-	<select id="getReturnListSearchTotalPage" resultType="int">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and  d.doc_state='반려' 
-      and d.doc_returner=#{empNo} and d.doc_title like '%' || #{data} || '%'
-	</select>	
 	
-	<!-- 완료 검색*************************************************** -->
-    <select id="completeSearch" resultMap="documentMap">
-      select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
-      and (select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
-      )
-      )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-    </select>
-   <select id="getCompleteSearchTotalPage" resultType="int" parameterType="HashMap">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and d.doc_state='결재완료' 
-      and (select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} and d.doc_title like '%' || #{data} || '%' 
-   </select>    
     <select id="completeMainSearch" resultMap="documentMap">
       select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
       select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
@@ -425,9 +263,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       from employee e, document d ,approver a
       where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
       and (d.emp_no=#{empNo} or (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo})=#{empSign} 
-      or(select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} ) and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
+      or(select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} ) and d.doc_title like '%' || #{data} || '%' 
+      group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
       )
-      )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+      )where page=#{page} 
     </select>
    <select id="getCompleteMainSearchTotalPage" resultType="int" parameterType="HashMap">
       select count(*) from document d,employee e
@@ -435,48 +274,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       and (d.emp_no=#{empNo} or (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo})=#{empSign} 
       or(select MAX(position_no) from approver where doc_no=d.doc_no )=#{positionNo} ) and d.doc_title like '%' || #{data} || '%'
    </select>      
-   <select id="completeSignSearch" resultMap="documentMap" parameterType="HashMap">
-   select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-		where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
-		and (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo} and emp_no=#{empNo})=#{empSign} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
-		)
-		)where page=#{page} group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-	</select>  
-   <select id="getCompleteSignSearchTotalPage" resultType="int" parameterType="HashMap">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and d.doc_state='결재완료' 
-      and (select doc_sign from approver where doc_no=d.doc_no and position_no=#{positionNo} and emp_no=#{empNo})=#{empSign} and d.doc_title like '%' || #{data} || '%'
-   </select>
-   <select id="completeMySearch" resultMap="documentMap">
-         select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재완료' 
-      and d.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%'  order by d.doc_no desc
-      )
-      )where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-   </select> 
-   <select id="getCompleteMySearchTotalPage" resultType="int" parameterType="HashMap">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and d.doc_state='결재완료' 
-      and d.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%' 
-   </select>   
-   
-	<!-- 결재중 검색*************************************************** -->
-   <select id="waitingMySearch" resultMap="documentMap">
-      select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' 
-      and d.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%'  order by d.doc_no desc
-      )
-      )where page=#{page}   group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-   </select>
    
    <select id="waitingMainSearch" resultMap="documentMap">
       select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
@@ -486,26 +283,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where e.emp_no=d.emp_no and d.doc_state='결재중' 
       and (d.emp_no=#{empNo} 
       or   (select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} 
-      or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} ) and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc 
+      or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} ) and d.doc_title like '%' || #{data} || '%'
+      group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc 
       )
-      )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-   </select>
-      
-   <select id="waitingSearch" resultMap="documentMap">
-         select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
-      select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
-      select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
-      from employee e, document d ,approver a
-      where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' 
-      and (select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
-      )
-      )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
-   </select>
-   
-   <select id="getWaitingMySearchTotalPage" resultType="int">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no and d.doc_state='결재중' 
-      and d.emp_no=#{empNo} and d.doc_title like '%' || #{data} || '%' 
+      )where page=#{page}
    </select>
    
    <select id="getWaitingMainSearchTotalPage" resultType="int" parameterType="HashMap">
@@ -516,22 +297,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       or (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo}      
       ) and d.doc_title like '%' || #{data} || '%' 
    </select>
-   
-   <select id="getWaitingSearchTotalPage" resultType="int" parameterType="HashMap">
-      select count(*) from document d,employee e
-      where e.emp_no=d.emp_no  and d.doc_state='결재중' and
-      (select doc_sign from approver where doc_no=d.doc_no and emp_no=#{empNo})=#{empSign} and d.doc_title like '%' || #{data} || '%' 
-   </select>
-
+      
    <select id="waitingMySignSearch" resultMap="documentMap">
       select page, doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
       select doc_no, doc_title,doc_time_posted, doc_state, ceil(rownum/5) as page, emp_name from(
       select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
       from employee e, document d ,approver a
       where e.emp_no=d.emp_no and d.doc_no=a.doc_no and d.doc_state='결재중' and
-      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} and d.doc_title like '%' || #{data} || '%' order by d.doc_no desc
+      (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} and d.doc_title like '%' || #{data} || '%'
+      group by d.doc_no, d.doc_title,d.doc_time_posted,d.doc_state,e.emp_name order by d.doc_no desc
       )
-      )where page=#{page}    group by page, doc_no, doc_title,doc_time_posted, doc_state, emp_name  order by doc_no desc
+      )where page=#{page}
    </select>
    
    <select id="getWaitingMySignSearchTotalPage" resultType="int">
@@ -539,17 +315,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where e.emp_no=d.emp_no and d.doc_state='결재중' and
       (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0')=#{positionNo} and d.doc_title like '%' || #{data} || '%' 
    </select>
+   
+   <!-- 결재대행검색 -->
+   <select id="waitingSubstituteSearch" resultMap="documentMap" parameterType="HashMap">
+   select doc_no, doc_title,doc_time_posted, doc_state, emp_name from(
+		select d.doc_no,d.doc_title,to_char(d.doc_time_posted,'YYYY.MM.DD') as doc_time_posted, d.doc_state, e.emp_name
+		from employee e, document d
+		where e.emp_no=d.emp_no and d.doc_state='결재중' and d.doc_title like '%' || #{data} || '%'
+		and (select emp_state from employee where emp_no=#{empNo})!=1
+		and (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' )=#{positionNo}
+		and (select emp_no from approver where doc_no=d.doc_no and doc_sign='0' and position_no = #{positionNo} )=#{empNo}
+		order by d.doc_no desc 
+		)
+		
+   </select>
+	
 
 	<select id="countDoc" resultType="int" parameterType="employeeVO">
 	 select count(*) from document d,employee e
       where e.emp_no=d.emp_no and d.doc_state='결재중' and
       (select MIN(position_no) from approver where doc_no=d.doc_no and doc_sign='0' and emp_no=#{empNo})=#{positionVO.positionNo}
 	</select>
-
-
-
-
-
 
 </mapper>
 

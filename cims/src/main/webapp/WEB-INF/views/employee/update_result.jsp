@@ -16,7 +16,7 @@
 			<div class="col-lg-12">
 				<div class="form-panel">
 					<h3>
-						<i class="fa fa-angle-right"></i> Update Information of Employees
+						<i class="fa fa-angle-right"></i> Update My Information
 					</h3>
 					<hr>
 					<center>

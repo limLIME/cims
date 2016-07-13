@@ -29,7 +29,7 @@
 				<td>
 				<c:choose>
 				<c:when test="${sessionScope.evo!=null}">
-				<a href="${initParam.root}mail_showMailContent.do?no=${mailVO.mailNo }">
+				<a href="${initParam.root}mail_showMailContent2.do?no=${mailVO.mailNo }">
 				${mailVO.mailTitle}</a>
 				</c:when>
 				<c:otherwise>

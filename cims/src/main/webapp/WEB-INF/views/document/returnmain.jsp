@@ -16,31 +16,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#myDocBtn").mouseover(function(){
-			$("#myDocBtnSpan").html("내가 쓴것 중 반려된 공문");
-		}).mouseout(function(){
-			$("#myDocBtnSpan").html("");
-		});
-		$("#mySignBtn").mouseover(function(){
-			$("#mySignBtnSpan").html("내가 결제 했는데 반려된 공문");
-		}).mouseout(function(){
-			$("#mySignBtnSpan").html("");
-		});
-		$("#myReturnBtn").mouseover(function(){
-			$("#myReturnBtnSpan").html("내가 반려 한 공문");
-		}).mouseout(function(){
-			$("#myReturnBtnSpan").html("");
-		});
-		$("#myDocBtn").click(function(){
-			location.href="${initParam.root}doc_returnMy.do?page=1";
-		});
-		$("#mySignBtn").click(function(){
-			location.href="${initParam.root}doc_returnSign.do?page=1";
-		});
-		$("#myReturnBtn").click(function(){
-			location.href="${initParam.root}doc_returnList.do?page=1";
-		});
-		$("#returnMainBtn").click(function(){
+			$("#returnMainBtn").click(function(){
 			location.href="${initParam.root}doc_returnMain.do?page=1";
 		});
 		
@@ -55,24 +31,6 @@
  <h3><i class="fa fa-angle-right"></i> Returned Docunemt Main</h3><hr><br>
        <div class="marginMain">
 <div class="content-panel" align="center">
-<div align="left">&nbsp;&nbsp;&nbsp;
-<span id = "myDocBtnSpan" class="label label-default"></span>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "mySignBtnSpan"  class="label label-default"></span>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id = "myReturnBtnSpan"  class="label label-default"></span><br>
-<!-- 내가 쓴것중 반려된 것" -->
-&nbsp;&nbsp;<button class="btn btn-primary" id="myDocBtn">
-<i class="fa fa-user" ></i>
-</button>      
-<!-- 내가결재했는데 반려된 공문 -->
-<button class="btn btn-warning" id="mySignBtn">
-<i class="fa fa-check" ></i>
-</button> 
-<!-- 내가반려한 공문 -->
-<button class="btn btn-danger" id="myReturnBtn" >
-<i class="fa fa-times" ></i>
-</button> 
-</div>
-<br>
 
 <table class="table table-striped table-advance table-hover">
 	<thead>
@@ -88,10 +46,22 @@
 		<c:forEach items="${requestScope.returnMain.list}" var="dvo">
 			<tr>
 				<td>${dvo.docNo}</td>
-				<td><a href="${initParam.root }doc_showdocument.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
+				<td><a href="${initParam.root }doc_showdocument2.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
 				<td>${dvo.employeeVO.empName }</td>
 				<td>${dvo.timePosted}</td>
-				<td>${dvo.state}</td>
+				<td style="font-weight: bold;">
+				<c:choose>
+				<c:when test="${dvo.state=='반려'}">
+				<font color="red">${dvo.state}</font>
+				</c:when>
+				<c:when test="${dvo.state=='결재완료'}">
+				<font color="#52E252">${dvo.state}</font>
+				</c:when>
+				<c:otherwise>
+				<font color="blue" >${dvo.state}</font>
+				</c:otherwise>
+				</c:choose>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>	
@@ -104,7 +74,7 @@
 <div>	
 	<c:choose >
 	<c:when test="${returnMain.pagingBean.previousPageGroup==true}">
-	<a href="${initParam.root}doc_returnMain.do?page=${returnMyList.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}">이전</a>
+	<a href="${initParam.root}doc_returnMain.do?page=${returnMyList.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}">◀</a>
 	</c:when>
 	</c:choose>
 	<c:forEach begin="${returnMain.pagingBean.startPageOfPageGroup}" end="${returnMain.pagingBean.endPageOfPageGroup}" var="pagelist" >	
@@ -112,7 +82,7 @@
 	</c:forEach>
 	<c:choose>
 		<c:when test="${returnMain.pagingBean.nextPageGroup==true}">
-		<a href="${initParam.root}doc_returnMain.do?page=${returnMain.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">다음</a>
+		<a href="${initParam.root}doc_returnMain.do?page=${returnMain.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">▶</a>
 		</c:when>
 	</c:choose>
 </div>

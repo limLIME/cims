@@ -27,27 +27,25 @@ $(document).ready(function(){
 				<h3>
 					&nbsp;<i class="fa fa-angle-right">&nbsp;</i>Update
 				</h3>
-				<hr>
+			
 				<form
 					action="${initParam.root}free_update_result.do?boardNo=${vo.boardNo}"
 					method="post" id="write_form" enctype="multipart/form-data">
-					<table class="table table-hover">
+					<table class="table table-hover" style="width: 100%" >
 						<tbody>
 							<tr>
-								<td>No</td>
-								<td colspan="3">${vo.boardNo}</td>
+								<td  colspan="2">No :  ${vo.boardNo}</td>
+							</tr>
+							<tr >
+								<td  style="width: 7%">Title :</td>
+								<td style="width: 93%"> <input type="text" name="boardTitle" id = "boardTitle"
+									value="${vo.boardTitle}"  class = "form-control" ></td>
 							</tr>
 							<tr>
-								<td>Title</td>
-								<td colspan="3"><input type="text" name="boardTitle" id = "boardTitle"
-									value="${vo.boardTitle}" class="form-control"></td>
+								<td  colspan="2" style="width: 100%">Writer : ${evo.departmentVO.deptName } ${evo.positionVO.positionName } ${evo.empName } ( ${evo.empNo } )</td>
 							</tr>
 							<tr>
-								<td>Writer</td>
-								<td>${evo.empName }</td>
-							</tr>
-							<tr>
-								<td colspan="4" align="left">&nbsp;&nbsp; <textarea
+								<td  colspan="2" align="left" style="width: 100%">&nbsp;&nbsp; <textarea
 									id="boardContent"	cols="60" rows="15" name="boardContent" class="form-control">${vo.boardContent} </textarea>
 								</td>
 							</tr>
@@ -55,14 +53,12 @@ $(document).ready(function(){
 								<c:when test="${'1' ne requestScope.vo.boardPath}">
 									<tr>
 										<td colspan="2">AttachedFile :
-											${requestScope.vo.boardPath }</td>
-										<td><input type="file" name="uploadFile"></td>
+											${requestScope.vo.boardPath }<br><br> <input type="file" name="uploadFile"></td>
 									</tr>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="2">AttachedFile does not exist</td>
-										<td><input type="file" name="uploadFile"></td>
+										<td colspan="2">AttachedFile : does not exist <br><br><input type="file" name="uploadFile"></td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -73,6 +69,7 @@ $(document).ready(function(){
 						<input type="button" value="Cancel" class="btn btn-warning"
 							onclick="cancleUpdate()">
 					</div>
+					<br>
 				</form>
 			</div>
 		</div>

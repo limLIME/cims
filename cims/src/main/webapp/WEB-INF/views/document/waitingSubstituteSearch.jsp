@@ -17,18 +17,18 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#waitingMySignBtn").click(function(){
-			location.href="${initParam.root}doc_waitingMySign.do?page=1";
+		$("#waitingSubstituteBtn").click(function(){
+			location.href="${initParam.root}doc_waitingSubstitute.do?page=1";
 		});
-$("#waitingMySignSearchBtn").click(function(){	
-	    	var data=$("#waitingMySignSearchText").val();
-	       location.href="${initParam.root}doc_waitingMySignSearch.do?page=1&data="+data;
+$("#waitingSubstituteSearchBtn").click(function(){	
+	    	var data=$("#waitingSubstituteSearchText").val();
+	       location.href="${initParam.root}doc_waitingSubstituteSearch.do?page=1&data="+data;
 	     });//click
 	});
 </script>
 <section id="main-content">
           <section class="wrapper">
-<h3><i class="fa fa-angle-right"></i> Waiting My Sign</h3><hr><br>
+<h3><i class="fa fa-angle-right"></i> Waiting Substitute Sign</h3><hr><br>
 
 
       <div class="marginMain">
@@ -45,7 +45,7 @@ $("#waitingMySignSearchBtn").click(function(){
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${requestScope.waitingMySignSearchList.list}" var="dvo">
+		<c:forEach items="${requestScope.waitingSubstituteSearchList}" var="dvo">
 			<tr>
 				<td>${dvo.docNo}</td>
 				<td><a href="${initParam.root }doc_showdocument.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
@@ -70,27 +70,13 @@ $("#waitingMySignSearchBtn").click(function(){
 </table>
 <br>
 <div align="right">
-	<input type="button" id="waitingMySignBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
+	<input type="button" id="waitingSubstituteBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
 
 <br>
-	<c:choose >
-	<c:when test="${waitingMySignSearchList.pagingBean.previousPageGroup==true}">
-	<a href="${initParam.root}doc_waitingMySignSearch.do?page=${waitingMySignSearchList.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}&data=${data}">◀</a>
-	</c:when>
-	</c:choose>
-	<c:forEach begin="${waitingMySignSearchList.pagingBean.startPageOfPageGroup}" end="${waitingMySignSearchList.pagingBean.endPageOfPageGroup}" var="pagelist" >	
-			<a href="${initParam.root}doc_waitingMySignSearch.do?page=${pagelist}&empNo=${sessionScope.evo.empNo}&data=${data}">${pagelist} </a>
-	</c:forEach>
-	<c:choose>
-		<c:when test="${waitingMySignSearchList.pagingBean.nextPageGroup==true}">
-		<a href="${initParam.root}doc_waitingMySignSearch.do?page=${waitingMySignSearchList.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}&data=${data}">▶</a>
-		</c:when>
-	</c:choose>
-	<br>	<br>
 	<div align="center">
-	<input type="text"  id="waitingMySignSearchText" placeholder="Enter your search word" style="width: 200px">
-	<button class="btn btn-primary" id="waitingMySignSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<input type="text"  id="waitingSubstituteSearchText" placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="waitingSubstituteSearchBtn" value="Search" style="width: 50px; height: 25px">
 	<i class="fa fa-search"></i></button>
 </div>
 	<br>	

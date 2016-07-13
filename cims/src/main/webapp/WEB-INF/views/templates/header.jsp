@@ -34,7 +34,7 @@
     
     	<script type="text/javascript">
     	$(document).ready(function() {
-			if(${sessionScope.evo == null}){
+    		if(${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal == null}){
 				alert("세션이 만료되었습니다. 다시 로그인 해주십시오");
 	    		location.href="${initParam.root}index2.jsp";
 			}
@@ -82,7 +82,7 @@
 			         	<option value="4">자리비움</option>
         			 </select>
                </li>
-               <li><a class="logout" href="${initParam.root }emp_logout.do">Logout</a></li>
+               <li><a class="logout" href="${initParam.root }logout.do">Logout</a></li>
                </ul>
                
             </div>

@@ -67,7 +67,7 @@ public class MailDAOImpl implements MailDAO {
 	
 	@Override
 	public void sendMail(MailVO mailVO){
-		System.out.println(mailVO);
+
 		template.insert("mail.sendMail",mailVO);
 	}
 	
@@ -77,7 +77,17 @@ public class MailDAOImpl implements MailDAO {
 	}
 	@Override
 	public List<MailVO> getMyMailList(String empNo) {
-		return template.selectList("mail.getMyMailList", empNo);
+		 List<MailVO> mail= template.selectList("mail.getMyMailList", empNo);
+					
+		 for(int i=0;i<mail.size();i++){
+			String sender=mail.get(i).getMailSender();
+			EmployeeVO vo=template.selectOne("employee.findById",sender);
+			sender=vo.getDepartmentVO().getDeptName()+" "+vo.getPositionVO().getPositionName()+" "+vo.getEmpName()+" ("+sender+")";
+			mail.get(i).setMailSender(sender);
+			}
+		
+		
+		return mail;
 	}
 	@Override
 	public  EmployeeVO findById(String empNo){

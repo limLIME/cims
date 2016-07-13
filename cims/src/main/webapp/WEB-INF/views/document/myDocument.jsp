@@ -8,30 +8,30 @@
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
     <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
+    
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
-  
-<script type="text/javascript">
+     <script type="text/javascript">
 	$(document).ready(function(){
-		$("#completeMainBtn").click(function(){
-			location.href="${initParam.root}doc_completeMain.do?page=1";
+		$("#myDocumentBtn").click(function(){
+			location.href="${initParam.root}doc_myDocument.do?page=1";
 		});
 		
-		$("#completeMainSearchBtn").click(function(){	
-	    	var data=$("#completeMainSearchText").val();
-	       location.href="${initParam.root}doc_completeMainSearch.do?page=1&data="+data;
+		$("#myDocumentSearchBtn").click(function(){	
+	    	var data=$("#myDocumentSearchText").val();
+	       location.href="${initParam.root}doc_myDocumentSearch.do?page=1&data="+data;
 	     });//click
 	});	
 </script>
 
 <section id="main-content">
 <section class="wrapper">
-<h3 align="left">&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i> Complete Document Main</h3><hr><br>
-<div class="marginMain">
-<div class="content-panel" align="center">
-
-<table class="table table-striped table-advance table-hover" >
+ <h3><i class="fa fa-angle-right"></i> My Document </h3><hr><br>
+       <div class="marginMain">
+		<div class="content-panel" align="center">
+		
+<table class="table table-striped table-advance table-hover">
 	<thead>
 		<tr>
 			<th>#No</th>
@@ -42,7 +42,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${requestScope.completeMain.list}" var="dvo">
+		<c:forEach items="${requestScope.myDocument.list}" var="dvo">
 			<tr>
 				<td>${dvo.docNo}</td>
 				<td><a href="${initParam.root }doc_showdocument2.do?docNo=${dvo.docNo}">${dvo.title}</a></td>
@@ -67,29 +67,47 @@
 </table>
 <br>
 <div align="right">
-	<input type="button" id="completeMainBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
+	<input type="button" id="myDocumentBtn" class="btn btn-info" value="main page">&nbsp;&nbsp;&nbsp;
 </div>
 
-<br>
+<div>	
 	<c:choose >
-	<c:when test="${completeMain.pagingBean.previousPageGroup==true}">
-	<a href="${initParam.root}doc_completeMain.do?page=${completeMain.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}">이전</a>
+	<c:when test="${myDocument.pagingBean.previousPageGroup==true}">
+	<a href="${initParam.root}doc_myDocument.do?page=${returnMyList.pagingBean.startPageOfPageGroup-1}&empNo=${sessionScope.evo.empNo}">◀</a>
 	</c:when>
 	</c:choose>
-	<c:forEach begin="${completeMain.pagingBean.startPageOfPageGroup}" end="${completeMain.pagingBean.endPageOfPageGroup}" var="pagelist" >	
-			<a href="${initParam.root}doc_completeMain.do?page=${pagelist}&empNo=${sessionScope.evo.empNo}">${pagelist} </a>
+	<c:forEach begin="${myDocument.pagingBean.startPageOfPageGroup}" end="${myDocument.pagingBean.endPageOfPageGroup}" var="pagelist" >	
+			<a href="${initParam.root}doc_myDocument.do?page=${pagelist}&empNo=${sessionScope.evo.empNo}">${pagelist} </a>
 	</c:forEach>
 	<c:choose>
-		<c:when test="${completeMain.pagingBean.nextPageGroup==true}">
-		<a href="${initParam.root}doc_completeMain.do?page=${completeMain.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">다음</a>
+		<c:when test="${myDocument.pagingBean.nextPageGroup==true}">
+		<a href="${initParam.root}doc_myDocument.do?page=${returnMain.pagingBean.endPageOfPageGroup+1}&empNo=${sessionScope.evo.empNo}">▶</a>
 		</c:when>
 	</c:choose>
-	<br>	<br>
-	<div align="center">
-	<input type="text"  id="completeMainSearchText"  placeholder="Enter your search word" style="width: 200px">
-	<button class="btn btn-primary" id="completeMainSearchBtn" value="Search" style="width: 50px; height: 25px">
-	<i class="fa fa-search"></i></button>
 </div>
-<br>	
-	</div></div>
+	<br><br>
+	<div align="center">
+	<input type="text"  id="myDocumentSearchText"  placeholder="Enter your search word" style="width: 200px">
+	<button class="btn btn-primary" id="myDocumentSearchBtn" value="Search" style="width: 50px; height: 25px">
+	<i class="fa fa-search"></i></button>
+	<br>	
+</div>
+</div>
+</div>
+
+
 </section></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

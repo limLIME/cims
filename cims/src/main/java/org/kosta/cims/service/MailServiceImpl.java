@@ -99,6 +99,7 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	public List<MailVO> getMyMailList(String empNo) {
+		
 		return mailDAO.getMyMailList(empNo);
 	}
 }

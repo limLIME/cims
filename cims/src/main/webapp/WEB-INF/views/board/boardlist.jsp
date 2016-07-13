@@ -11,7 +11,7 @@
 			var search = $("#search").val();
 			var searchVar = $("#searchVar").val();
 			
-			location.href = "freeBoardSearchList.do?search="+search+"&searchVar="+searchVar+"&pageNo=1";				
+			location.href = "free_BoardSearchList.do?data="+searchVar+"&search="+search+"&searchVar="+searchVar+"&pageNo=1";				
 		});
 });	
 	function freeWrite() {
@@ -44,6 +44,9 @@
  <hr>
 <div class = "marginMain">
      <div class="content-panel" align="center">
+     <c:if test="${data != null}">
+     <h4 align="left"> Search Result By  "<font color="red">${data }</font>"</h4>
+     </c:if>
 <table class = "table table-striped table-advance table-hover">
    <tr>
       <th width = "15%">#NO</th><th width = "25%">Title</th><th width = "15%">Writer</th><th width = "15%">Date</th><th width = "10%"><li class="fa  fa-thumbs-o-up"></li> Like</th>
@@ -89,7 +92,8 @@
       	
       	<c:otherwise>
       		<c:if test="${list.pagingBean.previousPageGroup}">
-         		<a href="${initParam.root}freeBoardSearchList.do?pageNo=${list.pagingBean.startPageOfPageGroup-1}&search=${sessionScope.map.search}&searchVar=${sessionScope.map.searchVar}"><img src="${initParam.root }img/left_arrow_btn.gif"></a>  
+      		
+         		<a href="${initParam.root}free_BoardSearchList.do?pageNo=${list.pagingBean.startPageOfPageGroup-1}&search=${sessionScope.map.search}&searchVar=${sessionScope.map.searchVar}"><img src="${initParam.root }img/left_arrow_btn.gif"></a>  
   			 </c:if>
    
    			<c:forEach begin="${list.pagingBean.startPageOfPageGroup}" end="${list.pagingBean.endPageOfPageGroup}" var="i">
@@ -98,13 +102,13 @@
         		 		${i}
         		 	</c:when>
          			<c:otherwise>
-         				<a href="${initParam.root}freeBoardSearchList.do?pageNo=${i}&search=${sessionScope.map.search}&searchVar=${sessionScope.map.searchVar}">${i}</a>
+         				<a href="${initParam.root}free_BoardSearchList.do?pageNo=${i}&search=${sessionScope.map.search}&searchVar=${sessionScope.map.searchVar}">${i}</a>
          			</c:otherwise>
        		  </c:choose>
   		 </c:forEach>
 
       		<c:if test="${list.pagingBean.nextPageGroup}">
-   	  		    <a href="${initParam.root}freeBoardSearchList.do?pageNo=${list.pagingBean.startPageOfPageGroup+1}&search=${sessionScope.map.search}&searchVar=${sessionScope.map.searchVar}"><img src="img/right_arrow_btn.gif"></a>
+   	  		    <a href="${initParam.root}free_BoardSearchList.do?pageNo=${list.pagingBean.startPageOfPageGroup+1}&search=${sessionScope.map.search}&searchVar=${sessionScope.map.searchVar}"><img src="img/right_arrow_btn.gif"></a>
     		  </c:if><br><br>  	
       	</c:otherwise>
       </c:choose>	

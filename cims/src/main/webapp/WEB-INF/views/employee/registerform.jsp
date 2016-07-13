@@ -37,7 +37,7 @@
 			<div class="col-lg-12">
 				<div class="form-panel">
 		<h3>
-			<i class="fa fa-angle-right"></i> Register Information of Employees
+			<i class="fa fa-angle-right"></i> Employee Register 
 		</h3>
 	<hr><br>
 					<form id="registerForm" action="${initParam.root }emp_register.do"

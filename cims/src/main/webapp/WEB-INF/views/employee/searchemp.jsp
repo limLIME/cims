@@ -32,6 +32,7 @@
               str += "<td><center>"+data[i].departmentVO.deptName+"</center></td>";
               str += "<td><center>"+data[i].positionVO.positionName+"</center></td>";
               str += "<td class='empName'><center>"+data[i].empName+"</center></td>";
+              str += "<td><center>"+data[i].empTel+"</center></td>";
               str += "</tr>";
            }//for
             $("#empView").html(str);  
@@ -52,7 +53,9 @@
                str += "<tr class='empSearch cursor'><td><center>"+data[i].empNo+"</center></td>";
                str += "<td><center>"+data[i].departmentVO.deptName+"</center></td>";
                str += "<td><center>"+data[i].positionVO.positionName+"</center></td>";
-               str += "<td ><center>"+data[i].empName+"</center></td>";
+               str += "<td><center>"+data[i].empName+"</center></td>";
+               str += "<td><center>"+data[i].empTel+"</center></td>";
+
                str += "</tr>";
             }//for
              $("#empView").html(str);  
@@ -108,6 +111,7 @@
               <th><center>DeptName</center></th>
               <th><center>PositionName</center></th>
               <th><center>EmpName</center></th>
+                <th><center>EmpTel</center></th>
 			</tr>
          </thead>         
          

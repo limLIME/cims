@@ -23,7 +23,7 @@
 			<div class="col-lg-12">
 				<div class="form-panel">
 		<h3>
-			<i class="fa fa-angle-right"></i> Update Employee Information
+			<i class="fa fa-angle-right"></i> Update Information of Employees
 		</h3>
 	<hr><br>
 					<form action="${initParam.root }emp_adminUpdate.do"

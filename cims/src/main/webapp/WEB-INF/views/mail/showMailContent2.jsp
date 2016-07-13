@@ -10,9 +10,7 @@
     		if(confirm("메일을 삭제하시겠습니까?"))
     			location.href="${initParam.root}mail_deleteMail.do?receiver=${requestScope.mailVO.mailReceiver}&sender=${requestScope.mailVO.mailSender}&no=${requestScope.mailVO.mailNo}";
     	});
-    	$("#replyBtn").click(function(){    		
-    		location.href="${initParam.root}mail_replyMail.do?receiver=${requestScope.mailVO.mailSender}";
-    	});
+    	
     	
     });	
 </script>
@@ -57,8 +55,7 @@
 		</tr>
 		<tr>
 			<td valign="middle" align="center" colspan="3">
-			<input type="button"  id="replyBtn" class="btn btn-success" value="Reply">
-   			  <input type="button"  id="deleteBtn" class="btn btn-danger" value="Delete">
+			  <input type="button"  id="deleteBtn" class="btn btn-danger" value="Delete">
 			 <br><br>			
 			 </td>
 		</tr>

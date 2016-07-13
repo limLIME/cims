@@ -19,6 +19,7 @@ import org.kosta.cims.service.EmployeeService;
 import org.kosta.cims.service.MailService;
 import org.kosta.cims.service.NoticeService;
 import org.kosta.cims.service.ScheduleService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,17 +59,27 @@ public class HomeController {
 	}
 	
 	  @RequestMapping("home.do")
-	   public String home(HttpServletRequest request, int pageNo) {
-	      HttpSession session = request.getSession();
+	   public String home(HttpServletRequest request,HttpServletResponse response, int pageNo) {
+	      HttpSession session = request.getSession(false);
 	      session.setAttribute("left", 1);
-	      EmployeeVO vo = (EmployeeVO) session.getAttribute("evo");
+	      EmployeeVO vo = (EmployeeVO) SecurityContextHolder.getContext()
+	              .getAuthentication().getPrincipal();
+	      if (session.getAttribute("evo") != null)
+	          vo = (EmployeeVO) session.getAttribute("evo");
+	      
+	     vo= empService.login(vo);
+	      
+	      session.setAttribute("evo", vo);
+	      
+	      Cookie kc = new Cookie("memberNo", null);
+	      kc.setMaxAge(0);
+	      response.addCookie(kc);
 	      String empNo = vo.getEmpNo();
 	      int deptNo = vo.getDepartmentVO().getDeptNo();
 	      List<Object> tlist = empService.getMyTeamList(deptNo,pageNo);
 	      int count = empService.getTeamCount(deptNo);
 	      PagingBean pb = new PagingBean(count, pageNo);
 	      ListVO lvo = new ListVO(tlist,pb);
-	      System.out.println(pageNo);
 	      List<MailVO> list = mailService.getMyMailList(empNo);
 	      ArrayList<Integer> list2 = new ArrayList<Integer>();
 	      list2.add(0, mailService.countMail(empNo));
@@ -81,12 +92,11 @@ public class HomeController {
 	      session.setAttribute("lvo", lvo);
 	      return "home";
 	   }
-	   @RequestMapping(value = "homeCheck.do", method = RequestMethod.POST)
+	@RequestMapping(value = "homeCheck.do", method = RequestMethod.POST)
 	   public ModelAndView homeView(EmployeeVO vo, HttpServletRequest request, HttpServletResponse response) {
 	      HttpSession session = request.getSession();
 	      session.setAttribute("left", 1);
 	      EmployeeVO evo = empService.login(vo);
-	      System.out.println(evo);
 	       if(evo==null){
 	          return new ModelAndView("loginFail");
 	         }else{
@@ -97,7 +107,7 @@ public class HomeController {
 	            return new ModelAndView("redirect:home.do?pageNo=1");
 	         }
 	   }
-	   
+	
 	@RequestMapping("lock_lock_screen.do")
 	   public String lockScreen(HttpServletRequest request,HttpServletResponse response){
 		 HttpSession session = request.getSession();

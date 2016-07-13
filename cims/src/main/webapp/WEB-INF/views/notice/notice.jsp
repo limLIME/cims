@@ -63,7 +63,7 @@ $("#searchButton").click(function(){
 	</table>
 	<div align="right">
 	<c:if test="${sessionScope.evo.positionVO.positionNo=='100'}">
-	<input type="button" class="btn btn-info" value="Write" onclick="noticeWrite()">
+	<input type="button" class="btn btn-info" value="Write" onclick="noticeWrite()">&nbsp;&nbsp;&nbsp;&nbsp;
 	</c:if>
 	</div>
 <p class="paging" align="center">
