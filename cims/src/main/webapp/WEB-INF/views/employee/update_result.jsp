@@ -4,9 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <script type="text/javascript">
-	function gomain() {
+$(document).ready(function() {
+	$("#main").click(function() {
 		location.href="${initParam.root}home.do?pageNo=1";
-	}
+	});
+});
+
 </script>
 
 	<section id="main-content"> 
@@ -20,8 +23,8 @@
 					</h3>
 					<hr>
 					<center>
-					<h3>사원 정보 수정 완료</h3>
-					<button  type="button" class="btn btn-success" onclick="gomain()">Go Main</button>
+					<h3>Update Success</h3>
+					<input  type="button" class="btn btn-success" id="main" value="Go Main">
 					</center>
 				</div>
 			</div>

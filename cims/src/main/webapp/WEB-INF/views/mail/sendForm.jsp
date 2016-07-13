@@ -32,8 +32,6 @@
         		$("#receiver").val("");
         	}
 		});
-    	
-    	
     });	
 </script>
 	

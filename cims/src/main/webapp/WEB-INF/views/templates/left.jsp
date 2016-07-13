@@ -182,7 +182,7 @@
 				<ul class="sub">
 					<li><a href="${initParam.root}doc_writeForm.do">Write Document</a></li>
 					<li><a href="${initParam.root}doc_myDocument.do?page=1">My Document</a></li>
-					<li class="active"><a href="${initParam.root}doc_waitingMain.do?page=1">Waiting</a></li>
+					<li class="active"><a href="${initParam.root}doc_waitingMySign.do?page=1">Waiting</a></li>
 					<li><a href="${initParam.root}doc_returnMain.do?page=1">Return</a></li>
 					<li><a href="${initParam.root}doc_completeMain.do?page=1">Complete</a></li>
 					<li><a href="${initParam.root}doc_waitingSubstitute.do?page=1">Substitute Sign</a></li>

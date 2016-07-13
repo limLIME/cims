@@ -35,7 +35,7 @@ public class RecBoardController {
 	  	   session.setAttribute("left", 37);
 	     	 session.setAttribute("map", null);
 			List<Object> paging = service.getPostingList(pageNo);
-			ModelAndView mv = new ModelAndView("board_rec_boardList");
+			ModelAndView mv = new ModelAndView("rec_rec_boardList");
 			int count = service.recTotalCount();
 			PagingBean pb = new PagingBean(count, pageNo);
 			ListVO list = new ListVO(paging,pb);
@@ -50,7 +50,7 @@ public class RecBoardController {
 				session.setAttribute("map", null);
 				return new ModelAndView("redirect:rec_boardList.do?pageNo=1");
 			}
-			ModelAndView mv = new ModelAndView("board_rec_boardList");
+			ModelAndView mv = new ModelAndView("rec_rec_boardList");
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("search", search);
 			map.put("searchVar", searchVar);
@@ -78,7 +78,7 @@ public class RecBoardController {
 	 public ModelAndView recShowContent(int no){
 			RecommendVO vo = service.recShowContent(no);
 			List<Object> list = service.recCommentList(no);
-			ModelAndView mv = new ModelAndView("board_rec_showContent");
+			ModelAndView mv = new ModelAndView("rec_rec_showContent");
 			mv.addObject("vo",vo);
 			mv.addObject("list",list);
 			return mv;
@@ -93,9 +93,9 @@ public class RecBoardController {
 	 @RequestMapping("rec_update.do")
 		public ModelAndView recUpdate(int no){
 			RecommendVO vo = service.recShowContent(no);
-			return new ModelAndView("board_rec_update","vo",vo);
+			return new ModelAndView("rec_rec_update","vo",vo);
 		}
-	 @RequestMapping("recUpdate_result.do")
+	 @RequestMapping("rec_updateResult.do")
 	 public String recUpdateResult(RecommendVO recommendVO){
 		 RecommendVO vo = service.recShowContent(recommendVO.getRecNo());
 		 MultipartFile file  = recommendVO.getRecUploadFile();
@@ -117,10 +117,10 @@ public class RecBoardController {
 	 
 	 @RequestMapping("rec_writer.do")
 		public String write(){
-			return "board_rec_write";
+			return "rec_rec_write";
 		}
 	 
-	 @RequestMapping("recWriter_result.do")
+	 @RequestMapping("rec_writeResult.do")
 		public ModelAndView recWriterResult(RecommendVO vo, HttpSession session){
 		 EmployeeVO evo = (EmployeeVO)session.getAttribute("evo");
 			vo.setEmployeeVO(evo);
@@ -151,7 +151,7 @@ public class RecBoardController {
 			return "good";
 		}
 	 
-	 @RequestMapping("delete_recComment.do")
+	 @RequestMapping("rec_deleteComment.do")
 		public ModelAndView deleteComment(int commentNo, int recNo){
 			service.deleteRecComment(commentNo);
 			return new ModelAndView("redirect:rec_showContent.do?no="+recNo);

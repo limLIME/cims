@@ -118,7 +118,6 @@ public class MailController {
 		}else if(evo.getEmpNo().equals(receiver)){//받은이가 내가아니라면 rdelete 받은메시지함
 			mailService.rDeleteMail(no);
 		}
-		
 		return new ModelAndView("mail_deleteResult");
 	}
 	
@@ -128,20 +127,18 @@ public class MailController {
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("evo");
 		mailVO.setMailReceiver(mailVO.getMailReceiver().substring(mailVO.getMailReceiver().indexOf("(")+1, mailVO.getMailReceiver().indexOf(")")));
 		mailVO.setMailSender(evo.getEmpNo());
-
 		MultipartFile file = mailVO.getFilePath(); // 파일
 		if(file.isEmpty()==false){
 			File uploadFile = new File(mailPath+file.getOriginalFilename());
 			try {
 				file.transferTo(uploadFile); 
-				mailVO.setMailPath(file.getOriginalFilename());//케이윌
+				mailVO.setMailPath(file.getOriginalFilename());
 			} catch (Exception e) { 
 				e.printStackTrace();
 			}
 		}else{
 			mailVO.setMailPath("1");
 		}
-
 		mailService.sendMail(mailVO);
 		return new ModelAndView("mail_ok");
 	}

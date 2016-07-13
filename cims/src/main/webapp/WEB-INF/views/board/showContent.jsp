@@ -33,7 +33,7 @@
 				  });//ajax 				
 		});
 		$("#comment").click(function() {
-			$("#commentWrite").html("<input type ='text' name = 'content'> <input type = 'button' id = 'submitContent' value = '	RE' class='btn btn-info' style='width: 55px; height: 25px'>");
+			$("#commentWrite").html("<input type ='text' name = 'content' size='50'> <input type = 'button' id = 'submitContent' value = '등록' class='btn btn-info' style='width: 55px; height: 25px'>");
 		$("#submitContent").on("click",function(){
 			var text = $(":input[name=content]").val(); 
 			var boardNo = ${vo.boardNo};
@@ -104,12 +104,15 @@
 			 	<div id = "commentWrite"></div> <div id = "commentSubmit"></div>
 			 </div>
 			 <br>
-	<table class = "table table-striped table-advance table-hover" >
+			  <center>
+			 <div style="width: 80%"> 
+			<table  style="width: 100%" >
+	
 	<c:forEach items = "${requestScope.list}" var = "l">
-		<tr>
+	<tr  class="form-control" align="center" style="height: 5%" >
 		<c:choose>
 			<c:when test="${l.employeeVO.empNo == evo.empNo}">
-			<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
+			<td width = "10%"><l class="btn-success" >${l.employeeVO.empName}</l></td><td align="left" width = "60%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
 				<td> 
 				<div align="right">
 				     <input type = "button" value = "Delete" class="btn btn-danger"  onclick="commentCancel(${l.commentNo})" >  
@@ -117,7 +120,7 @@
 				  </td>
 			</c:when>
 			<c:otherwise>
-				<td width = "10%">${l.employeeVO.empName}</td><td width = "25%">${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
+				<td width = "10%"  ><l class="btn-primary" >${l.employeeVO.empName}</l></td><td align="left" width = "60%">&nbsp;&nbsp;${l.commentContent }</td>	<td width = "15%">${l.commentDate }</td>
 				<td>
 					&nbsp;
 				</td>
@@ -126,6 +129,9 @@
 		</tr>
 	</c:forEach>
 	</table>
+	</div>
+	<br>
+	</center>
 	</div>
 	</div>
 	</section>

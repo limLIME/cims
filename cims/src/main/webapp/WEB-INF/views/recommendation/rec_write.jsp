@@ -27,7 +27,7 @@ $(document).ready(function(){
       <div class = "marginMain3">
       <div class = "content-panel">
          <caption><h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>글쓰기</h3></caption>
-   <form  class = "form-horizontal style-form" action="${initParam.root}recWriter_result.do" method="post"  id="write_form" enctype="multipart/form-data">
+   <form  class = "form-horizontal style-form" action="${initParam.root}rec_writeResult.do" method="post"  id="write_form" enctype="multipart/form-data">
       <table class = "table table-hover">
          <tbody>
             <tr>

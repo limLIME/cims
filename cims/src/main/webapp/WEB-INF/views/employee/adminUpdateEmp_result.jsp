@@ -21,7 +21,7 @@ $(document).ready(function() {
 					<hr>
 					<center>
 					<h3>Update Success</h3>
-					<button  type="button" class="btn btn-success" id="main" value="Go Main">
+					<input  type="button" class="btn btn-success" id="main" value="Go Main">
 					</center>
 				</div>	
 			</div>

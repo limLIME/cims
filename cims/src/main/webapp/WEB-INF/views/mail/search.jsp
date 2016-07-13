@@ -19,12 +19,10 @@
 </style>
 <script src="${initParam.root}resources/js/jquery-1.12.4.min.js"></script>
 
-</script>
     <script type="text/javascript" >
    
    $(document).ready(function(){
-      
-   $("#deptTable").on("click","#deptName",function(){   
+    $("#deptTable").on("click","#deptName",function(){   
         $.ajax({
          type:"get",
         url:"${initParam.root}mail_seardBydeptName.do",

@@ -7,7 +7,7 @@
 			location.href="${initParam.root}mail_getReceiveList.do?pageNo=1";
 		})
 		$(".document").click(function name() {
-			location.href="${initParam.root}doc_waitingMain.do?page=1";
+			location.href="${initParam.root}doc_waitingMySign.do?page=1";
 		})
 		$(".schedule").click(function name() {
 				location.href="${initParam.root}sch_home.do";

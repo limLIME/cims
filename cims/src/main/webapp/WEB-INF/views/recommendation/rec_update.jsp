@@ -20,7 +20,7 @@ $(document).ready(function(){
           <div class = "marginMain3">
            <div class = "content-panel">
           <h3>&nbsp;<i class="fa fa-angle-right">&nbsp;</i>Update</h3>
-<form action="${initParam.root}recUpdate_result.do" method="post" id="write_form" enctype="multipart/form-data">
+<form action="${initParam.root}rec_updateResult.do" method="post" id="write_form" enctype="multipart/form-data">
       <table class = "table table-hover" style="width: 100%" >
          <tbody> 
          <tr>
